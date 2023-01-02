@@ -2,6 +2,7 @@ kind: pipeline
 name: default
 type: docker
 
+
 steps:
   - name: deploy-trigger
     image: plugins/downstream
