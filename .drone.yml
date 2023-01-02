@@ -2,6 +2,9 @@ kind: pipeline
 name: default
 type: docker
 
+clone:
+  disable: true
+
 steps:
   - name: deploy-trigger
     image: plugins/downstream
