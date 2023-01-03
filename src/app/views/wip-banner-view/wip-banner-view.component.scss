@@ -1,0 +1,16 @@
+@import "src/preset";
+
+.view {
+  width: 15rem;
+
+  h1{
+    color: $prime;
+    margin-bottom: 1rem;
+  }
+
+
+  .footer {
+    color: $prime;
+    font-size: 0.75rem;
+  }
+}
