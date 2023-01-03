@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-index-page',
@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexPageComponent implements OnInit {
 
-  constructor() { }
+
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
