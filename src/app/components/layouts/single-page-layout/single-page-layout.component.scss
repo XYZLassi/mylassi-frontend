@@ -1,34 +1,53 @@
-$headerHeight: 10rem;
+@import "src/preset.scss";
 
-header{
+$headerHeight: 15rem;
+
+header {
   background-color: red;
   width: 100%;
   height: $headerHeight;
 
   position: relative;
 
+  .image {
+    picture {
+      img {
+        width: 100%;
+        max-height: $headerHeight;
+        object-fit: cover;
+      }
+    }
+  }
+
   nav {
-    background-color: green;
+    background-color: $prime;
+    color: $ciSecond;
     position: absolute;
+
     bottom: 1rem;
     width: 100%;
-    height: 3rem;
 
+    height: 3rem;
+    padding: 0 0 0 0.5rem;
     z-index: 100;
 
-    padding: 0 10rem 0 10rem;
 
     transition: padding 250ms;
-    &.fixed{
-      padding: 0;
+
+    &.fixed {
+      padding: 0 clamp(0.5rem, 10%, 10rem) 0 clamp(0.5rem, 10%, 10rem);
 
       position: fixed;
       top: 0;
       left: 0;
+
+      ul {
+        width: 100%;
+      }
     }
 
-    ul{
-      width: 100%;
+    ul {
+      width: 30rem;
       height: 100%;
 
       display: flex;
@@ -36,7 +55,9 @@ header{
       justify-items: center;
       justify-content: space-between;
 
-      li{
+      transition: width 250ms;
+
+      li {
         display: flex;
         flex-direction: column;
         justify-items: center;
@@ -45,10 +66,11 @@ header{
         list-style: none;
         font-size: 1.6rem;
 
-        &:first-child{
+        &:first-child {
           margin-left: 2rem;
         }
-        &:last-child{
+
+        &:last-child {
           margin-right: 2rem;
         }
 
@@ -58,14 +80,15 @@ header{
   }
 }
 
-main{
+main {
   min-height: calc(100vh - #{$headerHeight});
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   justify-content: flex-start;
 
-  &.center-content{
+  &.center-content {
     justify-content: center;
   }
 
