@@ -6,6 +6,8 @@ import {AppComponent} from './app.component';
 import {LayoutsModule} from "./components/layouts/layouts.module";
 import {PagesModule} from "./pages/pages.module";
 import {ViewsModule} from "./views/views.module";
+import {HttpClientModule} from "@angular/common/http";
+import {ApiModule} from "./api/api.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import {ViewsModule} from "./views/views.module";
     LayoutsModule,
     PagesModule,
     ViewsModule,
+    HttpClientModule,
+    ApiModule.forRoot({rootUrl: 'https://api.mylassi.xyz'})
   ],
   providers: [],
   bootstrap: [AppComponent]

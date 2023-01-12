@@ -2,8 +2,13 @@
 
 $headerHeight: 15rem;
 
+$maxMainPadding: 20rem;
+
+main {
+  padding: 0 clamp(1rem, 10%, #{$maxMainPadding}) 0 clamp(1rem, 10%, #{$maxMainPadding});
+}
+
 header {
-  background-color: red;
   width: 100%;
   height: $headerHeight;
 
@@ -13,6 +18,7 @@ header {
     picture {
       img {
         width: 100%;
+        opacity: 0.5;
         max-height: $headerHeight;
         object-fit: cover;
       }
@@ -31,6 +37,10 @@ header {
     padding: 0 0 0 0.5rem;
     z-index: 100;
 
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
 
     transition: padding 250ms;
 
@@ -42,20 +52,34 @@ header {
       left: 0;
 
       ul {
-        width: 100%;
+        &.first {
+          width: 100%;
+          justify-content: center;
+        }
+
+        &.last {
+          width: 0;
+        }
       }
     }
 
     ul {
-      width: 30rem;
-      height: 100%;
-
+      width: 100%;
       display: flex;
-      flex-direction: row;
+      justify-content: flex-start;
       justify-items: center;
-      justify-content: space-between;
 
       transition: width 250ms;
+
+      overflow: hidden;
+
+      &.first {
+        flex-direction: row;
+      }
+
+      &.last {
+        flex-direction: row-reverse;
+      }
 
       li {
         display: flex;
@@ -66,14 +90,25 @@ header {
         list-style: none;
         font-size: 1.6rem;
 
+        margin-right: 1rem;
+
+        padding: 0 0.5rem;
+
+        background-color: transparent;
+
+        transition: background-color 250ms;
+
+        &:hover {
+          background-color: rgba($ciSecond, 0.2);
+        }
+
         &:first-child {
-          margin-left: 2rem;
+          margin-left: 1rem;
         }
 
-        &:last-child {
-          margin-right: 2rem;
+        a {
+          cursor: pointer;
         }
-
       }
     }
 
@@ -82,7 +117,6 @@ header {
 
 main {
   min-height: calc(100vh - #{$headerHeight});
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
