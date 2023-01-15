@@ -1,6 +1,14 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PostsService} from "../../api/services/posts.service";
-import {PostRestType} from "../../api/models/post-rest-type";
+import {Apollo, gql} from "apollo-angular";
+import {DashboardPostsQuery} from "../../../generate/graphql";
+import {toNumbers} from "@angular/compiler-cli/src/version_helpers";
+
+export interface DashboardPost {
+  id: number
+  title: string
+  teaser: string | undefined | null
+}
 
 @Component({
   selector: 'app-index-page',
@@ -10,19 +18,30 @@ import {PostRestType} from "../../api/models/post-rest-type";
 export class IndexPageComponent implements OnInit {
 
 
-  public posts: PostRestType[] = [];
+  public posts: DashboardPost[] = [];
 
-  constructor(private _postService: PostsService) {
+  constructor(private _postService: PostsService,
+              private _apollo: Apollo) {
   }
 
   ngOnInit(): void {
+    const query = gql`
+      query DashboardPosts{
+        posts{
+          id
+          title
+          teaser
+        }
+      }`
 
-    this._postService.getPostsPostsGet$Response().subscribe(next => {
-      if (next.body) {
-        next.body.forEach(post => {
-          this.posts.push(post);
-        })
-      }
+    this._apollo.watchQuery<DashboardPostsQuery>({query}).valueChanges.subscribe(next => {
+      next.data.posts.forEach(post => {
+        this.posts.push({
+          id: parseInt(post.id),
+          title: post.title,
+          teaser: post.teaser,
+        });
+      });
     })
   }
 

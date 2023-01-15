@@ -170,5 +170,8 @@
       }
     }
   },
-  "defaultProject": "mylassi-frontend"
+  "defaultProject": "mylassi-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -25,6 +25,9 @@ export class LoginFormComponent implements OnInit {
 
     const {username, password} = this.profileForm.value;
 
+    if (!username || !password)
+      return
+
     this._securityServer.loginForAccessTokenTokenPost({
       body: {
         username: username,

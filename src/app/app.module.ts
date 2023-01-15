@@ -9,6 +9,7 @@ import {ViewsModule} from "./views/views.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ApiModule} from "./api/api.module";
 import {ApiInterceptor} from "./api-interceptor.service";
+import { GraphQLModule } from './graphql.module';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -27,7 +28,8 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     PagesModule,
     ViewsModule,
     HttpClientModule,
-    ApiModule.forRoot({rootUrl: 'https://api.mylassi.xyz'})
+    ApiModule.forRoot({rootUrl: 'https://api.mylassi.xyz'}),
+    GraphQLModule
   ],
   providers: [
     ApiInterceptor,
