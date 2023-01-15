@@ -12,7 +12,8 @@
       <li><a>Hunde</a></li>
     </ul>
     <ul class="last">
-      <li><a >Login</a></li>
+      <li *ngIf="!isLogin()"><a [routerLink]="['/login']">Login</a></li>
+      <li *ngIf="isLogin()"><a (click)="logout($event)" >Logout</a></li>
     </ul>
   </nav>
 

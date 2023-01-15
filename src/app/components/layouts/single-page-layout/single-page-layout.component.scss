@@ -5,7 +5,7 @@ $headerHeight: 15rem;
 $maxMainPadding: 20rem;
 
 main {
-  padding: 0 clamp(1rem, 10%, #{$maxMainPadding}) 0 clamp(1rem, 10%, #{$maxMainPadding});
+  padding: 0 clamp(0.5rem, 5%, #{$maxMainPadding}) 0 clamp(0.5rem, 5%, #{$maxMainPadding});
 }
 
 header {
@@ -108,6 +108,8 @@ header {
 
         a {
           cursor: pointer;
+          text-decoration: none;
+          color: $ciSecond;
         }
       }
     }
@@ -125,5 +127,6 @@ main {
   &.center-content {
     justify-content: center;
   }
-
 }
+
+

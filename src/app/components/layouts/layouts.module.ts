@@ -1,22 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FullSinglePageLayoutComponent } from './full-single-page-layout/full-single-page-layout.component';
-import { SinglePageLayoutComponent } from './single-page-layout/single-page-layout.component';
-
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FullSinglePageLayoutComponent} from './full-single-page-layout/full-single-page-layout.component';
+import {SinglePageLayoutComponent} from './single-page-layout/single-page-layout.component';
+import {AppRoutingModule} from "../../app-routing.module";
 
 
 @NgModule({
-    declarations: [
+  declarations: [
+    FullSinglePageLayoutComponent,
+    SinglePageLayoutComponent,
+  ],
+  exports: [
     FullSinglePageLayoutComponent,
     SinglePageLayoutComponent
   ],
-    exports: [
-        FullSinglePageLayoutComponent,
-        SinglePageLayoutComponent
-    ],
-    imports: [
-        CommonModule
-    ]
+  imports: [
+    CommonModule,
+    AppRoutingModule
+  ]
 })
-export class LayoutsModule { }
+export class LayoutsModule {
+}

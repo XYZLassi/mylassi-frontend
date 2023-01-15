@@ -1,4 +1,5 @@
 import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {UserAuthenticationService} from "../../../services/user-authentication.service";
 
 @Component({
   selector: 'app-single-page-layout',
@@ -11,7 +12,7 @@ export class SinglePageLayoutComponent implements OnInit {
 
   @Input() centerContent: boolean = false;
 
-  constructor() {
+  constructor(private _authenticationService: UserAuthenticationService) {
   }
 
 
@@ -41,4 +42,11 @@ export class SinglePageLayoutComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isLogin(): boolean {
+    return this._authenticationService.hasAccess();
+  }
+
+  logout($event: any) {
+    this._authenticationService.clearToken();
+  }
 }
