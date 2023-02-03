@@ -32,20 +32,4 @@ form {
     }
 
   }
-
-  button{
-    background-color: $accent;
-    color: $ciSecond;
-    font-size: 1.5rem;
-
-    padding: 0.5rem;
-
-    border: none;
-
-    transition: all 250ms;
-
-    &:hover{
-      background-color: $ciAccent;
-    }
-  }
 }

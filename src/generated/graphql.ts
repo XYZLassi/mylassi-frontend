@@ -17,39 +17,66 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type AuthorGraphType = {
-  __typename?: 'AuthorGraphType';
+export type ArticleFileGraphType = {
+  __typename?: 'ArticleFileGraphType';
+  fileUsage?: Maybe<Scalars['String']>;
+  filename: Scalars['String'];
   id: Scalars['ID'];
-  posts: Array<PostGraphType>;
-  username: Scalars['String'];
+  url: Scalars['String'];
 };
 
-export type PostGraphType = {
-  __typename?: 'PostGraphType';
+export type ArticleGraphType = {
+  __typename?: 'ArticleGraphType';
   author: AuthorGraphType;
+  categories: Array<CategoryGraphType>;
+  files: Array<ArticleFileGraphType>;
+  filesByUsage: Array<ArticleFileGraphType>;
   id: Scalars['ID'];
   teaser?: Maybe<Scalars['String']>;
   timeCreated: Scalars['DateTime'];
   title: Scalars['String'];
 };
 
+
+export type ArticleGraphTypeFilesByUsageArgs = {
+  usage: Scalars['String'];
+};
+
+export type AuthorGraphType = {
+  __typename?: 'AuthorGraphType';
+  articles: Array<ArticleGraphType>;
+  id: Scalars['ID'];
+  username: Scalars['String'];
+};
+
+export type CategoryGraphType = {
+  __typename?: 'CategoryGraphType';
+  articles: Array<ArticleGraphType>;
+  category: Scalars['String'];
+  id: Scalars['ID'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  articles: Array<ArticleGraphType>;
   authors: Array<AuthorGraphType>;
-  posts: Array<PostGraphType>;
+  categories: Array<CategoryGraphType>;
 };
 
 export type DashboardPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DashboardPostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'PostGraphType', id: string, title: string, teaser?: string | null }> };
+export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', url: string }> }> };
 
 export const DashboardPostsDocument = gql`
     query DashboardPosts {
-  posts {
+  articles {
     id
     title
     teaser
+    filesByUsage(usage: "thumbnail") {
+      url
+    }
   }
 }
     `;

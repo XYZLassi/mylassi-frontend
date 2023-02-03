@@ -1,13 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {PostsService} from "../../api/services/posts.service";
 import {Apollo, gql} from "apollo-angular";
-import {DashboardPostsQuery} from "../../../generate/graphql";
-import {toNumbers} from "@angular/compiler-cli/src/version_helpers";
+import {DashboardPostsQuery} from "../../../generated/graphql";
 
 export interface DashboardPost {
   id: number
   title: string
   teaser: string | undefined | null
+
+  thumbnail: string | undefined | null
 }
 
 @Component({
@@ -18,7 +19,7 @@ export interface DashboardPost {
 export class IndexPageComponent implements OnInit {
 
 
-  public posts: DashboardPost[] = [];
+  public articles: DashboardPost[] = [];
 
   constructor(private _postService: PostsService,
               private _apollo: Apollo) {
@@ -27,19 +28,23 @@ export class IndexPageComponent implements OnInit {
   ngOnInit(): void {
     const query = gql`
       query DashboardPosts{
-        posts{
+        articles{
           id
           title
           teaser
+          filesByUsage(usage: "thumbnail") {
+            url
+          }
         }
       }`
 
     this._apollo.watchQuery<DashboardPostsQuery>({query}).valueChanges.subscribe(next => {
-      next.data.posts.forEach(post => {
-        this.posts.push({
-          id: parseInt(post.id),
-          title: post.title,
-          teaser: post.teaser,
+      next.data.articles.forEach(article => {
+        this.articles.push({
+          id: parseInt(article.id),
+          title: article.title,
+          teaser: article.teaser,
+          thumbnail: article.filesByUsage.length > 0 ? article.filesByUsage[0].url : null,
         });
       });
     })

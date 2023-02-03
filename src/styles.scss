@@ -2,18 +2,39 @@
 
 @import "src/preset.scss";
 
-*{
+button.btn, a.btn {
+  background-color: $accent;
+  color: $ciSecond;
+
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: none;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+  transition: all 250ms;
+  &:hover {
+    background-color: $ciAccent;
+  }
+}
+
+span {
+  color: $prime;
+}
+
+body {
+  min-height: 100vh;
+  background-color: $ciSecond;
+}
+
+
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body{
-  min-height: 100vh;
-  background-color: $ciSecond;
-}
 
-span{
-  color: $prime;
-}
 

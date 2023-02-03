@@ -1,11 +1,14 @@
 @import "src/preset.scss";
 
 
-$wrapWidth: 55rem;
+
+$pictureWidth: 30rem;
+$pictureMaxHeight: 20rem;
+
 $gapWidth: 2rem;
 
-$pictureWidth: 20rem;
-$pictureHeight: 12rem;
+$wrapWidth: 800px;
+
 
 article {
   width: 100%;
@@ -13,6 +16,7 @@ article {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   gap: $gapWidth;
 
   margin-bottom: 3rem;
@@ -30,15 +34,13 @@ article {
   }
 
   .content {
-    width: 100%;
-    max-width: calc(100% - #{$pictureWidth} - 2 * #{$gapWidth});
-    min-width: $pictureWidth;
+    width: $pictureWidth;;
+    max-width: 100%;
 
-
-    @media screen and (max-width: $wrapWidth) {
-      max-width: none;
-      min-width: auto;
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
 
     h1, h1 > a {
       color: $accent;
@@ -56,30 +58,35 @@ article {
     display: flex;
 
     width: $pictureWidth;
+    max-width: 100%;
 
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    @media screen and (max-width: $wrapWidth) {
-      width: 100%;
-    }
+
 
     picture {
-      background: red;
-      height: $pictureHeight;
       width: $pictureWidth;
-      border-radius: 1rem;
+      max-width: 100%;
 
-      transition: scale 250ms ease-in-out;
-      vertical-align: bottom;
+      img {
+        border-radius: 0.25rem;
+        object-fit: cover;
+        object-position: 50% 50%;
+        vertical-align: bottom;
 
-      &:hover {
-        scale: 1.1;
+        max-height: $pictureMaxHeight;
+        width: $pictureWidth;
+        max-width: 100%;
+
+        opacity: 0.8;
+        transition: scale 250ms ease-in-out;
+
+        &:hover {
+          scale: 1.1;
+        }
       }
     }
-
-
   }
-
 }
