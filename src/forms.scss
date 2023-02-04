@@ -1,0 +1,35 @@
+@import "src/preset";
+
+form {
+  h1, h2 {
+    color: $accent;
+    margin: 0.5rem 0.5rem 1rem 0 ;
+  }
+
+  .form-group{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    justify-content: space-between;
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    label{
+      font-size: 1.25rem;
+      color: $prime;
+      margin-right: 0.2rem;
+    }
+
+    input{
+      border: none;
+      padding: 0.2rem;
+
+      &:focus{
+        outline-color: $accent;
+      }
+    }
+
+  }
+}

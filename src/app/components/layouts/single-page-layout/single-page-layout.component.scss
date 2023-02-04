@@ -1,0 +1,132 @@
+@import "src/preset.scss";
+
+$headerHeight: 15rem;
+
+$maxMainPadding: 20rem;
+
+main {
+  padding: 0 clamp(0.5rem, 5%, #{$maxMainPadding}) 0 clamp(0.5rem, 5%, #{$maxMainPadding});
+}
+
+header {
+  width: 100%;
+  height: $headerHeight;
+
+  position: relative;
+
+  .image {
+    picture {
+      img {
+        width: 100%;
+        opacity: 0.5;
+        max-height: $headerHeight;
+        object-fit: cover;
+      }
+    }
+  }
+
+  nav {
+    background-color: $prime;
+    color: $ciSecond;
+    position: absolute;
+
+    bottom: 1rem;
+    width: 100%;
+
+    height: 3rem;
+    padding: 0 0 0 0.5rem;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+
+    transition: padding 250ms;
+
+    &.fixed {
+      padding: 0 clamp(0.5rem, 10%, 10rem) 0 clamp(0.5rem, 10%, 10rem);
+
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      ul {
+        &.first {
+          width: 100%;
+          justify-content: center;
+        }
+
+        &.last {
+          width: 0;
+        }
+      }
+    }
+
+    ul {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      justify-items: center;
+
+      transition: width 250ms;
+
+      overflow: hidden;
+
+      &.first {
+        flex-direction: row;
+      }
+
+      &.last {
+        flex-direction: row-reverse;
+      }
+
+      li {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        justify-content: center;
+
+        list-style: none;
+        font-size: 1.6rem;
+
+        margin-right: 1rem;
+
+        padding: 0 0.5rem;
+
+        background-color: transparent;
+
+        transition: background-color 250ms;
+
+        &:hover {
+          background-color: rgba($ciSecond, 0.2);
+        }
+
+        &:first-child {
+          margin-left: 1rem;
+        }
+
+        a {
+          cursor: pointer;
+          text-decoration: none;
+          color: $ciSecond;
+        }
+      }
+    }
+
+  }
+}
+
+main {
+  min-height: calc(100vh - #{$headerHeight});
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  &.center-content {
+    justify-content: center;
+  }
+}
+
+

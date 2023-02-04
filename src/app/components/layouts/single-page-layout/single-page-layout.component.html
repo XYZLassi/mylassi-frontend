@@ -1,0 +1,28 @@
+<header #header>
+  <div class="image">
+    <picture>
+      <source media="(max-width:1080px)" srcset="assets/images/header-1080.png">
+      <img src="assets/images/header.jpg">
+    </picture>
+  </div>
+
+  <nav #headerNav>
+    <ul class="first">
+      <li><a>Touren</a></li>
+      <li><a>Hunde</a></li>
+    </ul>
+    <ul class="last">
+      <li *ngIf="!isLogin()"><a [routerLink]="['/login']">Login</a></li>
+      <li *ngIf="isLogin()"><a (click)="logout($event)" >Logout</a></li>
+    </ul>
+  </nav>
+
+</header>
+
+<main #main [class.center-content]="centerContent">
+  <ng-content>
+
+  </ng-content>
+</main>
+
+

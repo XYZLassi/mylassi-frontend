@@ -32,7 +32,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/preset.scss"
+              "src/preset.scss",
+              "src/forms.scss"
             ],
             "scripts": []
           },
@@ -101,7 +102,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/preset.scss"
+              "src/preset.scss",
+              "src/forms.scss"
             ],
             "scripts": []
           }
@@ -168,5 +170,8 @@
       }
     }
   },
-  "defaultProject": "mylassi-frontend"
+  "defaultProject": "mylassi-frontend",
+  "cli": {
+    "analytics": false
+  }
 }
