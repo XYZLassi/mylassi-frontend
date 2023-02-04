@@ -2,13 +2,12 @@
   <article *ngFor="let article of articles">
     <div class="content">
       <div class="teaser">
-        <h1>{{article.title}}</h1>
+        <h1><a [routerLink]="['/articles',article.id]">{{article.title}}</a></h1>
         <p>
           {{article.teaser}}
         </p>
-
       </div>
-      <a class="btn" [routerLink]="['/article',article.id]">Weiter lesen</a>
+      <a class="btn" [routerLink]="['/articles',article.id]">Weiter lesen</a>
 
     </div>
     <div class="image">

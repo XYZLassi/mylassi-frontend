@@ -1,5 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {PostsService} from "../../api/services/posts.service";
+import {Component, OnInit} from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
 import {DashboardPostsQuery} from "../../../generated/graphql";
 
@@ -17,12 +16,9 @@ export interface DashboardPost {
   styleUrls: ['./index-page.component.scss']
 })
 export class IndexPageComponent implements OnInit {
-
-
   public articles: DashboardPost[] = [];
 
-  constructor(private _postService: PostsService,
-              private _apollo: Apollo) {
+  constructor(private _apollo: Apollo) {
   }
 
   ngOnInit(): void {

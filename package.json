@@ -11,7 +11,9 @@
     "serve:ssr": "node dist/mylassi-frontend/server/main.js",
     "build:ssr": "ng build && ng run mylassi-frontend:server",
     "prerender": "ng run mylassi-frontend:prerender",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen-rest": "ng-openapi-gen --input https://api.mylassi.xyz/openapi.json --output ./src/app/api",
+    "codegen-angular": "graphql-codegen --config codegen.ts",
+    "codegen": "npm run codegen-rest && npm run codegen-angular"
   },
   "private": true,
   "dependencies": {

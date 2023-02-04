@@ -1,7 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface PostRestType {
-  author: string;
+export interface ArticleRestType {
+  author: number;
+  categories?: Array<number>;
   id: number;
   teaser?: string;
   title: string;

@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface AuthorRestType {
+  articles: Array<number>;
   id: number;
-  posts: Array<string>;
   username: string;
 }

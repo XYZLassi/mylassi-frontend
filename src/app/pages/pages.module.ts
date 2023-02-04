@@ -6,12 +6,14 @@ import {ViewsModule} from "../views/views.module";
 import {LoginPageComponent} from './login-page/login-page.component';
 import {AppRoutingModule} from "../app-routing.module";
 import {FormsModule} from "../components/forms/forms.module";
+import { ArticlePageComponent } from './article-page/article-page.component';
 
 
 @NgModule({
   declarations: [
     IndexPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    ArticlePageComponent
   ],
   imports: [
     CommonModule,

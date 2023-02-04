@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface PostOptionsRestType {
+export interface ArticleOptionsRestType {
   teaser?: string;
   title: string;
 }

@@ -5,8 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { SecurityService } from './services/security.service';
-import { PostsService } from './services/posts.service';
+import { ArticlesService } from './services/articles.service';
 import { AuthorsService } from './services/authors.service';
+import { FilesService } from './services/files.service';
+import { CategoriesService } from './services/categories.service';
 
 /**
  * Module that provides all services and configuration.
@@ -17,8 +19,10 @@ import { AuthorsService } from './services/authors.service';
   declarations: [],
   providers: [
     SecurityService,
-    PostsService,
+    ArticlesService,
     AuthorsService,
+    FilesService,
+    CategoriesService,
     ApiConfiguration
   ],
 })
