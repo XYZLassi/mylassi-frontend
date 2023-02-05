@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import jwt_decode from "jwt-decode";
+import {isPlatformBrowser} from "@angular/common";
 
 export interface AccessToken {
   token_type: string
@@ -17,18 +18,23 @@ export interface TokenPayload {
 })
 export class UserAuthenticationService {
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
   }
 
   clearToken() {
-    localStorage.removeItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+    }
   }
 
-  hasAccess(): boolean{
+  hasAccess(): boolean {
     return this.getToken() != null;
   }
 
   getToken(): null | AccessToken {
+    if (!isPlatformBrowser(this.platformId)) {
+      return null;
+    }
     const tokenStringInfo = localStorage.getItem('token');
 
     if (!tokenStringInfo) {
