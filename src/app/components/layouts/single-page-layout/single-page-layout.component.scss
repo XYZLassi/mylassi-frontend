@@ -27,7 +27,6 @@ header {
 
   nav {
     background-color: $prime;
-    color: $ciSecond;
     position: absolute;
 
     bottom: 1rem;
@@ -109,7 +108,6 @@ header {
         a {
           cursor: pointer;
           text-decoration: none;
-          color: $ciSecond;
         }
       }
     }
