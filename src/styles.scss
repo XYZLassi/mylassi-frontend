@@ -20,12 +20,13 @@ button.btn, a.btn {
   }
 }
 
-span {
-  color: $prime;
+a{
+  color:white;
 }
 
 body {
   min-height: 100vh;
+  color:white;
   background-color: $ciSecond;
 }
 
