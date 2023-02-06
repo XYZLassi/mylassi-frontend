@@ -7,6 +7,7 @@ import {LoginPageComponent} from './login-page/login-page.component';
 import {AppRoutingModule} from "../app-routing.module";
 import {FormsModule} from "../components/forms/forms.module";
 import { ArticlePageComponent } from './article-page/article-page.component';
+import {ArticlesModule} from "../components/articles/articles.module";
 
 
 @NgModule({
@@ -15,13 +16,14 @@ import { ArticlePageComponent } from './article-page/article-page.component';
     LoginPageComponent,
     ArticlePageComponent
   ],
-  imports: [
-    CommonModule,
-    LayoutsModule,
-    ViewsModule,
-    AppRoutingModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        LayoutsModule,
+        ViewsModule,
+        AppRoutingModule,
+        FormsModule,
+        ArticlesModule,
+    ]
 })
 export class PagesModule {
 }
