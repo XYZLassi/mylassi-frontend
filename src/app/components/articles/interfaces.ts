@@ -1,4 +1,4 @@
-export interface ArticleListModel {
+export interface Interfaces {
   id: number
   title: string
   teaser: string | undefined | null

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Apollo, graphql} from "apollo-angular";
 import {DashboardPostsQuery} from "../../../generated/graphql";
-import {ArticleListModel} from "../../components/articles/interfaces/article-list-model";
+import {Interfaces} from "../../components/articles/interfaces";
 
 
 @Component({
@@ -10,7 +10,7 @@ import {ArticleListModel} from "../../components/articles/interfaces/article-lis
   styleUrls: ['./index-page.component.scss']
 })
 export class IndexPageComponent implements OnInit {
-  public articles: ArticleListModel[] = [];
+  public articles: Interfaces[] = [];
 
   constructor(private _apollo: Apollo) {
   }
