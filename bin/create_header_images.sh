@@ -10,7 +10,7 @@ headerCut () {
   width=$(identify "$outputFile" | cut -f 3 -d " " | sed s/x.*//) #width
   height=$(identify "$outputFile" | cut -f 3 -d " " | sed s/.*x//) #height
 
-  [[ "$height" -lt "$minHeight" ]] && convert "$1" -resize "x$minHeight" "$outputFile"
+  [[ "$height" -lt "$minHeight" ]] && convert "$1" -resize "x$minHeight" -gravity Center -crop "$2x$minHeight+0+0"  "$outputFile"
 }
 
 mkdir -p "outputDir"
