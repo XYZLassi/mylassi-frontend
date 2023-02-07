@@ -58,16 +58,67 @@ export type CategoryGraphType = {
 
 export type Query = {
   __typename?: 'Query';
+  articleById?: Maybe<ArticleGraphType>;
   articles: Array<ArticleGraphType>;
   authors: Array<AuthorGraphType>;
   categories: Array<CategoryGraphType>;
+  categoryById?: Maybe<CategoryGraphType>;
+  categoryByUniqueName?: Maybe<CategoryGraphType>;
 };
+
+
+export type QueryArticleByIdArgs = {
+  article: Scalars['Int'];
+};
+
+
+export type QueryCategoryByIdArgs = {
+  category: Scalars['Int'];
+};
+
+
+export type QueryCategoryByUniqueNameArgs = {
+  category: Scalars['String'];
+};
+
+export type CategoryArticlesQueryVariables = Exact<{
+  category: Scalars['String'];
+}>;
+
+
+export type CategoryArticlesQuery = { __typename?: 'Query', categoryByUniqueName?: { __typename?: 'CategoryGraphType', category: string, articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', url: string }> }> } | null };
 
 export type DashboardPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', url: string }> }> };
 
+export const CategoryArticlesDocument = gql`
+    query CategoryArticles($category: String!) {
+  categoryByUniqueName(category: $category) {
+    category
+    articles {
+      id
+      title
+      teaser
+      filesByUsage(usage: "thumbnail") {
+        url
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CategoryArticlesGQL extends Apollo.Query<CategoryArticlesQuery, CategoryArticlesQueryVariables> {
+    document = CategoryArticlesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DashboardPostsDocument = gql`
     query DashboardPosts {
   articles {

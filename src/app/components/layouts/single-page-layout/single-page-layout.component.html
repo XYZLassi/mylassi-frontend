@@ -8,12 +8,12 @@
 
   <nav #headerNav>
     <ul class="first">
-      <li><a>Touren</a></li>
-      <li><a>Hunde</a></li>
+      <li><a [routerLink]="['/tours']">Touren</a></li>
+      <li><a [routerLink]="['/dogs']">Hunde</a></li>
     </ul>
     <ul class="last">
       <li *ngIf="!isLogin()"><a [routerLink]="['/login']">Login</a></li>
-      <li *ngIf="isLogin()"><a (click)="logout($event)" >Logout</a></li>
+      <li *ngIf="isLogin()"><a (click)="logout($event)">Logout</a></li>
     </ul>
   </nav>
 

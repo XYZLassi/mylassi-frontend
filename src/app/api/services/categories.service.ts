@@ -155,7 +155,7 @@ export class CategoriesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getCategoryCategoriesCategoryGet$Response(params: {
-    category: number;
+    category: (number | string);
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<CategoryRestType>> {
@@ -188,7 +188,7 @@ export class CategoriesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getCategoryCategoriesCategoryGet(params: {
-    category: number;
+    category: (number | string);
     context?: HttpContext
   }
 ): Observable<CategoryRestType> {

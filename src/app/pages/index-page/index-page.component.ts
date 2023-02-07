@@ -1,14 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Apollo, gql} from "apollo-angular";
+import {Apollo, graphql} from "apollo-angular";
 import {DashboardPostsQuery} from "../../../generated/graphql";
+import {ArticleListModel} from "../../components/articles/interfaces";
 
-export interface DashboardPost {
-  id: number
-  title: string
-  teaser: string | undefined | null
-
-  thumbnail: string | undefined | null
-}
 
 @Component({
   selector: 'app-index-page',
@@ -16,13 +10,13 @@ export interface DashboardPost {
   styleUrls: ['./index-page.component.scss']
 })
 export class IndexPageComponent implements OnInit {
-  public articles: DashboardPost[] = [];
+  public articles: ArticleListModel[] = [];
 
   constructor(private _apollo: Apollo) {
   }
 
   ngOnInit(): void {
-    const query = gql`
+    const query = graphql`
       query DashboardPosts{
         articles{
           id

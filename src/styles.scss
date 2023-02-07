@@ -15,18 +15,19 @@ button.btn, a.btn {
   text-decoration: none;
 
   transition: all 250ms;
+
   &:hover {
     background-color: $ciAccent;
   }
 }
 
-a{
-  color:white;
+a {
+  color: white;
 }
 
 body {
   min-height: 100vh;
-  color:white;
+  color: white;
   background-color: $ciSecond;
 }
 

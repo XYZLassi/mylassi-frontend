@@ -1,0 +1,47 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+}
+
+type ArticleFileGraphType {
+  fileUsage: String
+  filename: String!
+  id: ID!
+  url: String!
+}
+
+type ArticleGraphType {
+  author: AuthorGraphType!
+  categories: [CategoryGraphType!]!
+  files: [ArticleFileGraphType!]!
+  filesByUsage(usage: String!): [ArticleFileGraphType!]!
+  id: ID!
+  teaser: String
+  timeCreated: DateTime!
+  title: String!
+}
+
+type AuthorGraphType {
+  articles: [ArticleGraphType!]!
+  id: ID!
+  username: String!
+}
+
+type CategoryGraphType {
+  articles: [ArticleGraphType!]!
+  category: String!
+  id: ID!
+}
+
+type Query {
+  articleById(article: Int!): ArticleGraphType
+  articles: [ArticleGraphType!]!
+  authors: [AuthorGraphType!]!
+  categories: [CategoryGraphType!]!
+  categoryById(category: Int!): CategoryGraphType
+  categoryByUniqueName(category: String!): CategoryGraphType
+}
+
+"Date with time (isoformat)"
+scalar DateTime
