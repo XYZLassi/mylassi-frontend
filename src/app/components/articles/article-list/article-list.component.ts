@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Interfaces} from "../interfaces";
+import {ArticleListModel} from "../interfaces";
 
 
 @Component({
@@ -8,5 +8,9 @@ import {Interfaces} from "../interfaces";
   styleUrls: ['./article-list.component.scss']
 })
 export class ArticleListComponent {
-  @Input() articles: Interfaces[] = [];
+  @Input() articles: ArticleListModel[] = [];
+
+  articleById(index: any, article: ArticleListModel) {
+    return article.id;
+  }
 }

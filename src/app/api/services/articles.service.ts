@@ -148,6 +148,65 @@ export class ArticlesService extends BaseService {
   }
 
   /**
+   * Path part for operation getArticleArticlesArticleGet
+   */
+  static readonly GetArticleArticlesArticleGetPath = '/articles/{article}';
+
+  /**
+   * Get Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getArticleArticlesArticleGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getArticleArticlesArticleGet$Response(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<ArticleRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticleArticlesArticleGetPath, 'get');
+    if (params) {
+      rb.path('article', params.article, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<ArticleRestType>;
+      })
+    );
+  }
+
+  /**
+   * Get Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getArticleArticlesArticleGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getArticleArticlesArticleGet(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<ArticleRestType> {
+
+    return this.getArticleArticlesArticleGet$Response(params).pipe(
+      map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
+    );
+  }
+
+  /**
    * Path part for operation updateArticleArticlesArticlePut
    */
   static readonly UpdateArticleArticlesArticlePutPath = '/articles/{article}';
