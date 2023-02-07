@@ -1,6 +1,8 @@
 # Stage 1
 FROM node:16-alpine as build-step
 
+RUN apk add --no-cache imagemagick
+
 RUN mkdir -p /app
 
 WORKDIR /app
@@ -8,6 +10,7 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 
+RUN ./bin/create_header_images.sh header.jpg
 RUN npm run build:ssr
 
 # Stage 2
