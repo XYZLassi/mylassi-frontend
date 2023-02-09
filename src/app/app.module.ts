@@ -1,4 +1,4 @@
-import {forwardRef, NgModule, Provider} from '@angular/core';
+import {forwardRef, NgModule, OnInit, Provider} from '@angular/core';
 import {BrowserModule, Meta, MetaDefinition} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -52,14 +52,19 @@ export class AppModule {
   ]
 
   constructor(private router: Router, private meta: Meta) {
-
-
-    this.meta.addTags(this.tags);
+    this.tags.forEach(tag => {
+      const selector = `property='${tag.property}'`;
+      let searchTag = this.meta.getTag(selector);
+      if (searchTag)
+        this.meta.updateTag(tag, selector);
+      else
+        this.meta.addTag(tag);
+    });
 
 
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.tags.forEach(tag => this.meta.updateTag(tag));
+        this.tags.forEach(tag => this.meta.updateTag(tag,));
         this.meta.updateTag({property: 'og:url', content: `https://mylassi.xyz${this.router.url}`},)
       }
     })
