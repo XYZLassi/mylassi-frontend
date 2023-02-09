@@ -13,7 +13,7 @@ headerCut () {
   [[ "$height" -lt "$minHeight" ]] && convert "$1" -resize "x$minHeight" -gravity Center -crop "$2x$minHeight+0+0"  "$outputFile"
 }
 
-mkdir -p "outputDir"
+mkdir -p "$outputDir"
 cp "$1" "$outputDir"
 headerCut "$1" 3840
 headerCut "$1" 2560
