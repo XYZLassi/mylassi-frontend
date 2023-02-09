@@ -1,12 +1,13 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {FilesService} from "../../../api/services/files.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-api-image-view',
   templateUrl: './api-image-view.component.html',
   styleUrls: ['./api-image-view.component.scss']
 })
-export class ApiImageViewComponent implements OnChanges, OnInit {
+export class ApiImageViewComponent implements OnChanges, OnDestroy {
 
   public imageUrl: string | null | undefined;
   public altText: string | null | undefined;
@@ -14,6 +15,8 @@ export class ApiImageViewComponent implements OnChanges, OnInit {
   @Input() imageFileId: string | null | undefined;
 
   public resolutionList: number[] = []
+
+  private subscriptions: Subscription[] = [];
 
   constructor(private fileService: FilesService) {
   }
@@ -27,7 +30,7 @@ export class ApiImageViewComponent implements OnChanges, OnInit {
 
     if (!this.imageFileId)
       return
-    this.fileService.getFileInfoFilesFileInfoGet({
+    let querySub = this.fileService.getFileInfoFilesFileInfoGet({
       file: this.imageFileId
     }).subscribe(next => {
       this.imageUrl = next.url;
@@ -39,15 +42,16 @@ export class ApiImageViewComponent implements OnChanges, OnInit {
           this.resolutionList.push(i)
       });
     });
+
+    this.subscriptions = [...this.subscriptions, querySub];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateImage();
   }
 
-  ngOnInit(): void {
-    this.updateImage();
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
-
 
 }

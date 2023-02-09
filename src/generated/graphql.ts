@@ -102,7 +102,7 @@ export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 
 export type DashboardPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> };
+export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> };
 
 export const CategoryArticlesDocument = gql`
     query CategoryArticles($category: String!) {
@@ -158,7 +158,7 @@ export const DashboardPostsDocument = gql`
     id
     title
     teaser
-    filesByUsage(usage: "thumbnail") {
+    thumbnails: filesByUsage(usage: "thumbnail") {
       fileId
     }
   }

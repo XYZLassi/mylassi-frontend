@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {Apollo, graphql} from "apollo-angular";
 import {LoadArticleQuery} from "../../../generated/graphql";
 import {Meta} from "@angular/platform-browser";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-article-page',
   templateUrl: './article-page.component.html',
   styleUrls: ['./article-page.component.scss']
 })
-export class ArticlePageComponent implements OnInit {
+export class ArticlePageComponent implements OnInit, OnDestroy {
+
+  private subscriptions: Subscription[] = [];
+
   constructor(private apollo: Apollo,
               private route: ActivatedRoute, private router: Router, private meta: Meta) {
   }
@@ -26,14 +30,14 @@ export class ArticlePageComponent implements OnInit {
         }
       }`
 
-    this.route.params.subscribe(params => {
+    let routeSub = this.route.params.subscribe(params => {
       const articleId = parseInt(params['articleId']);
 
       const variables = {
         articleId: articleId
       };
 
-      this.apollo.watchQuery<LoadArticleQuery>({query, variables}).valueChanges.subscribe(value => {
+      let querySub = this.apollo.watchQuery<LoadArticleQuery>({query, variables}).valueChanges.subscribe(value => {
         if (!value.data.article)
           return
 
@@ -62,7 +66,15 @@ export class ArticlePageComponent implements OnInit {
           });
         }
       });
+
+      this.subscriptions = [...this.subscriptions, querySub];
     });
+
+    this.subscriptions = [...this.subscriptions, routeSub];
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
 }
