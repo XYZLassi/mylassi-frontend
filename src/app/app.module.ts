@@ -60,6 +60,7 @@ export class AppModule {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.tags.forEach(tag => this.meta.updateTag(tag));
+        this.meta.updateTag({property: 'og:url', content: `https://mylassi.xyz${this.router.url}`},)
       }
     })
   }
