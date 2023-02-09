@@ -61,6 +61,8 @@ export class AppModule {
         this.meta.addTag(tag);
     });
 
+    // For SSR
+    this.meta.updateTag({property: 'og:url', content: `https://mylassi.xyz${this.router.url}`},)
 
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
