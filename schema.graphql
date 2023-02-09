@@ -1,46 +1,50 @@
 # This file was generated based on ".graphqlconfig". Do not edit manually.
 
 schema {
-  query: Query
+    query: Query
 }
 
 type ArticleFileGraphType {
-  fileUsage: String
-  filename: String!
-  id: ID!
-  url: String!
+    articleFileId: Int!
+    fileId: String!
+    fileUsage: String
+    filename: String!
+    imageHeight: Int
+    imageWidth: Int
+    mimetype: String!
+    url: String!
 }
 
 type ArticleGraphType {
-  author: AuthorGraphType!
-  categories: [CategoryGraphType!]!
-  files: [ArticleFileGraphType!]!
-  filesByUsage(usage: String!): [ArticleFileGraphType!]!
-  id: ID!
-  teaser: String
-  timeCreated: DateTime!
-  title: String!
+    author: AuthorGraphType!
+    categories: [CategoryGraphType!]!
+    files: [ArticleFileGraphType!]!
+    filesByUsage(usage: String!): [ArticleFileGraphType!]!
+    id: ID!
+    teaser: String
+    timeCreated: DateTime!
+    title: String!
 }
 
 type AuthorGraphType {
-  articles: [ArticleGraphType!]!
-  id: ID!
-  username: String!
+    articles: [ArticleGraphType!]!
+    id: ID!
+    username: String!
 }
 
 type CategoryGraphType {
-  articles: [ArticleGraphType!]!
-  category: String!
-  id: ID!
+    articles: [ArticleGraphType!]!
+    category: String!
+    id: ID!
 }
 
 type Query {
-  articleById(article: Int!): ArticleGraphType
-  articles: [ArticleGraphType!]!
-  authors: [AuthorGraphType!]!
-  categories: [CategoryGraphType!]!
-  categoryById(category: Int!): CategoryGraphType
-  categoryByUniqueName(category: String!): CategoryGraphType
+    articleById(article: Int!): ArticleGraphType
+    articles: [ArticleGraphType!]!
+    authors: [AuthorGraphType!]!
+    categories: [CategoryGraphType!]!
+    categoryById(category: Int!): CategoryGraphType
+    categoryByUniqueName(category: String!): CategoryGraphType
 }
 
 "Date with time (isoformat)"

@@ -19,9 +19,13 @@ export type Scalars = {
 
 export type ArticleFileGraphType = {
   __typename?: 'ArticleFileGraphType';
+  articleFileId: Scalars['Int'];
+  fileId: Scalars['String'];
   fileUsage?: Maybe<Scalars['String']>;
   filename: Scalars['String'];
-  id: Scalars['ID'];
+  imageHeight?: Maybe<Scalars['Int']>;
+  imageWidth?: Maybe<Scalars['Int']>;
+  mimetype: Scalars['String'];
   url: Scalars['String'];
 };
 
@@ -86,12 +90,19 @@ export type CategoryArticlesQueryVariables = Exact<{
 }>;
 
 
-export type CategoryArticlesQuery = { __typename?: 'Query', categoryByUniqueName?: { __typename?: 'CategoryGraphType', category: string, articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', url: string }> }> } | null };
+export type CategoryArticlesQuery = { __typename?: 'Query', categoryByUniqueName?: { __typename?: 'CategoryGraphType', category: string, articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } | null };
+
+export type LoadArticleQueryVariables = Exact<{
+  articleId: Scalars['Int'];
+}>;
+
+
+export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }> } | null };
 
 export type DashboardPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', url: string }> }> };
+export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> };
 
 export const CategoryArticlesDocument = gql`
     query CategoryArticles($category: String!) {
@@ -102,7 +113,7 @@ export const CategoryArticlesDocument = gql`
       title
       teaser
       filesByUsage(usage: "thumbnail") {
-        url
+        fileId
       }
     }
   }
@@ -119,14 +130,36 @@ export const CategoryArticlesDocument = gql`
       super(apollo);
     }
   }
+export const LoadArticleDocument = gql`
+    query LoadArticle($articleId: Int!) {
+  article: articleById(article: $articleId) {
+    title
+    teaser
+    thumbnails: filesByUsage(usage: "thumbnail") {
+      url
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadArticleGQL extends Apollo.Query<LoadArticleQuery, LoadArticleQueryVariables> {
+    document = LoadArticleDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DashboardPostsDocument = gql`
     query DashboardPosts {
   articles {
     id
     title
     teaser
-    filesByUsage(usage: "thumbnail") {
-      url
+    thumbnails: filesByUsage(usage: "thumbnail") {
+      fileId
     }
   }
 }

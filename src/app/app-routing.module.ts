@@ -11,7 +11,7 @@ import {
 const routes: Routes = [
   {path: '', component: IndexPageComponent},
   {path: 'login', component: LoginPageComponent},
-  {path: 'articles/:id', component: ArticlePageComponent},
+  {path: 'articles/:articleId', component: ArticlePageComponent},
 
 
   {path: ':category', component: ArticleListPageComponent},

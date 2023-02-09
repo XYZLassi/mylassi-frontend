@@ -160,8 +160,7 @@
           "builder": "@nguniversal/builders:prerender",
           "options": {
             "routes": [
-              "/",
-              "/articles"
+              "/"
             ]
           },
           "configurations": {

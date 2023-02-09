@@ -18,10 +18,8 @@ export class SinglePageLayoutComponent implements OnInit {
 
   @HostListener('window:scroll') // for window scroll events
   onScroll(event: any) {
-    const offset = window.pageYOffset;
+    const offset = window.scrollY;
 
-    const navBox = this.headerNav.nativeElement.getBoundingClientRect();
-    const headerBox = this.header.nativeElement.getBoundingClientRect();
 
     const navStyle = getComputedStyle(this.headerNav.nativeElement);
     const headerStyle = getComputedStyle(this.header.nativeElement);
@@ -31,7 +29,6 @@ export class SinglePageLayoutComponent implements OnInit {
     const headerHeight = parseInt(headerStyle.height);
 
 
-    console.log(offset, headerHeight - navBottom - navHeight)
     if (offset > headerHeight - navBottom - navHeight) {
       this.headerNav.nativeElement.classList.add('fixed');
     } else {

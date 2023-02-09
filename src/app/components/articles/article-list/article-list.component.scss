@@ -7,6 +7,9 @@ $gapWidth: 2rem;
 
 $wrapWidth: 800px;
 
+:host{
+  width: 100%;
+}
 
 article {
   width: 100%;
@@ -48,39 +51,11 @@ article {
 
   }
 
-  .image {
+  .image-container {
     display: flex;
 
     width: $pictureWidth;
     max-width: 100%;
-
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-
-
-    picture {
-      width: $pictureWidth;
-      max-width: 100%;
-
-      img {
-        border-radius: 0.25rem;
-        object-fit: cover;
-        object-position: 50% 50%;
-        vertical-align: bottom;
-
-        max-height: $pictureMaxHeight;
-        width: $pictureWidth;
-        max-width: 100%;
-
-        opacity: 0.8;
-        transition: scale 250ms ease-in-out;
-
-        &:hover {
-          scale: 1.1;
-        }
-      }
-    }
+    max-height: $pictureMaxHeight;
   }
 }

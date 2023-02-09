@@ -1,10 +1,11 @@
 @import "src/preset.scss";
 
-$headerHeight: 15rem;
+$headerHeight: 15 * 16px;
 
 $maxMainPadding: 20rem;
 
 main {
+  max-width: 100vw;
   padding: 0 clamp(0.5rem, 5%, #{$maxMainPadding}) 0 clamp(0.5rem, 5%, #{$maxMainPadding});
 }
 

@@ -1,21 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ArticleListModel} from "../../components/articles/interfaces";
 import {Apollo, graphql} from "apollo-angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CategoryArticlesQuery} from "../../../generated/graphql";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-article-list-page',
   templateUrl: './article-list-page.component.html',
   styleUrls: ['./article-list-page.component.scss']
 })
-export class ArticleListPageComponent implements OnInit {
+export class ArticleListPageComponent implements OnInit, OnDestroy {
 
   public category!: string
 
   public articles: ArticleListModel[] = [];
 
-  constructor(private _apollo: Apollo, private route: ActivatedRoute, private router: Router) {
+  private subscriptions: Subscription[] = [];
+
+  constructor(private apollo: Apollo, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -29,27 +32,29 @@ export class ArticleListPageComponent implements OnInit {
             title
             teaser
             filesByUsage(usage: "thumbnail") {
-              url
+              fileId
             }
           }
         }
       }`
 
-    this.route.params.subscribe(params => {
+    let routeSub = this.route.params.subscribe(params => {
       this.clear();
       let category = params['category'];
 
-      if (!category)
+      if (!category) {
+        this.router.navigate(['/error', '404']);
         return
+      }
 
       let variables = {
         category: category
       }
 
-      this._apollo.watchQuery<CategoryArticlesQuery>({query, variables}).valueChanges.subscribe(next => {
+      let querySub = this.apollo.watchQuery<CategoryArticlesQuery>({query, variables}).valueChanges.subscribe(next => {
         if (!next.data.categoryByUniqueName) {
           this.router.navigate(['/error', '404']);
-          return // Todo: 404
+          return
         }
 
         this.category = next.data.categoryByUniqueName.category;
@@ -58,15 +63,23 @@ export class ArticleListPageComponent implements OnInit {
             id: parseInt(article.id),
             title: article.title,
             teaser: article.teaser,
-            thumbnail: article.filesByUsage.length > 0 ? article.filesByUsage[0].url : null,
+            thumbnailImageId: article.filesByUsage.length > 0 ? article.filesByUsage[0].fileId : null,
           });
         })
       });
+
+      this.subscriptions = [...this.subscriptions, querySub];
     });
+
+    this.subscriptions = [...this.subscriptions, routeSub];
   }
 
   private clear() {
     this.category = "";
     this.articles = [];
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
