@@ -19,9 +19,13 @@ export type Scalars = {
 
 export type ArticleFileGraphType = {
   __typename?: 'ArticleFileGraphType';
+  articleFileId: Scalars['Int'];
+  fileId: Scalars['String'];
   fileUsage?: Maybe<Scalars['String']>;
   filename: Scalars['String'];
-  id: Scalars['ID'];
+  imageHeight?: Maybe<Scalars['Int']>;
+  imageWidth?: Maybe<Scalars['Int']>;
+  mimetype: Scalars['String'];
   url: Scalars['String'];
 };
 
@@ -86,12 +90,12 @@ export type CategoryArticlesQueryVariables = Exact<{
 }>;
 
 
-export type CategoryArticlesQuery = { __typename?: 'Query', categoryByUniqueName?: { __typename?: 'CategoryGraphType', category: string, articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', url: string }> }> } | null };
+export type CategoryArticlesQuery = { __typename?: 'Query', categoryByUniqueName?: { __typename?: 'CategoryGraphType', category: string, articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } | null };
 
 export type DashboardPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', url: string }> }> };
+export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> };
 
 export const CategoryArticlesDocument = gql`
     query CategoryArticles($category: String!) {
@@ -102,7 +106,7 @@ export const CategoryArticlesDocument = gql`
       title
       teaser
       filesByUsage(usage: "thumbnail") {
-        url
+        fileId
       }
     }
   }
@@ -126,7 +130,7 @@ export const DashboardPostsDocument = gql`
     title
     teaser
     filesByUsage(usage: "thumbnail") {
-      url
+      fileId
     }
   }
 }

@@ -29,7 +29,7 @@ export class ArticleListPageComponent implements OnInit {
             title
             teaser
             filesByUsage(usage: "thumbnail") {
-              url
+              fileId
             }
           }
         }
@@ -58,7 +58,7 @@ export class ArticleListPageComponent implements OnInit {
             id: parseInt(article.id),
             title: article.title,
             teaser: article.teaser,
-            thumbnail: article.filesByUsage.length > 0 ? article.filesByUsage[0].url : null,
+            thumbnailImageId: article.filesByUsage.length > 0 ? article.filesByUsage[0].fileId : null,
           });
         })
       });

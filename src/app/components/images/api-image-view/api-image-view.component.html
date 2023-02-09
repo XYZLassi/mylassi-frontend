@@ -1,0 +1,7 @@
+<div class="image">
+  <picture *ngIf="imageUrl">
+    <source *ngFor="let resolution of resolutionList"
+            media="(max-width: {{resolution}}px)" srcset="{{imageUrl}}?width={{resolution}}">
+    <img alt="{{altText}}" src="{{imageUrl}}">
+  </picture>
+</div>

@@ -9,13 +9,7 @@
     <a class="btn" [routerLink]="['/articles',article.id]">Weiter lesen</a>
 
   </div>
-  <div class="image">
-    <picture *ngIf="article.thumbnail">
-      <source media="(max-width: 360px)" srcset="{{article.thumbnail}}?width=360">
-      <source media="(max-width: 480px)" srcset="{{article.thumbnail}}?width=480">
-      <source media="(max-width: 720px)" srcset="{{article.thumbnail}}?width=720">
-      <source media="(max-width: 1080px)" srcset="{{article.thumbnail}}?width=1080">
-      <img src="{{article.thumbnail}}">
-    </picture>
+  <div class="image-container">
+    <app-api-image-view [imageFileId]="article.thumbnailImageId"></app-api-image-view>
   </div>
 </article>

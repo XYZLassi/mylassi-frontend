@@ -2,7 +2,8 @@
 /* eslint-disable */
 import { ArticleFileUsage } from './article-file-usage';
 export interface ArticleFileRestType {
-  file: string;
+  article_file_id: number;
+  file_id: string;
   file_usage?: ArticleFileUsage;
-  id: number;
+  url: string;
 }
