@@ -92,6 +92,13 @@ export type CategoryArticlesQueryVariables = Exact<{
 
 export type CategoryArticlesQuery = { __typename?: 'Query', categoryByUniqueName?: { __typename?: 'CategoryGraphType', category: string, articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } | null };
 
+export type LoadArticleQueryVariables = Exact<{
+  articleId: Scalars['Int'];
+}>;
+
+
+export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }> } | null };
+
 export type DashboardPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -118,6 +125,28 @@ export const CategoryArticlesDocument = gql`
   })
   export class CategoryArticlesGQL extends Apollo.Query<CategoryArticlesQuery, CategoryArticlesQueryVariables> {
     document = CategoryArticlesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadArticleDocument = gql`
+    query LoadArticle($articleId: Int!) {
+  article: articleById(article: $articleId) {
+    title
+    teaser
+    thumbnails: filesByUsage(usage: "thumbnail") {
+      url
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadArticleGQL extends Apollo.Query<LoadArticleQuery, LoadArticleQueryVariables> {
+    document = LoadArticleDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

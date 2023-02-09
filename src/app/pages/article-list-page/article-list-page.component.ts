@@ -15,7 +15,7 @@ export class ArticleListPageComponent implements OnInit {
 
   public articles: ArticleListModel[] = [];
 
-  constructor(private _apollo: Apollo, private route: ActivatedRoute, private router: Router) {
+  constructor(private apollo: Apollo, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -46,7 +46,7 @@ export class ArticleListPageComponent implements OnInit {
         category: category
       }
 
-      this._apollo.watchQuery<CategoryArticlesQuery>({query, variables}).valueChanges.subscribe(next => {
+      this.apollo.watchQuery<CategoryArticlesQuery>({query, variables}).valueChanges.subscribe(next => {
         if (!next.data.categoryByUniqueName) {
           this.router.navigate(['/error', '404']);
           return // Todo: 404
