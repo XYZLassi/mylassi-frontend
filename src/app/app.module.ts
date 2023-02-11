@@ -1,5 +1,5 @@
 import {forwardRef, NgModule, OnInit, Provider} from '@angular/core';
-import {BrowserModule, Meta, MetaDefinition} from '@angular/platform-browser';
+import {BrowserModule, BrowserTransferStateModule, Meta, MetaDefinition} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
