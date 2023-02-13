@@ -4,6 +4,9 @@ import {Apollo, graphql} from "apollo-angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CategoryArticlesQuery} from "../../../generated/graphql";
 import {Subscription} from "rxjs";
+import {makeStateKey, TransferState} from "@angular/platform-browser";
+
+const STATE_KEY_QUERY = makeStateKey<ArticleListModel[]>('articleListPageQuery');
 
 @Component({
   selector: 'app-article-list-page',
@@ -18,7 +21,8 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private apollo: Apollo, private route: ActivatedRoute, private router: Router) {
+  constructor(private apollo: Apollo, private state: TransferState,
+              private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -37,6 +41,8 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
           }
         }
       }`
+
+    this.articles = this.state.get(STATE_KEY_QUERY, []);
 
     let routeSub = this.route.params.subscribe(params => {
       this.clear();
@@ -58,6 +64,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
         }
 
         this.category = next.data.categoryByUniqueName.category;
+
         next.data.categoryByUniqueName.articles.forEach(article => {
           this.articles.push({
             id: parseInt(article.id),
@@ -65,7 +72,8 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
             teaser: article.teaser,
             thumbnailImageId: article.filesByUsage.length > 0 ? article.filesByUsage[0].fileId : null,
           });
-        })
+        });
+        this.state.set(STATE_KEY_QUERY, this.articles);
       });
 
       this.subscriptions = [...this.subscriptions, querySub];
