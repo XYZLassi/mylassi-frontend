@@ -1,7 +1,7 @@
 @import "src/preset.scss";
 @import "src/forms.scss";
 
-:host{
+:host {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -9,7 +9,7 @@
 
 }
 
-.form-container{
+.form-container {
   margin-top: 2rem;
 
   width: auto;
@@ -18,4 +18,11 @@
   min-height: 20rem;
   border-radius: 1.5rem;
 
+  form {
+    .form-group {
+      label {
+        min-width: 10rem;
+      }
+    }
+  }
 }

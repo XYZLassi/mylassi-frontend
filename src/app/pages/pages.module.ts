@@ -6,11 +6,13 @@ import {ViewsModule} from "../views/views.module";
 import {LoginPageComponent} from './login-page/login-page.component';
 import {AppRoutingModule} from "../app-routing.module";
 import {FormsModule} from "../components/forms/forms.module";
-import { ArticlePageComponent } from './article-page/article-page.component';
+import {ArticlePageComponent} from './article-page/article-page.component';
 import {ArticlesModule} from "../components/articles/articles.module";
-import { ArticleListPageComponent } from './article-list-page/article-list-page.component';
-import { ErrorPageNotFoundPageComponent } from './_errors/error-page-not-found-page/error-page-not-found-page.component';
-import { AdminIndexPageComponent } from './_admin/admin-index-page/admin-index-page.component';
+import {ArticleListPageComponent} from './article-list-page/article-list-page.component';
+import {ErrorPageNotFoundPageComponent} from './_errors/error-page-not-found-page/error-page-not-found-page.component';
+import {AdminIndexPageComponent} from './_admin/admin-index-page/admin-index-page.component';
+import {AdminCreatePostPageComponent} from './_admin/_posts/admin-create-post-page/admin-create-post-page.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -20,16 +22,18 @@ import { AdminIndexPageComponent } from './_admin/admin-index-page/admin-index-p
     ArticlePageComponent,
     ArticleListPageComponent,
     ErrorPageNotFoundPageComponent,
-    AdminIndexPageComponent
+    AdminIndexPageComponent,
+    AdminCreatePostPageComponent
   ],
-    imports: [
-        CommonModule,
-        LayoutsModule,
-        ViewsModule,
-        AppRoutingModule,
-        FormsModule,
-        ArticlesModule,
-    ]
+  imports: [
+    CommonModule,
+    LayoutsModule,
+    ViewsModule,
+    AppRoutingModule,
+    FormsModule,
+    ArticlesModule,
+    ReactiveFormsModule,
+  ]
 })
 export class PagesModule {
 }

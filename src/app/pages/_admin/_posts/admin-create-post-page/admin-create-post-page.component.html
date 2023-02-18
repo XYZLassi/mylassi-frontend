@@ -1,0 +1,21 @@
+<app-admin-page-layout>
+
+
+  <div class="form-container">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit($event)">
+      <h1>Neuen Beitrag erstellen</h1>
+
+      <div class="form-group flex-column">
+        <label for="title">Titel:</label>
+        <input id="title" type="text" formControlName="title">
+      </div>
+
+      <div class="form-group flex-column">
+        <label for="teaser">Teaser:</label>
+        <textarea id="teaser" formControlName="teaser"></textarea>
+      </div>
+
+      <button class="btn" type="submit" [disabled]="!postForm.valid">Erstellen</button>
+    </form>
+  </div>
+</app-admin-page-layout>
