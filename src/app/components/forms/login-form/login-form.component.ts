@@ -15,7 +15,7 @@ export class LoginFormComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor(private _securityServer: SecurityService, private _router: Router) {
+  constructor(private securityServer: SecurityService, private _router: Router) {
   }
 
   ngOnInit(): void {
@@ -28,7 +28,7 @@ export class LoginFormComponent implements OnInit {
     if (!username || !password)
       return
 
-    this._securityServer.loginForAccessTokenTokenPost({
+    this.securityServer.loginForAccessTokenTokenPost({
       body: {
         username: username,
         password: password,

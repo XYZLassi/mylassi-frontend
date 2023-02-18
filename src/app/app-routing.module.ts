@@ -6,13 +6,16 @@ import {ArticlePageComponent} from "./pages/article-page/article-page.component"
 import {ArticleListPageComponent} from "./pages/article-list-page/article-list-page.component";
 import {
   ErrorPageNotFoundPageComponent
-} from "./pages/errors/error-page-not-found-page/error-page-not-found-page.component";
+} from "./pages/_errors/error-page-not-found-page/error-page-not-found-page.component";
+import {AdminIndexPageComponent} from "./pages/_admin/admin-index-page/admin-index-page.component";
+import {AuthGuard} from "./guards/auth.guard";
 
 const routes: Routes = [
   {path: '', component: IndexPageComponent},
   {path: 'login', component: LoginPageComponent},
   {path: 'articles/:articleId', component: ArticlePageComponent},
 
+  {path: 'admin', component: AdminIndexPageComponent, canActivate: [AuthGuard]},
 
   {path: ':category', component: ArticleListPageComponent},
 
