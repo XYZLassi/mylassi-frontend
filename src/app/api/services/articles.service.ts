@@ -9,14 +9,13 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { ArticleFileOptionsRestType } from '../models/article-file-options-rest-type';
 import { ArticleFileRestType } from '../models/article-file-rest-type';
+import { ArticleOptionsRestType } from '../models/article-options-rest-type';
 import { ArticleRestType } from '../models/article-rest-type';
-import { BodyAddCategoryToArticleArticlesArticleCategoryPost } from '../models/body-add-category-to-article-articles-article-category-post';
-import { BodyCreateNewArticleArticlesPost } from '../models/body-create-new-article-articles-post';
-import { BodyReplaceCategoryToArticleArticlesArticleCategoryPut } from '../models/body-replace-category-to-article-articles-article-category-put';
-import { BodyUpdateArticleArticlesArticlePut } from '../models/body-update-article-articles-article-put';
-import { BodyUpdateArticleFileArticlesArticleFilesArticleFilePut } from '../models/body-update-article-file-articles-article-files-article-file-put';
-import { BodyUploadFileToArticleArticlesArticleUploadFilePost } from '../models/body-upload-file-to-article-articles-article-upload-file-post';
+import { BodyAddCategoryToArticle } from '../models/body-add-category-to-article';
+import { BodyUploadFileToArticle } from '../models/body-upload-file-to-article';
+import { FullArticleRestType } from '../models/full-article-rest-type';
 
 @Injectable({
   providedIn: 'root',
@@ -30,9 +29,9 @@ export class ArticlesService extends BaseService {
   }
 
   /**
-   * Path part for operation getArticlesArticlesGet
+   * Path part for operation getArticles
    */
-  static readonly GetArticlesArticlesGetPath = '/articles/';
+  static readonly GetArticlesPath = '/articles/';
 
   /**
    * Get Articles.
@@ -40,17 +39,17 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getArticlesArticlesGet()` instead.
+   * To access only the response body, use `getArticles()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getArticlesArticlesGet$Response(params?: {
+  getArticles$Response(params?: {
     category?: number;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<ArticleRestType>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticlesArticlesGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticlesPath, 'get');
     if (params) {
       rb.query('category', params.category, {});
     }
@@ -73,25 +72,25 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getArticlesArticlesGet$Response()` instead.
+   * To access the full response (for headers, for example), `getArticles$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getArticlesArticlesGet(params?: {
+  getArticles(params?: {
     category?: number;
     context?: HttpContext
   }
 ): Observable<Array<ArticleRestType>> {
 
-    return this.getArticlesArticlesGet$Response(params).pipe(
+    return this.getArticles$Response(params).pipe(
       map((r: StrictHttpResponse<Array<ArticleRestType>>) => r.body as Array<ArticleRestType>)
     );
   }
 
   /**
-   * Path part for operation createNewArticleArticlesPost
+   * Path part for operation createNewArticle
    */
-  static readonly CreateNewArticleArticlesPostPath = '/articles/';
+  static readonly CreateNewArticlePath = '/articles/';
 
   /**
    * Create New Article.
@@ -99,17 +98,17 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `createNewArticleArticlesPost()` instead.
+   * To access only the response body, use `createNewArticle()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createNewArticleArticlesPost$Response(params: {
+  createNewArticle$Response(params: {
     context?: HttpContext
-    body: BodyCreateNewArticleArticlesPost
+    body: ArticleOptionsRestType
   }
 ): Observable<StrictHttpResponse<ArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.CreateNewArticleArticlesPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.CreateNewArticlePath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -132,25 +131,84 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `createNewArticleArticlesPost$Response()` instead.
+   * To access the full response (for headers, for example), `createNewArticle$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createNewArticleArticlesPost(params: {
+  createNewArticle(params: {
     context?: HttpContext
-    body: BodyCreateNewArticleArticlesPost
+    body: ArticleOptionsRestType
   }
 ): Observable<ArticleRestType> {
 
-    return this.createNewArticleArticlesPost$Response(params).pipe(
+    return this.createNewArticle$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
     );
   }
 
   /**
-   * Path part for operation getArticleArticlesArticleGet
+   * Path part for operation getAllArticles
    */
-  static readonly GetArticleArticlesArticleGetPath = '/articles/{article}';
+  static readonly GetAllArticlesPath = '/articles/all';
+
+  /**
+   * Get All Articles.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllArticles()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllArticles$Response(params?: {
+    category?: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<Array<FullArticleRestType>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetAllArticlesPath, 'get');
+    if (params) {
+      rb.query('category', params.category, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<FullArticleRestType>>;
+      })
+    );
+  }
+
+  /**
+   * Get All Articles.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getAllArticles$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllArticles(params?: {
+    category?: number;
+    context?: HttpContext
+  }
+): Observable<Array<FullArticleRestType>> {
+
+    return this.getAllArticles$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<FullArticleRestType>>) => r.body as Array<FullArticleRestType>)
+    );
+  }
+
+  /**
+   * Path part for operation getArticle
+   */
+  static readonly GetArticlePath = '/articles/{article}';
 
   /**
    * Get Article.
@@ -158,17 +216,17 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getArticleArticlesArticleGet()` instead.
+   * To access only the response body, use `getArticle()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getArticleArticlesArticleGet$Response(params: {
+  getArticle$Response(params: {
     article: number;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<ArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticleArticlesArticleGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticlePath, 'get');
     if (params) {
       rb.path('article', params.article, {});
     }
@@ -191,25 +249,25 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getArticleArticlesArticleGet$Response()` instead.
+   * To access the full response (for headers, for example), `getArticle$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getArticleArticlesArticleGet(params: {
+  getArticle(params: {
     article: number;
     context?: HttpContext
   }
 ): Observable<ArticleRestType> {
 
-    return this.getArticleArticlesArticleGet$Response(params).pipe(
+    return this.getArticle$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
     );
   }
 
   /**
-   * Path part for operation updateArticleArticlesArticlePut
+   * Path part for operation updateArticle
    */
-  static readonly UpdateArticleArticlesArticlePutPath = '/articles/{article}';
+  static readonly UpdateArticlePath = '/articles/{article}';
 
   /**
    * Update Article.
@@ -217,18 +275,18 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `updateArticleArticlesArticlePut()` instead.
+   * To access only the response body, use `updateArticle()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateArticleArticlesArticlePut$Response(params: {
+  updateArticle$Response(params: {
     article: number;
     context?: HttpContext
-    body: BodyUpdateArticleArticlesArticlePut
+    body: ArticleOptionsRestType
   }
 ): Observable<StrictHttpResponse<ArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticleArticlesArticlePutPath, 'put');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticlePath, 'put');
     if (params) {
       rb.path('article', params.article, {});
       rb.body(params.body, 'application/json');
@@ -252,26 +310,144 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `updateArticleArticlesArticlePut$Response()` instead.
+   * To access the full response (for headers, for example), `updateArticle$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateArticleArticlesArticlePut(params: {
+  updateArticle(params: {
     article: number;
     context?: HttpContext
-    body: BodyUpdateArticleArticlesArticlePut
+    body: ArticleOptionsRestType
   }
 ): Observable<ArticleRestType> {
 
-    return this.updateArticleArticlesArticlePut$Response(params).pipe(
+    return this.updateArticle$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
     );
   }
 
   /**
-   * Path part for operation replaceCategoryToArticleArticlesArticleCategoryPut
+   * Path part for operation deleteArticle
    */
-  static readonly ReplaceCategoryToArticleArticlesArticleCategoryPutPath = '/articles/{article}/category';
+  static readonly DeleteArticlePath = '/articles/{article}';
+
+  /**
+   * Delete Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteArticle()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteArticle$Response(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<any>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.DeleteArticlePath, 'delete');
+    if (params) {
+      rb.path('article', params.article, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<any>;
+      })
+    );
+  }
+
+  /**
+   * Delete Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteArticle$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteArticle(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<any> {
+
+    return this.deleteArticle$Response(params).pipe(
+      map((r: StrictHttpResponse<any>) => r.body as any)
+    );
+  }
+
+  /**
+   * Path part for operation restoreArticle
+   */
+  static readonly RestoreArticlePath = '/articles/{article}/restore';
+
+  /**
+   * Restore Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `restoreArticle()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  restoreArticle$Response(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<FullArticleRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.RestoreArticlePath, 'post');
+    if (params) {
+      rb.path('article', params.article, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<FullArticleRestType>;
+      })
+    );
+  }
+
+  /**
+   * Restore Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `restoreArticle$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  restoreArticle(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<FullArticleRestType> {
+
+    return this.restoreArticle$Response(params).pipe(
+      map((r: StrictHttpResponse<FullArticleRestType>) => r.body as FullArticleRestType)
+    );
+  }
+
+  /**
+   * Path part for operation replaceCategoryToArticle
+   */
+  static readonly ReplaceCategoryToArticlePath = '/articles/{article}/category';
 
   /**
    * Replace Category To Article.
@@ -279,18 +455,18 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `replaceCategoryToArticleArticlesArticleCategoryPut()` instead.
+   * To access only the response body, use `replaceCategoryToArticle()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  replaceCategoryToArticleArticlesArticleCategoryPut$Response(params: {
+  replaceCategoryToArticle$Response(params: {
     article: number;
     context?: HttpContext
-    body: BodyReplaceCategoryToArticleArticlesArticleCategoryPut
+    body: (number | Array<number>)
   }
 ): Observable<StrictHttpResponse<ArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.ReplaceCategoryToArticleArticlesArticleCategoryPutPath, 'put');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.ReplaceCategoryToArticlePath, 'put');
     if (params) {
       rb.path('article', params.article, {});
       rb.body(params.body, 'application/json');
@@ -314,26 +490,26 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `replaceCategoryToArticleArticlesArticleCategoryPut$Response()` instead.
+   * To access the full response (for headers, for example), `replaceCategoryToArticle$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  replaceCategoryToArticleArticlesArticleCategoryPut(params: {
+  replaceCategoryToArticle(params: {
     article: number;
     context?: HttpContext
-    body: BodyReplaceCategoryToArticleArticlesArticleCategoryPut
+    body: (number | Array<number>)
   }
 ): Observable<ArticleRestType> {
 
-    return this.replaceCategoryToArticleArticlesArticleCategoryPut$Response(params).pipe(
+    return this.replaceCategoryToArticle$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
     );
   }
 
   /**
-   * Path part for operation addCategoryToArticleArticlesArticleCategoryPost
+   * Path part for operation addCategoryToArticle
    */
-  static readonly AddCategoryToArticleArticlesArticleCategoryPostPath = '/articles/{article}/category';
+  static readonly AddCategoryToArticlePath = '/articles/{article}/category';
 
   /**
    * Add Category To Article.
@@ -341,18 +517,18 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `addCategoryToArticleArticlesArticleCategoryPost()` instead.
+   * To access only the response body, use `addCategoryToArticle()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addCategoryToArticleArticlesArticleCategoryPost$Response(params: {
+  addCategoryToArticle$Response(params: {
     article: number;
     context?: HttpContext
-    body: BodyAddCategoryToArticleArticlesArticleCategoryPost
+    body: BodyAddCategoryToArticle
   }
 ): Observable<StrictHttpResponse<ArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.AddCategoryToArticleArticlesArticleCategoryPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.AddCategoryToArticlePath, 'post');
     if (params) {
       rb.path('article', params.article, {});
       rb.body(params.body, 'application/json');
@@ -376,26 +552,26 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `addCategoryToArticleArticlesArticleCategoryPost$Response()` instead.
+   * To access the full response (for headers, for example), `addCategoryToArticle$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addCategoryToArticleArticlesArticleCategoryPost(params: {
+  addCategoryToArticle(params: {
     article: number;
     context?: HttpContext
-    body: BodyAddCategoryToArticleArticlesArticleCategoryPost
+    body: BodyAddCategoryToArticle
   }
 ): Observable<ArticleRestType> {
 
-    return this.addCategoryToArticleArticlesArticleCategoryPost$Response(params).pipe(
+    return this.addCategoryToArticle$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
     );
   }
 
   /**
-   * Path part for operation uploadFileToArticleArticlesArticleUploadFilePost
+   * Path part for operation uploadFileToArticle
    */
-  static readonly UploadFileToArticleArticlesArticleUploadFilePostPath = '/articles/{article}/uploadFile';
+  static readonly UploadFileToArticlePath = '/articles/{article}/uploadFile';
 
   /**
    * Upload File To Article.
@@ -403,18 +579,18 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `uploadFileToArticleArticlesArticleUploadFilePost()` instead.
+   * To access only the response body, use `uploadFileToArticle()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  uploadFileToArticleArticlesArticleUploadFilePost$Response(params: {
+  uploadFileToArticle$Response(params: {
     article: number;
     context?: HttpContext
-    body: BodyUploadFileToArticleArticlesArticleUploadFilePost
+    body: BodyUploadFileToArticle
   }
 ): Observable<StrictHttpResponse<ArticleFileRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.UploadFileToArticleArticlesArticleUploadFilePostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.UploadFileToArticlePath, 'post');
     if (params) {
       rb.path('article', params.article, {});
       rb.body(params.body, 'multipart/form-data');
@@ -438,26 +614,26 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `uploadFileToArticleArticlesArticleUploadFilePost$Response()` instead.
+   * To access the full response (for headers, for example), `uploadFileToArticle$Response()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  uploadFileToArticleArticlesArticleUploadFilePost(params: {
+  uploadFileToArticle(params: {
     article: number;
     context?: HttpContext
-    body: BodyUploadFileToArticleArticlesArticleUploadFilePost
+    body: BodyUploadFileToArticle
   }
 ): Observable<ArticleFileRestType> {
 
-    return this.uploadFileToArticleArticlesArticleUploadFilePost$Response(params).pipe(
+    return this.uploadFileToArticle$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleFileRestType>) => r.body as ArticleFileRestType)
     );
   }
 
   /**
-   * Path part for operation getArticleFilesArticlesArticleFilesGet
+   * Path part for operation getArticleFiles
    */
-  static readonly GetArticleFilesArticlesArticleFilesGetPath = '/articles/{article}/files';
+  static readonly GetArticleFilesPath = '/articles/{article}/files';
 
   /**
    * Get Article Files.
@@ -465,17 +641,17 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getArticleFilesArticlesArticleFilesGet()` instead.
+   * To access only the response body, use `getArticleFiles()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getArticleFilesArticlesArticleFilesGet$Response(params: {
+  getArticleFiles$Response(params: {
     article: number;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<ArticleFileRestType>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticleFilesArticlesArticleFilesGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticleFilesPath, 'get');
     if (params) {
       rb.path('article', params.article, {});
     }
@@ -498,25 +674,25 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getArticleFilesArticlesArticleFilesGet$Response()` instead.
+   * To access the full response (for headers, for example), `getArticleFiles$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getArticleFilesArticlesArticleFilesGet(params: {
+  getArticleFiles(params: {
     article: number;
     context?: HttpContext
   }
 ): Observable<Array<ArticleFileRestType>> {
 
-    return this.getArticleFilesArticlesArticleFilesGet$Response(params).pipe(
+    return this.getArticleFiles$Response(params).pipe(
       map((r: StrictHttpResponse<Array<ArticleFileRestType>>) => r.body as Array<ArticleFileRestType>)
     );
   }
 
   /**
-   * Path part for operation updateArticleFileArticlesArticleFilesArticleFilePut
+   * Path part for operation updateArticleFile
    */
-  static readonly UpdateArticleFileArticlesArticleFilesArticleFilePutPath = '/articles/{article}/files/{article_file}';
+  static readonly UpdateArticleFilePath = '/articles/{article}/files/{article_file}';
 
   /**
    * Update Article File.
@@ -524,19 +700,19 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `updateArticleFileArticlesArticleFilesArticleFilePut()` instead.
+   * To access only the response body, use `updateArticleFile()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateArticleFileArticlesArticleFilesArticleFilePut$Response(params: {
+  updateArticleFile$Response(params: {
     article: number;
     article_file: number;
     context?: HttpContext
-    body: BodyUpdateArticleFileArticlesArticleFilesArticleFilePut
+    body: ArticleFileOptionsRestType
   }
 ): Observable<StrictHttpResponse<ArticleFileRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticleFileArticlesArticleFilesArticleFilePutPath, 'put');
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticleFilePath, 'put');
     if (params) {
       rb.path('article', params.article, {});
       rb.path('article_file', params.article_file, {});
@@ -561,19 +737,19 @@ export class ArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `updateArticleFileArticlesArticleFilesArticleFilePut$Response()` instead.
+   * To access the full response (for headers, for example), `updateArticleFile$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateArticleFileArticlesArticleFilesArticleFilePut(params: {
+  updateArticleFile(params: {
     article: number;
     article_file: number;
     context?: HttpContext
-    body: BodyUpdateArticleFileArticlesArticleFilesArticleFilePut
+    body: ArticleFileOptionsRestType
   }
 ): Observable<ArticleFileRestType> {
 
-    return this.updateArticleFileArticlesArticleFilesArticleFilePut$Response(params).pipe(
+    return this.updateArticleFile$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleFileRestType>) => r.body as ArticleFileRestType)
     );
   }

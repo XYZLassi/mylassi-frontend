@@ -9,7 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { BodyUploadFileToFilesystemFilesPost } from '../models/body-upload-file-to-filesystem-files-post';
+import { BodyUploadFile } from '../models/body-upload-file';
 import { FileRestType } from '../models/file-rest-type';
 
 @Injectable({
@@ -24,9 +24,9 @@ export class FilesService extends BaseService {
   }
 
   /**
-   * Path part for operation uploadFileToFilesystemFilesPost
+   * Path part for operation uploadFile
    */
-  static readonly UploadFileToFilesystemFilesPostPath = '/files';
+  static readonly UploadFilePath = '/files';
 
   /**
    * Upload File To Filesystem.
@@ -34,17 +34,17 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `uploadFileToFilesystemFilesPost()` instead.
+   * To access only the response body, use `uploadFile()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  uploadFileToFilesystemFilesPost$Response(params: {
+  uploadFile$Response(params: {
     context?: HttpContext
-    body: BodyUploadFileToFilesystemFilesPost
+    body: BodyUploadFile
   }
 ): Observable<StrictHttpResponse<FileRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, FilesService.UploadFileToFilesystemFilesPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, FilesService.UploadFilePath, 'post');
     if (params) {
       rb.body(params.body, 'multipart/form-data');
     }
@@ -67,25 +67,25 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `uploadFileToFilesystemFilesPost$Response()` instead.
+   * To access the full response (for headers, for example), `uploadFile$Response()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  uploadFileToFilesystemFilesPost(params: {
+  uploadFile(params: {
     context?: HttpContext
-    body: BodyUploadFileToFilesystemFilesPost
+    body: BodyUploadFile
   }
 ): Observable<FileRestType> {
 
-    return this.uploadFileToFilesystemFilesPost$Response(params).pipe(
+    return this.uploadFile$Response(params).pipe(
       map((r: StrictHttpResponse<FileRestType>) => r.body as FileRestType)
     );
   }
 
   /**
-   * Path part for operation getFileInfoFilesFileInfoGet
+   * Path part for operation getFileInfo
    */
-  static readonly GetFileInfoFilesFileInfoGetPath = '/files/{file}/info';
+  static readonly GetFileInfoPath = '/files/{file}/info';
 
   /**
    * Get File Info.
@@ -93,17 +93,17 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getFileInfoFilesFileInfoGet()` instead.
+   * To access only the response body, use `getFileInfo()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getFileInfoFilesFileInfoGet$Response(params: {
+  getFileInfo$Response(params: {
     file: string;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<FileRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, FilesService.GetFileInfoFilesFileInfoGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, FilesService.GetFileInfoPath, 'get');
     if (params) {
       rb.path('file', params.file, {});
     }
@@ -126,25 +126,25 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getFileInfoFilesFileInfoGet$Response()` instead.
+   * To access the full response (for headers, for example), `getFileInfo$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getFileInfoFilesFileInfoGet(params: {
+  getFileInfo(params: {
     file: string;
     context?: HttpContext
   }
 ): Observable<FileRestType> {
 
-    return this.getFileInfoFilesFileInfoGet$Response(params).pipe(
+    return this.getFileInfo$Response(params).pipe(
       map((r: StrictHttpResponse<FileRestType>) => r.body as FileRestType)
     );
   }
 
   /**
-   * Path part for operation downloadFileFilesFileGet
+   * Path part for operation downloadFile
    */
-  static readonly DownloadFileFilesFileGetPath = '/files/{file}';
+  static readonly DownloadFilePath = '/files/{file}';
 
   /**
    * Download File.
@@ -152,17 +152,17 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `downloadFileFilesFileGet()` instead.
+   * To access only the response body, use `downloadFile()` instead.
    *
    * This method doesn't expect any request body.
    */
-  downloadFileFilesFileGet$Response(params: {
+  downloadFile$Response(params: {
     file: string;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, FilesService.DownloadFileFilesFileGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, FilesService.DownloadFilePath, 'get');
     if (params) {
       rb.path('file', params.file, {});
     }
@@ -185,25 +185,25 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `downloadFileFilesFileGet$Response()` instead.
+   * To access the full response (for headers, for example), `downloadFile$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  downloadFileFilesFileGet(params: {
+  downloadFile(params: {
     file: string;
     context?: HttpContext
   }
 ): Observable<void> {
 
-    return this.downloadFileFilesFileGet$Response(params).pipe(
+    return this.downloadFile$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation downloadImageFilesFileImageGet
+   * Path part for operation downloadImage
    */
-  static readonly DownloadImageFilesFileImageGetPath = '/files/{file}/image';
+  static readonly DownloadImagePath = '/files/{file}/image';
 
   /**
    * Download Image.
@@ -211,11 +211,11 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `downloadImageFilesFileImageGet()` instead.
+   * To access only the response body, use `downloadImage()` instead.
    *
    * This method doesn't expect any request body.
    */
-  downloadImageFilesFileImageGet$Response(params: {
+  downloadImage$Response(params: {
     file: string;
     width?: number;
     height?: number;
@@ -223,7 +223,7 @@ export class FilesService extends BaseService {
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, FilesService.DownloadImageFilesFileImageGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, FilesService.DownloadImagePath, 'get');
     if (params) {
       rb.path('file', params.file, {});
       rb.query('width', params.width, {});
@@ -248,11 +248,11 @@ export class FilesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `downloadImageFilesFileImageGet$Response()` instead.
+   * To access the full response (for headers, for example), `downloadImage$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  downloadImageFilesFileImageGet(params: {
+  downloadImage(params: {
     file: string;
     width?: number;
     height?: number;
@@ -260,7 +260,7 @@ export class FilesService extends BaseService {
   }
 ): Observable<void> {
 
-    return this.downloadImageFilesFileImageGet$Response(params).pipe(
+    return this.downloadImage$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

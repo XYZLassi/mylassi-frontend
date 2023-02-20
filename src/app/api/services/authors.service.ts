@@ -23,9 +23,9 @@ export class AuthorsService extends BaseService {
   }
 
   /**
-   * Path part for operation getAuthorsAuthorsGet
+   * Path part for operation getAuthors
    */
-  static readonly GetAuthorsAuthorsGetPath = '/authors/';
+  static readonly GetAuthorsPath = '/authors/';
 
   /**
    * Get Authors.
@@ -33,16 +33,16 @@ export class AuthorsService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAuthorsAuthorsGet()` instead.
+   * To access only the response body, use `getAuthors()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAuthorsAuthorsGet$Response(params?: {
+  getAuthors$Response(params?: {
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<AuthorRestType>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AuthorsService.GetAuthorsAuthorsGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AuthorsService.GetAuthorsPath, 'get');
     if (params) {
     }
 
@@ -64,16 +64,16 @@ export class AuthorsService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getAuthorsAuthorsGet$Response()` instead.
+   * To access the full response (for headers, for example), `getAuthors$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAuthorsAuthorsGet(params?: {
+  getAuthors(params?: {
     context?: HttpContext
   }
 ): Observable<Array<AuthorRestType>> {
 
-    return this.getAuthorsAuthorsGet$Response(params).pipe(
+    return this.getAuthors$Response(params).pipe(
       map((r: StrictHttpResponse<Array<AuthorRestType>>) => r.body as Array<AuthorRestType>)
     );
   }

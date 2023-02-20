@@ -30,7 +30,7 @@ export class ApiImageViewComponent implements OnChanges, OnDestroy {
 
     if (!this.imageFileId)
       return
-    let querySub = this.fileService.getFileInfoFilesFileInfoGet({
+    let querySub = this.fileService.getFileInfo({
       file: this.imageFileId
     }).subscribe(next => {
       this.imageUrl = next.url;

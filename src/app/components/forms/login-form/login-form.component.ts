@@ -28,7 +28,7 @@ export class LoginFormComponent implements OnInit {
     if (!username || !password)
       return
 
-    this.securityServer.loginForAccessTokenTokenPost({
+    this.securityServer.createNewToken({
       body: {
         username: username,
         password: password,

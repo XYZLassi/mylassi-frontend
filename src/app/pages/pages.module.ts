@@ -13,6 +13,7 @@ import {ErrorPageNotFoundPageComponent} from './_errors/error-page-not-found-pag
 import {AdminIndexPageComponent} from './_admin/admin-index-page/admin-index-page.component';
 import {AdminCreatePostPageComponent} from './_admin/_posts/admin-create-post-page/admin-create-post-page.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {ImagesModule} from "../components/images/images.module";
 
 
 @NgModule({
@@ -25,15 +26,16 @@ import {ReactiveFormsModule} from "@angular/forms";
     AdminIndexPageComponent,
     AdminCreatePostPageComponent
   ],
-  imports: [
-    CommonModule,
-    LayoutsModule,
-    ViewsModule,
-    AppRoutingModule,
-    FormsModule,
-    ArticlesModule,
-    ReactiveFormsModule,
-  ]
+    imports: [
+        CommonModule,
+        LayoutsModule,
+        ViewsModule,
+        AppRoutingModule,
+        FormsModule,
+        ArticlesModule,
+        ReactiveFormsModule,
+        ImagesModule,
+    ]
 })
 export class PagesModule {
 }

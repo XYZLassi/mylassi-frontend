@@ -15,6 +15,10 @@
         <textarea id="teaser" formControlName="teaser"></textarea>
       </div>
 
+      <div class="form-group flex-column">
+        <app-api-image-uploader (imageChanged)="onThumbnailChanged($event)"></app-api-image-uploader>
+      </div>
+
       <button class="btn" type="submit" [disabled]="!postForm.valid">Erstellen</button>
     </form>
   </div>

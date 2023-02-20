@@ -1,5 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface BodyUploadFileToFilesystemFilesPost {
+export interface BodyUploadFileToArticle {
   file: Blob;
 }

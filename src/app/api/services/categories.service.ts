@@ -9,8 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { BodyCreateCategoryCategoriesPost } from '../models/body-create-category-categories-post';
-import { BodyUpdateCategoryCategoriesCategoryPut } from '../models/body-update-category-categories-category-put';
+import { CategoryOptionRestType } from '../models/category-option-rest-type';
 import { CategoryRestType } from '../models/category-rest-type';
 
 @Injectable({
@@ -25,9 +24,9 @@ export class CategoriesService extends BaseService {
   }
 
   /**
-   * Path part for operation getCategoriesCategoriesGet
+   * Path part for operation getCategories
    */
-  static readonly GetCategoriesCategoriesGetPath = '/categories/';
+  static readonly GetCategoriesPath = '/categories/';
 
   /**
    * Get Categories.
@@ -35,16 +34,16 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getCategoriesCategoriesGet()` instead.
+   * To access only the response body, use `getCategories()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCategoriesCategoriesGet$Response(params?: {
+  getCategories$Response(params?: {
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<CategoryRestType>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, CategoriesService.GetCategoriesCategoriesGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, CategoriesService.GetCategoriesPath, 'get');
     if (params) {
     }
 
@@ -66,24 +65,24 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getCategoriesCategoriesGet$Response()` instead.
+   * To access the full response (for headers, for example), `getCategories$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCategoriesCategoriesGet(params?: {
+  getCategories(params?: {
     context?: HttpContext
   }
 ): Observable<Array<CategoryRestType>> {
 
-    return this.getCategoriesCategoriesGet$Response(params).pipe(
+    return this.getCategories$Response(params).pipe(
       map((r: StrictHttpResponse<Array<CategoryRestType>>) => r.body as Array<CategoryRestType>)
     );
   }
 
   /**
-   * Path part for operation createCategoryCategoriesPost
+   * Path part for operation createCategory
    */
-  static readonly CreateCategoryCategoriesPostPath = '/categories/';
+  static readonly CreateCategoryPath = '/categories/';
 
   /**
    * Create Category.
@@ -91,17 +90,17 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `createCategoryCategoriesPost()` instead.
+   * To access only the response body, use `createCategory()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createCategoryCategoriesPost$Response(params: {
+  createCategory$Response(params: {
     context?: HttpContext
-    body: BodyCreateCategoryCategoriesPost
+    body: CategoryOptionRestType
   }
 ): Observable<StrictHttpResponse<CategoryRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, CategoriesService.CreateCategoryCategoriesPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, CategoriesService.CreateCategoryPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -124,25 +123,25 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `createCategoryCategoriesPost$Response()` instead.
+   * To access the full response (for headers, for example), `createCategory$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createCategoryCategoriesPost(params: {
+  createCategory(params: {
     context?: HttpContext
-    body: BodyCreateCategoryCategoriesPost
+    body: CategoryOptionRestType
   }
 ): Observable<CategoryRestType> {
 
-    return this.createCategoryCategoriesPost$Response(params).pipe(
+    return this.createCategory$Response(params).pipe(
       map((r: StrictHttpResponse<CategoryRestType>) => r.body as CategoryRestType)
     );
   }
 
   /**
-   * Path part for operation getCategoryCategoriesCategoryGet
+   * Path part for operation getCategory
    */
-  static readonly GetCategoryCategoriesCategoryGetPath = '/categories/{category}';
+  static readonly GetCategoryPath = '/categories/{category}';
 
   /**
    * Get Category.
@@ -150,17 +149,17 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getCategoryCategoriesCategoryGet()` instead.
+   * To access only the response body, use `getCategory()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCategoryCategoriesCategoryGet$Response(params: {
+  getCategory$Response(params: {
     category: (number | string);
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<CategoryRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, CategoriesService.GetCategoryCategoriesCategoryGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, CategoriesService.GetCategoryPath, 'get');
     if (params) {
       rb.path('category', params.category, {});
     }
@@ -183,25 +182,25 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getCategoryCategoriesCategoryGet$Response()` instead.
+   * To access the full response (for headers, for example), `getCategory$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getCategoryCategoriesCategoryGet(params: {
+  getCategory(params: {
     category: (number | string);
     context?: HttpContext
   }
 ): Observable<CategoryRestType> {
 
-    return this.getCategoryCategoriesCategoryGet$Response(params).pipe(
+    return this.getCategory$Response(params).pipe(
       map((r: StrictHttpResponse<CategoryRestType>) => r.body as CategoryRestType)
     );
   }
 
   /**
-   * Path part for operation updateCategoryCategoriesCategoryPut
+   * Path part for operation updateCategory
    */
-  static readonly UpdateCategoryCategoriesCategoryPutPath = '/categories/{category}';
+  static readonly UpdateCategoryPath = '/categories/{category}';
 
   /**
    * Update Category.
@@ -209,18 +208,18 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `updateCategoryCategoriesCategoryPut()` instead.
+   * To access only the response body, use `updateCategory()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateCategoryCategoriesCategoryPut$Response(params: {
+  updateCategory$Response(params: {
     category: number;
     context?: HttpContext
-    body: BodyUpdateCategoryCategoriesCategoryPut
+    body: CategoryOptionRestType
   }
 ): Observable<StrictHttpResponse<CategoryRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, CategoriesService.UpdateCategoryCategoriesCategoryPutPath, 'put');
+    const rb = new RequestBuilder(this.rootUrl, CategoriesService.UpdateCategoryPath, 'put');
     if (params) {
       rb.path('category', params.category, {});
       rb.body(params.body, 'application/json');
@@ -244,18 +243,18 @@ export class CategoriesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `updateCategoryCategoriesCategoryPut$Response()` instead.
+   * To access the full response (for headers, for example), `updateCategory$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateCategoryCategoriesCategoryPut(params: {
+  updateCategory(params: {
     category: number;
     context?: HttpContext
-    body: BodyUpdateCategoryCategoriesCategoryPut
+    body: CategoryOptionRestType
   }
 ): Observable<CategoryRestType> {
 
-    return this.updateCategoryCategoriesCategoryPut$Response(params).pipe(
+    return this.updateCategory$Response(params).pipe(
       map((r: StrictHttpResponse<CategoryRestType>) => r.body as CategoryRestType)
     );
   }

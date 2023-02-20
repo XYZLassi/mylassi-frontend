@@ -9,7 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { BodyLoginForAccessTokenTokenPost } from '../models/body-login-for-access-token-token-post';
+import { BodyCreateNewToken } from '../models/body-create-new-token';
 import { TokenRestType } from '../models/token-rest-type';
 import { UserRestType } from '../models/user-rest-type';
 
@@ -25,9 +25,9 @@ export class SecurityService extends BaseService {
   }
 
   /**
-   * Path part for operation loginForAccessTokenTokenPost
+   * Path part for operation createNewToken
    */
-  static readonly LoginForAccessTokenTokenPostPath = '/token';
+  static readonly CreateNewTokenPath = '/token';
 
   /**
    * Login For Access Token.
@@ -35,17 +35,17 @@ export class SecurityService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `loginForAccessTokenTokenPost()` instead.
+   * To access only the response body, use `createNewToken()` instead.
    *
    * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
    */
-  loginForAccessTokenTokenPost$Response(params: {
+  createNewToken$Response(params: {
     context?: HttpContext
-    body: BodyLoginForAccessTokenTokenPost
+    body: BodyCreateNewToken
   }
 ): Observable<StrictHttpResponse<TokenRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, SecurityService.LoginForAccessTokenTokenPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, SecurityService.CreateNewTokenPath, 'post');
     if (params) {
       rb.body(params.body, 'application/x-www-form-urlencoded');
     }
@@ -68,25 +68,25 @@ export class SecurityService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `loginForAccessTokenTokenPost$Response()` instead.
+   * To access the full response (for headers, for example), `createNewToken$Response()` instead.
    *
    * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
    */
-  loginForAccessTokenTokenPost(params: {
+  createNewToken(params: {
     context?: HttpContext
-    body: BodyLoginForAccessTokenTokenPost
+    body: BodyCreateNewToken
   }
 ): Observable<TokenRestType> {
 
-    return this.loginForAccessTokenTokenPost$Response(params).pipe(
+    return this.createNewToken$Response(params).pipe(
       map((r: StrictHttpResponse<TokenRestType>) => r.body as TokenRestType)
     );
   }
 
   /**
-   * Path part for operation readUsersMeUsersMeGet
+   * Path part for operation me
    */
-  static readonly ReadUsersMeUsersMeGetPath = '/users/me/';
+  static readonly MePath = '/users/me/';
 
   /**
    * Read Users Me.
@@ -94,16 +94,16 @@ export class SecurityService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `readUsersMeUsersMeGet()` instead.
+   * To access only the response body, use `me()` instead.
    *
    * This method doesn't expect any request body.
    */
-  readUsersMeUsersMeGet$Response(params?: {
+  me$Response(params?: {
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<UserRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, SecurityService.ReadUsersMeUsersMeGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, SecurityService.MePath, 'get');
     if (params) {
     }
 
@@ -125,16 +125,16 @@ export class SecurityService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `readUsersMeUsersMeGet$Response()` instead.
+   * To access the full response (for headers, for example), `me$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  readUsersMeUsersMeGet(params?: {
+  me(params?: {
     context?: HttpContext
   }
 ): Observable<UserRestType> {
 
-    return this.readUsersMeUsersMeGet$Response(params).pipe(
+    return this.me$Response(params).pipe(
       map((r: StrictHttpResponse<UserRestType>) => r.body as UserRestType)
     );
   }
