@@ -54,9 +54,14 @@ header {
       left: 0;
 
       ul {
-        &.first {
+        &.main {
           width: 100%;
           justify-content: center;
+
+          .logo {
+            width: 0;
+            margin: 0;
+          }
         }
 
         &.last {
@@ -72,14 +77,24 @@ header {
 
       transition: width 250ms;
 
-      overflow: hidden;
+      overflow: visible;
 
-      &.first {
+      &.main {
         flex-direction: row;
         z-index: $baseZIndex + 2;
+
+        .logo {
+          width: 1.5rem;
+          transform: translateY(-1rem) scale(5);
+          z-index: $baseZIndex + 2;
+          margin: 0 1rem 0 0.5rem;
+
+          transition: width 250ms, margin 250ms;
+        }
       }
 
       &.last {
+        overflow: hidden;
         flex-direction: row-reverse;
         z-index: $baseZIndex + 1;
       }
