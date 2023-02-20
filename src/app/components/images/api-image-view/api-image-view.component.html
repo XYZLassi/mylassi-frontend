@@ -1,7 +1,12 @@
 <div class="image">
-  <picture *ngIf="imageUrl">
-    <source *ngFor="let resolution of resolutionList"
-            media="(max-width: {{resolution}}px)" srcset="{{imageUrl}}?width={{resolution}}">
-    <img alt="{{altText}}" src="{{imageUrl}}">
+  <picture>
+    <ng-container *ngIf="imageUrl">
+      <source *ngFor="let resolution of resolutionList"
+              media="(max-width: {{resolution}}px)" srcset="{{imageUrl}}?width={{resolution}}">
+      <img alt="{{altText}}" src="{{imageUrl}}">
+    </ng-container>
+    <ng-container *ngIf="!imageUrl">
+      <img alt="Picture Not Found" src="assets/404Picture.svg">
+    </ng-container>
   </picture>
 </div>

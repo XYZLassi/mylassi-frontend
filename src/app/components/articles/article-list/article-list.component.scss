@@ -7,7 +7,7 @@ $gapWidth: 2rem;
 
 $wrapWidth: 800px;
 
-:host{
+:host {
   width: 100%;
 }
 
@@ -53,6 +53,8 @@ article {
 
   .image-container {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
 
     width: $pictureWidth;
     max-width: 100%;
