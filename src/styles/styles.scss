@@ -5,25 +5,25 @@
 .w-100 {
   width: 100% !important;
 }
+
 .w-80 {
   width: 80% !important;
 }
 
-a {
-  color: white;
+.mb-1{
+  margin-bottom: 1rem;
 }
 
-body {
-  min-height: 100vh;
-  color: white;
-  background-color: $ciSecond;
+.text-accent {
+  color: $accent;
 }
 
+.text-success {
+  color: green;
+}
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+.text-danger {
+  color: red;
 }
 
 
