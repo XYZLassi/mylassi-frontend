@@ -5,11 +5,11 @@ import {FullArticleRestType} from "../../../../api/models/full-article-rest-type
 import {faTrash, faTrashRestore} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: 'app-admin-index-post-page',
-  templateUrl: './admin-index-post-page.component.html',
-  styleUrls: ['./admin-index-post-page.component.scss']
+  selector: 'app-admin-index-article-page',
+  templateUrl: './admin-index-article-page.component.html',
+  styleUrls: ['./admin-index-article-page.component.scss']
 })
-export class AdminIndexPostPageComponent implements OnInit, OnDestroy {
+export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
 
   faTrash = faTrash;
   faTrashRestore = faTrashRestore;

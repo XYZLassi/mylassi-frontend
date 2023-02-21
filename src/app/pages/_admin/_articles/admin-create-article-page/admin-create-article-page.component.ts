@@ -7,11 +7,11 @@ import {ApiImageUploaderEvent} from "../../../../components/images/api-image-upl
 import {ArticleFileRestType} from "../../../../api/models/article-file-rest-type";
 
 @Component({
-  selector: 'app-admin-create-post-page',
-  templateUrl: './admin-create-post-page.component.html',
-  styleUrls: ['./admin-create-post-page.component.scss']
+  selector: 'app-admin-create-article-page',
+  templateUrl: './admin-create-article-page.component.html',
+  styleUrls: ['./admin-create-article-page.component.scss']
 })
-export class AdminCreatePostPageComponent implements OnDestroy {
+export class AdminCreateArticlePageComponent implements OnDestroy {
 
   postForm = new FormGroup({
     title: new FormControl('Post Title'),

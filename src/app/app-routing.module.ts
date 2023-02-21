@@ -10,9 +10,9 @@ import {
 import {AdminIndexPageComponent} from "./pages/_admin/admin-index-page/admin-index-page.component";
 import {AuthGuard} from "./guards/auth.guard";
 import {
-  AdminCreatePostPageComponent
-} from "./pages/_admin/_posts/admin-create-post-page/admin-create-post-page.component";
-import {AdminIndexPostPageComponent} from "./pages/_admin/_posts/admin-index-post-page/admin-index-post-page.component";
+  AdminCreateArticlePageComponent
+} from "./pages/_admin/_articles/admin-create-article-page/admin-create-article-page.component";
+import {AdminIndexArticlePageComponent} from "./pages/_admin/_articles/admin-index-article-page/admin-index-article-page.component";
 
 const routes: Routes = [
   {path: '', component: IndexPageComponent},
@@ -20,8 +20,8 @@ const routes: Routes = [
   {path: 'articles/:articleId', component: ArticlePageComponent},
 
   {path: 'admin', component: AdminIndexPageComponent, canActivate: [AuthGuard]},
-  {path: 'admin/posts', component: AdminIndexPostPageComponent, canActivate: [AuthGuard]},
-  {path: 'admin/posts/new', component: AdminCreatePostPageComponent, canActivate: [AuthGuard]},
+  {path: 'admin/posts', component: AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
+  {path: 'admin/posts/new', component: AdminCreateArticlePageComponent, canActivate: [AuthGuard]},
 
   {path: ':category', component: ArticleListPageComponent},
 
