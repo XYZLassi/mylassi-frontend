@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "preset";
+
+.w-100 {
+  width: 100% !important;
+}
+.w-80 {
+  width: 80% !important;
+}
+
+a {
+  color: white;
+}
+
+body {
+  min-height: 100vh;
+  color: white;
+  background-color: $ciSecond;
+}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+

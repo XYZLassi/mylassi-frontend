@@ -14,6 +14,8 @@ import {AdminIndexPageComponent} from './_admin/admin-index-page/admin-index-pag
 import {AdminCreatePostPageComponent} from './_admin/_posts/admin-create-post-page/admin-create-post-page.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {ImagesModule} from "../components/images/images.module";
+import { AdminIndexPostPageComponent } from './_admin/_posts/admin-index-post-page/admin-index-post-page.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
@@ -24,7 +26,8 @@ import {ImagesModule} from "../components/images/images.module";
     ArticleListPageComponent,
     ErrorPageNotFoundPageComponent,
     AdminIndexPageComponent,
-    AdminCreatePostPageComponent
+    AdminCreatePostPageComponent,
+    AdminIndexPostPageComponent
   ],
     imports: [
         CommonModule,
@@ -35,6 +38,7 @@ import {ImagesModule} from "../components/images/images.module";
         ArticlesModule,
         ReactiveFormsModule,
         ImagesModule,
+        FontAwesomeModule,
     ]
 })
 export class PagesModule {

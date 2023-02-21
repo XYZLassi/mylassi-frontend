@@ -35,9 +35,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/preset.scss",
-              "src/forms.scss"
+              "src/styles/main.scss"
             ],
             "scripts": []
           },
@@ -109,9 +107,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/preset.scss",
-              "src/forms.scss"
+              "src/styles/main.scss"
             ],
             "scripts": []
           }
