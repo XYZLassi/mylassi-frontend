@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ApiImageViewComponent } from './api-image-view/api-image-view.component';
 import { ApiImageUploaderComponent } from './api-image-uploader/api-image-uploader.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {ShapesModule} from "../shapes/shapes.module";
 
 
 
@@ -17,7 +18,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     ],
     imports: [
         CommonModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        ShapesModule
     ]
 })
 export class ImagesModule { }

@@ -1,5 +1,8 @@
-$maxImageWidth: 20rem;
+@import "src/styles/preset";
+
+$maxImageWidth: 15rem;
 $maxImageHeight: 10rem;
+
 
 :host {
   padding: 1rem;
@@ -62,4 +65,15 @@ $maxImageHeight: 10rem;
 .previewImage {
   max-width: min(100%, 20rem);
   max-height: 20rem;
+}
+
+.uploadBox {
+  color: $success;
+  cursor: pointer;
+
+
+}
+
+input.file-input {
+  visibility: hidden;
 }

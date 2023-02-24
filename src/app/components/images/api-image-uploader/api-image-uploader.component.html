@@ -6,6 +6,10 @@
     </button>
   </div>
   <div class="image-container">
-    <input class="form-control" type="file" accept="image/*" (change)="onChangeImage($event)">
+    <app-border-box-text-with-icon text="Upload" class="uploadBox" (click)="openUpload($event)">
+      <fa-icon [icon]="faUpload" class="fa-2xl"></fa-icon>
+    </app-border-box-text-with-icon>
+    <input #inputElement class="form-control file-input" type="file" accept="image/*" (change)="onChangeImage($event)">
   </div>
 </div>
+

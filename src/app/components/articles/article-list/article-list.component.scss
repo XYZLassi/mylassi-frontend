@@ -57,6 +57,7 @@ article {
     justify-content: center;
 
     width: $pictureWidth;
+    aspect-ratio: 3/2;
     max-width: 100%;
     max-height: $pictureMaxHeight;
   }
