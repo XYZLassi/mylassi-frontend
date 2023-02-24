@@ -1,3 +1,4 @@
+export { AppendArticleFileOptionsRestType } from './models/append-article-file-options-rest-type';
 export { ArticleFileOptionsRestType } from './models/article-file-options-rest-type';
 export { ArticleFileRestType } from './models/article-file-rest-type';
 export { ArticleFileUsage } from './models/article-file-usage';
@@ -13,6 +14,7 @@ export { CategoryRestType } from './models/category-rest-type';
 export { FileRestType } from './models/file-rest-type';
 export { FullArticleRestType } from './models/full-article-rest-type';
 export { HttpValidationError } from './models/http-validation-error';
+export { OkayResultRestType } from './models/okay-result-rest-type';
 export { TokenRestType } from './models/token-rest-type';
 export { UserRestType } from './models/user-rest-type';
 export { ValidationError } from './models/validation-error';

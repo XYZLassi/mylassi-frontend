@@ -1,47 +1,44 @@
-import {Component, EventEmitter, OnDestroy, Output} from '@angular/core';
-import {Subscription} from "rxjs";
-import {FilesService} from "../../../api/services/files.service";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ArticleFileUsage} from "../../../api/models/article-file-usage";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {ArticleFileUploadData} from "../../../services/file-upload.service";
 
-export interface ApiImageUploaderEvent {
-  imageFile: File | null;
-}
 
 @Component({
   selector: 'app-api-image-uploader',
   templateUrl: './api-image-uploader.component.html',
   styleUrls: ['./api-image-uploader.component.scss']
 })
-export class ApiImageUploaderComponent implements OnDestroy {
+export class ApiImageUploaderComponent {
+  @Input() images: ArticleFileUploadData[] = []
+  @Output() imagesChange = new EventEmitter<ArticleFileUploadData[]>();
 
-  public imageFile: File | null = null;
-  public imageUrl?: string;
+  @Input() defaultUsage: ArticleFileUsage | null = null;
 
-  private subscriptions: Subscription[] = [];
+  faTrash = faTrash;
 
-  @Output() imageChanged: EventEmitter<ApiImageUploaderEvent> = new EventEmitter<ApiImageUploaderEvent>();
-
-  constructor(private filesService: FilesService) {
+  constructor() {
   }
 
   onChangeImage($event: any) {
-    this.imageFile = $event.target.files[0];
-
-    if (!this.imageFile)
+    if (!$event.target.files)
       return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imageUrl = reader.result as string;
-    }
-    reader.onloadend = () => {
-      this.imageChanged.emit({
-        imageFile: this.imageFile,
-      })
-    }
-    reader.readAsDataURL(this.imageFile);
+    Array.from($event.target.files).forEach(file => {
+      const image = file as File;
+      if (image) {
+        this.images.push({
+          file: image,
+          fileUsage: this.defaultUsage
+        });
+      }
+    });
+
+    $event.target.value = '';
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+
+  removeImage(image: ArticleFileUploadData) {
+    this.images = this.images.filter(item => item !== image);
   }
 }

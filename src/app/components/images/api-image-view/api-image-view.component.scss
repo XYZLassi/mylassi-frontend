@@ -28,7 +28,7 @@
       opacity: 0.8;
       transition: scale 250ms ease-in-out;
 
-      &:hover {
+      &.hover:hover {
         scale: 1.1;
       }
     }

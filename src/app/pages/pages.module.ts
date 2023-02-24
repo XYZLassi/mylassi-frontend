@@ -5,7 +5,7 @@ import {LayoutsModule} from "../components/layouts/layouts.module";
 import {ViewsModule} from "../views/views.module";
 import {LoginPageComponent} from './login-page/login-page.component';
 import {AppRoutingModule} from "../app-routing.module";
-import {FormsModule} from "../components/forms/forms.module";
+import {FormsModule} from "../general/forms/forms.module";
 import {ArticlePageComponent} from './article-page/article-page.component';
 import {ArticlesModule} from "../components/articles/articles.module";
 import {ArticleListPageComponent} from './article-list-page/article-list-page.component';
@@ -16,6 +16,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {ImagesModule} from "../components/images/images.module";
 import { AdminIndexArticlePageComponent } from './_admin/_articles/admin-index-article-page/admin-index-article-page.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { AdminEditArticlePageComponent } from './_admin/_articles/admin-edit-article-page/admin-edit-article-page.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     ErrorPageNotFoundPageComponent,
     AdminIndexPageComponent,
     AdminCreateArticlePageComponent,
-    AdminIndexArticlePageComponent
+    AdminIndexArticlePageComponent,
+    AdminEditArticlePageComponent
   ],
     imports: [
         CommonModule,

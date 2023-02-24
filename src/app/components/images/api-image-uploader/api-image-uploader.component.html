@@ -1,4 +1,11 @@
 <div class="container">
-  <input class="form-control" type="file" accept="image/*" (change)="onChangeImage($event)">
-  <img class="previewImage" [src]="imageUrl">
+  <div class="image-container" *ngFor="let image of images">
+    <app-api-image-view [hoverEffect]="false" [image]="image.file"></app-api-image-view>
+    <button class="left-bottom danger" (click)="removeImage(image)">
+      <fa-icon [icon]="faTrash"></fa-icon>
+    </button>
+  </div>
+  <div class="image-container">
+    <input class="form-control" type="file" accept="image/*" (change)="onChangeImage($event)">
+  </div>
 </div>

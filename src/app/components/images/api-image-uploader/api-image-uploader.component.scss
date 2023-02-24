@@ -1,6 +1,62 @@
+$maxImageWidth: 20rem;
+$maxImageHeight: 10rem;
+
+:host {
+  padding: 1rem;
+}
+
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  gap: 0.5rem;
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: $maxImageWidth/$maxImageHeight;
+    max-width: $maxImageWidth;
+    max-height: $maxImageHeight;
+
+    button {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      position: absolute;
+      visibility: hidden;
+      border: none;
+
+      background: white;
+      color: black;
+
+      transition: background-color 250ms;
+
+      &:hover {
+        background: lightgrey;
+      }
+
+      &.left-bottom {
+        left: -1rem;
+        bottom: -1rem;
+      }
+
+      &.danger {
+        background: red;
+        color: white;
+
+        &:hover {
+          background: darkred;
+        }
+      }
+    }
+
+    &:hover {
+      button {
+        visibility: visible;
+      }
+    }
+  }
 }
 
 .previewImage {

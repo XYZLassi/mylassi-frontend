@@ -4,3 +4,4 @@ export interface ArticleListModel {
   teaser: string | undefined | null
   thumbnailImageId: string | null
 }
+

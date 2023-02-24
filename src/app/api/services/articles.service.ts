@@ -9,6 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { AppendArticleFileOptionsRestType } from '../models/append-article-file-options-rest-type';
 import { ArticleFileOptionsRestType } from '../models/article-file-options-rest-type';
 import { ArticleFileRestType } from '../models/article-file-rest-type';
 import { ArticleOptionsRestType } from '../models/article-options-rest-type';
@@ -16,6 +17,7 @@ import { ArticleRestType } from '../models/article-rest-type';
 import { BodyAddCategoryToArticle } from '../models/body-add-category-to-article';
 import { BodyUploadFileToArticle } from '../models/body-upload-file-to-article';
 import { FullArticleRestType } from '../models/full-article-rest-type';
+import { OkayResultRestType } from '../models/okay-result-rest-type';
 
 @Injectable({
   providedIn: 'root',
@@ -345,7 +347,7 @@ export class ArticlesService extends BaseService {
     article: number;
     context?: HttpContext
   }
-): Observable<StrictHttpResponse<any>> {
+): Observable<StrictHttpResponse<OkayResultRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.DeleteArticlePath, 'delete');
     if (params) {
@@ -359,7 +361,7 @@ export class ArticlesService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<any>;
+        return r as StrictHttpResponse<OkayResultRestType>;
       })
     );
   }
@@ -378,10 +380,10 @@ export class ArticlesService extends BaseService {
     article: number;
     context?: HttpContext
   }
-): Observable<any> {
+): Observable<OkayResultRestType> {
 
     return this.deleteArticle$Response(params).pipe(
-      map((r: StrictHttpResponse<any>) => r.body as any)
+      map((r: StrictHttpResponse<OkayResultRestType>) => r.body as OkayResultRestType)
     );
   }
 
@@ -685,6 +687,130 @@ export class ArticlesService extends BaseService {
 ): Observable<Array<ArticleFileRestType>> {
 
     return this.getArticleFiles$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<ArticleFileRestType>>) => r.body as Array<ArticleFileRestType>)
+    );
+  }
+
+  /**
+   * Path part for operation addOrReplaceFilesToArticle
+   */
+  static readonly AddOrReplaceFilesToArticlePath = '/articles/{article}/files';
+
+  /**
+   * Add Or Replace Files To Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addOrReplaceFilesToArticle()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addOrReplaceFilesToArticle$Response(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<AppendArticleFileOptionsRestType>
+  }
+): Observable<StrictHttpResponse<Array<ArticleFileRestType>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.AddOrReplaceFilesToArticlePath, 'put');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<ArticleFileRestType>>;
+      })
+    );
+  }
+
+  /**
+   * Add Or Replace Files To Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `addOrReplaceFilesToArticle$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addOrReplaceFilesToArticle(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<AppendArticleFileOptionsRestType>
+  }
+): Observable<Array<ArticleFileRestType>> {
+
+    return this.addOrReplaceFilesToArticle$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<ArticleFileRestType>>) => r.body as Array<ArticleFileRestType>)
+    );
+  }
+
+  /**
+   * Path part for operation addFileToArticle
+   */
+  static readonly AddFileToArticlePath = '/articles/{article}/files';
+
+  /**
+   * Add Files To Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addFileToArticle()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addFileToArticle$Response(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<AppendArticleFileOptionsRestType>
+  }
+): Observable<StrictHttpResponse<Array<ArticleFileRestType>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.AddFileToArticlePath, 'post');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<ArticleFileRestType>>;
+      })
+    );
+  }
+
+  /**
+   * Add Files To Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `addFileToArticle$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addFileToArticle(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<AppendArticleFileOptionsRestType>
+  }
+): Observable<Array<ArticleFileRestType>> {
+
+    return this.addFileToArticle$Response(params).pipe(
       map((r: StrictHttpResponse<Array<ArticleFileRestType>>) => r.body as Array<ArticleFileRestType>)
     );
   }

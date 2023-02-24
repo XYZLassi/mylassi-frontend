@@ -15,6 +15,9 @@ import {
 import {
   AdminIndexArticlePageComponent
 } from "./pages/_admin/_articles/admin-index-article-page/admin-index-article-page.component";
+import {
+  AdminEditArticlePageComponent
+} from "./pages/_admin/_articles/admin-edit-article-page/admin-edit-article-page.component";
 
 const routes: Routes = [
   {path: '', component: IndexPageComponent},
@@ -24,6 +27,8 @@ const routes: Routes = [
   {path: 'admin', component: AdminIndexPageComponent, canActivate: [AuthGuard]},
   {path: 'admin/articles', component: AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
   {path: 'admin/articles/new', component: AdminCreateArticlePageComponent, canActivate: [AuthGuard]},
+  {path: 'admin/articles/:id', component: AdminEditArticlePageComponent, canActivate: [AuthGuard]},
+
 
   {path: ':category', component: ArticleListPageComponent},
 

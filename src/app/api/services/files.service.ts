@@ -1,16 +1,16 @@
 /* tslint:disable */
 /* eslint-disable */
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpContext } from '@angular/common/http';
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
-import { RequestBuilder } from '../request-builder';
-import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse, HttpContext} from '@angular/common/http';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
+import {RequestBuilder} from '../request-builder';
+import {Observable} from 'rxjs';
+import {map, filter} from 'rxjs/operators';
 
-import { BodyUploadFile } from '../models/body-upload-file';
-import { FileRestType } from '../models/file-rest-type';
+import {BodyUploadFile} from '../models/body-upload-file';
+import {FileRestType} from '../models/file-rest-type';
 
 @Injectable({
   providedIn: 'root',
@@ -39,10 +39,10 @@ export class FilesService extends BaseService {
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
   uploadFile$Response(params: {
-    context?: HttpContext
-    body: BodyUploadFile
-  }
-): Observable<StrictHttpResponse<FileRestType>> {
+                        context?: HttpContext
+                        body: BodyUploadFile
+                      }
+  ): Observable<StrictHttpResponse<FileRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, FilesService.UploadFilePath, 'post');
     if (params) {
@@ -72,10 +72,10 @@ export class FilesService extends BaseService {
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
   uploadFile(params: {
-    context?: HttpContext
-    body: BodyUploadFile
-  }
-): Observable<FileRestType> {
+               context?: HttpContext
+               body: BodyUploadFile
+             }
+  ): Observable<FileRestType> {
 
     return this.uploadFile$Response(params).pipe(
       map((r: StrictHttpResponse<FileRestType>) => r.body as FileRestType)
@@ -98,10 +98,10 @@ export class FilesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getFileInfo$Response(params: {
-    file: string;
-    context?: HttpContext
-  }
-): Observable<StrictHttpResponse<FileRestType>> {
+                         file: string;
+                         context?: HttpContext
+                       }
+  ): Observable<StrictHttpResponse<FileRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, FilesService.GetFileInfoPath, 'get');
     if (params) {
@@ -131,10 +131,10 @@ export class FilesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getFileInfo(params: {
-    file: string;
-    context?: HttpContext
-  }
-): Observable<FileRestType> {
+                file: string;
+                context?: HttpContext
+              }
+  ): Observable<FileRestType> {
 
     return this.getFileInfo$Response(params).pipe(
       map((r: StrictHttpResponse<FileRestType>) => r.body as FileRestType)
@@ -157,10 +157,10 @@ export class FilesService extends BaseService {
    * This method doesn't expect any request body.
    */
   downloadFile$Response(params: {
-    file: string;
-    context?: HttpContext
-  }
-): Observable<StrictHttpResponse<void>> {
+                          file: string;
+                          context?: HttpContext
+                        }
+  ): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, FilesService.DownloadFilePath, 'get');
     if (params) {
@@ -174,7 +174,7 @@ export class FilesService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return (r as HttpResponse<any>).clone({body: undefined}) as StrictHttpResponse<void>;
       })
     );
   }
@@ -190,10 +190,10 @@ export class FilesService extends BaseService {
    * This method doesn't expect any request body.
    */
   downloadFile(params: {
-    file: string;
-    context?: HttpContext
-  }
-): Observable<void> {
+                 file: string;
+                 context?: HttpContext
+               }
+  ): Observable<void> {
 
     return this.downloadFile$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
@@ -216,12 +216,12 @@ export class FilesService extends BaseService {
    * This method doesn't expect any request body.
    */
   downloadImage$Response(params: {
-    file: string;
-    width?: number;
-    height?: number;
-    context?: HttpContext
-  }
-): Observable<StrictHttpResponse<void>> {
+                           file: string;
+                           width?: number;
+                           height?: number;
+                           context?: HttpContext
+                         }
+  ): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, FilesService.DownloadImagePath, 'get');
     if (params) {
@@ -237,7 +237,7 @@ export class FilesService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return (r as HttpResponse<any>).clone({body: undefined}) as StrictHttpResponse<void>;
       })
     );
   }
@@ -253,12 +253,12 @@ export class FilesService extends BaseService {
    * This method doesn't expect any request body.
    */
   downloadImage(params: {
-    file: string;
-    width?: number;
-    height?: number;
-    context?: HttpContext
-  }
-): Observable<void> {
+                  file: string;
+                  width?: number;
+                  height?: number;
+                  context?: HttpContext
+                }
+  ): Observable<void> {
 
     return this.downloadImage$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)

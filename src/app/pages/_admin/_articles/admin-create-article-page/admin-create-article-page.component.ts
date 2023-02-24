@@ -1,10 +1,10 @@
 import {Component, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
 import {ArticlesService} from "../../../../api/services/articles.service";
-import {Observable, Subject, Subscription} from "rxjs";
+import {EMPTY, Subject, Subscription} from "rxjs";
 import {ArticleFileUsage} from "../../../../api/models/article-file-usage";
-import {ApiImageUploaderEvent} from "../../../../components/images/api-image-uploader/api-image-uploader.component";
-import {ArticleFileRestType} from "../../../../api/models/article-file-rest-type";
+import {ArticleOptionsRestType} from "../../../../api/models/article-options-rest-type";
+import {Router} from "@angular/router";
+import {ArticleFileUploadData, FileUploadService} from "../../../../services/file-upload.service";
 
 @Component({
   selector: 'app-admin-create-article-page',
@@ -13,71 +13,36 @@ import {ArticleFileRestType} from "../../../../api/models/article-file-rest-type
 })
 export class AdminCreateArticlePageComponent implements OnDestroy {
 
-  postForm = new FormGroup({
-    title: new FormControl('Post Title'),
-    teaser: new FormControl('Teaser')
-  })
-
-  thumbnailFile: File | null = null;
   private subscriptions: Subscription[] = [];
+  thumbnailImages: ArticleFileUploadData[] = [];
+  thumbnailUsage = ArticleFileUsage.Thumbnail;
 
-  constructor(private articleService: ArticlesService) {
+  constructor(private articleService: ArticlesService,
+              private fileUploadService: FileUploadService,
+              private router: Router) {
   }
 
-  onSubmit($event: any) {
-    const values = this.postForm.value;
-
-    if (!values.title)
-      return
-
+  onSubmit($event: ArticleOptionsRestType) {
     const createSub = this.articleService.createNewArticle({
-      body: {
-        title: values.title,
-        teaser: values.teaser || undefined,
-      }
+      body: $event
     }).subscribe(value => {
-      this.postForm.reset();
+      const uploadSub = this.fileUploadService.uploadFilesToArticle(value, this.thumbnailImages)
+        .subscribe({
+          next: (i) => {
+            console.log(i);
+          },
+          complete: () => {
+            console.log('Complete');
+            this.router.navigate(['/articles', value.id]);
+          }
+        });
 
-      const uploadSub = this.uploadThumbnail(value.id)?.subscribe();
-      if (uploadSub) {
-        this.subscriptions = [...this.subscriptions, uploadSub];
-      }
+      this.subscriptions = [...this.subscriptions, uploadSub];
     });
+
     this.subscriptions = [...this.subscriptions, createSub];
   }
 
-  uploadThumbnail(articleId: number): Observable<ArticleFileRestType> | null {
-    const uploadSubject = new Subject<ArticleFileRestType>();
-
-    if (!this.thumbnailFile)
-      return null;
-
-    const uploadThumbnailSub = this.articleService.uploadFileToArticle({
-      article: articleId,
-      body: {
-        file: this.thumbnailFile
-      }
-    }).subscribe(uploadFile => {
-      const updateThumbnailSub = this.articleService.updateArticleFile({
-        article: articleId,
-        article_file: uploadFile.article_file_id,
-        body: {
-          file_usage: ArticleFileUsage.Thumbnail
-        }
-      }).subscribe(updateFiles => {
-        uploadSubject.next(updateFiles);
-        uploadSubject.complete();
-      });
-      this.subscriptions = [...this.subscriptions, updateThumbnailSub];
-    });
-    this.subscriptions = [...this.subscriptions, uploadThumbnailSub];
-
-    return uploadSubject.asObservable();
-  }
-
-  onThumbnailChanged($event: ApiImageUploaderEvent) {
-    this.thumbnailFile = $event.imageFile;
-  }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
