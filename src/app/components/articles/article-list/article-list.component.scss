@@ -1,4 +1,4 @@
-@import "src/preset.scss";
+@import "../../../../styles/preset";
 
 $pictureWidth: 30rem;
 $pictureMaxHeight: 20rem;
@@ -7,7 +7,7 @@ $gapWidth: 2rem;
 
 $wrapWidth: 800px;
 
-:host{
+:host {
   width: 100%;
 }
 
@@ -53,8 +53,11 @@ article {
 
   .image-container {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
 
     width: $pictureWidth;
+    aspect-ratio: 3/2;
     max-width: 100%;
     max-height: $pictureMaxHeight;
   }

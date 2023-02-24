@@ -1,0 +1,55 @@
+@import "preset";
+
+$borderRadius: 0.5rem;
+
+table.table {
+  background-color: $second;
+  border-collapse: collapse;
+
+  border-radius: $borderRadius;
+
+  &.auto-width {
+    th, td {
+      white-space: nowrap;
+    }
+  }
+
+  th, td {
+    padding: 0 0.5rem 0 0.5rem;
+  }
+
+  thead {
+    background-color: $ciAccent;
+
+    tr {
+      th, td {
+        font-size: 1.2rem;
+        text-align: left;
+
+        padding: 0.4rem 0.5rem;
+
+        &:first-child {
+          border-radius: $borderRadius 0 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 $borderRadius 0 0;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      th, td {
+        font-size: 1.0rem;
+        text-align: left;
+
+        padding: 0.6rem 0.5rem;
+      }
+
+      &:nth-child(even) {
+      }
+    }
+  }
+}

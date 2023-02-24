@@ -1,0 +1,26 @@
+<header #header>
+
+</header>
+
+<div class="container">
+
+  <div #navSidebar class="left-sidebar">
+    <nav class="submenu">
+      <ul>
+        <li [routerLink]="['/admin']">Dashboard</li>
+      </ul>
+    </nav>
+    <nav class="submenu">
+      <h1><a [routerLink]="['/admin','articles']">Beiträge</a></h1>
+      <ul>
+        <li [routerLink]="['/admin','articles','new']">Erstellen</li>
+      </ul>
+    </nav>
+  </div>
+
+  <main #main>
+    <ng-content>
+
+    </ng-content>
+  </main>
+</div>

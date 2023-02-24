@@ -18,7 +18,7 @@ export class IndexPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
 
   constructor(private apollo: Apollo, private state: TransferState) {
-    this.articles = this.state.get(STATE_KEY_QUERY, []);
+
   }
 
   ngOnInit(): void {
@@ -33,6 +33,8 @@ export class IndexPageComponent implements OnInit, OnDestroy {
           }
         }
       }`
+
+    this.articles = this.state.get(STATE_KEY_QUERY, []);
 
     let querySub = this.apollo.watchQuery<DashboardPostsQuery>({query}).valueChanges.subscribe(next => {
       this.articles = [];

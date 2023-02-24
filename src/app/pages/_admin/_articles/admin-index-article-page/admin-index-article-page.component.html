@@ -1,0 +1,29 @@
+<app-admin-page-layout>
+  <div class="container">
+    <h1>Artikel</h1>
+
+    <table class="table w-100 auto-width">
+      <thead>
+      <tr>
+        <th class="w-100">Title</th>
+        <th>Gelöscht am</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let article of articles">
+        <td><a [routerLink]="['/admin','articles',article.id]">{{article.title}}</a></td>
+        <td>{{article.is_deleted | date : 'short' }}</td>
+        <td>
+          <a class="btn btn-icon" *ngIf="!article.is_deleted" (click)="onDeleteArticle($event,article)">
+            <fa-icon class="text-danger" [icon]="faTrash"></fa-icon>
+          </a>
+          <a class="btn btn-icon" *ngIf="article.is_deleted" (click)="onRestoreArticle($event,article)">
+            <fa-icon class="text-success" [icon]="faTrashRestore"></fa-icon>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</app-admin-page-layout>

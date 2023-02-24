@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiImageViewComponent } from './api-image-view/api-image-view.component';
+import { ApiImageUploaderComponent } from './api-image-uploader/api-image-uploader.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {ShapesModule} from "../shapes/shapes.module";
 
 
 
 @NgModule({
     declarations: [
-        ApiImageViewComponent
+        ApiImageViewComponent,
+        ApiImageUploaderComponent
     ],
     exports: [
-        ApiImageViewComponent
+        ApiImageViewComponent,
+        ApiImageUploaderComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        FontAwesomeModule,
+        ShapesModule
     ]
 })
 export class ImagesModule { }

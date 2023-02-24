@@ -12,9 +12,12 @@ export class ApiImageViewComponent implements OnChanges, OnDestroy {
   public imageUrl: string | null | undefined;
   public altText: string | null | undefined;
 
-  @Input() imageFileId: string | null | undefined;
-
   public resolutionList: number[] = []
+
+  @Input() image?: File | string | null;
+
+  @Input() hoverEffect: boolean = true;
+
 
   private subscriptions: Subscription[] = [];
 
@@ -28,22 +31,35 @@ export class ApiImageViewComponent implements OnChanges, OnDestroy {
 
     const baseResolutions = [426, 640, 854, 1280, 1920, 2560, 3840, 7680];
 
-    if (!this.imageFileId)
-      return
-    let querySub = this.fileService.getFileInfoFilesFileInfoGet({
-      file: this.imageFileId
-    }).subscribe(next => {
-      this.imageUrl = next.url;
-      this.altText = next.filename;
+    if (!this.image) {
+      this.imageUrl = null;
+      this.altText = null;
+    } else if (this.image instanceof File) {
+      this.resolutionList = [];
+      this.altText = null;
 
-      this.resolutionList = []
-      baseResolutions.forEach(i => {
-        if (next.image_width && i < next.image_width)
-          this.resolutionList.push(i)
+
+      let reader = new FileReader();
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.imageUrl = String(event.target?.result);
+      }
+
+      reader.readAsDataURL(this.image); // read file as data url
+    } else {
+      let querySub = this.fileService.getFileInfo({
+        file: String(this.image)
+      }).subscribe(next => {
+        this.imageUrl = next.url;
+        this.altText = next.filename;
+
+        this.resolutionList = []
+        baseResolutions.forEach(i => {
+          if (next.image_width && i < next.image_width)
+            this.resolutionList.push(i)
+        });
       });
-    });
-
-    this.subscriptions = [...this.subscriptions, querySub];
+      this.subscriptions = [...this.subscriptions, querySub];
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

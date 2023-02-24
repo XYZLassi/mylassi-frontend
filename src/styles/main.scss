@@ -1,0 +1,28 @@
+@import "preset";
+@import "styles";
+@import "cmds";
+@import "forms";
+@import "table";
+
+h1 {
+  width: 100%;
+  text-align: left;
+  color: $accent;
+  margin: 0 0 1rem 0;
+}
+
+a {
+  color: white;
+}
+
+body {
+  min-height: 100vh;
+  color: white;
+  background-color: $ciSecond;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

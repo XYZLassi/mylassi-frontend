@@ -1,0 +1,12 @@
+<app-admin-page-layout>
+  <h1>Neuen Beitrag erstellen</h1>
+  <div class="form-container">
+    <app-article-edit-form (saveSubmit)="onSubmit($event)"></app-article-edit-form>
+  </div>
+
+  <div class="thumbnail-container">
+    <app-api-image-uploader [defaultUsage]="thumbnailUsage"
+                            [(images)]="thumbnailImages"></app-api-image-uploader>
+  </div>
+
+</app-admin-page-layout>

@@ -27,7 +27,7 @@ export class ApiInterceptor implements HttpInterceptor {
       });
     }
 
-    // Also handle errors globally
+    // Also handle _errors globally
     return next.handle(request).pipe(
       tap(x => x, err => {
         // Handle this err
