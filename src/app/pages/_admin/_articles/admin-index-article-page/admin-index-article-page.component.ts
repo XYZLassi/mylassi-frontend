@@ -18,6 +18,8 @@ export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  public currentCursor?: string;
+
   constructor(private articleService: ArticlesService) {
   }
 
@@ -29,9 +31,27 @@ export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  updateArticle(articleId: number) {
+    const updateArticle = this.articleService.getFullArticle({
+      article: articleId
+    }).subscribe(article => {
+      const indexToUpdate = this.articles.findIndex(i => i.id === article.id);
+
+      if (indexToUpdate >= 0)
+        this.articles[indexToUpdate] = article
+    })
+
+    this.subscriptions = [...this.subscriptions, updateArticle];
+  }
+
+
   loadArticles() {
-    const loadArticlesSub = this.articleService.getAllArticles().subscribe(articles => {
-      this.articles = articles.items;
+    const loadArticlesSub = this.articleService.getAllArticles({
+      cursor: this.currentCursor,
+      size: 25,
+    }).subscribe(articles => {
+      this.articles.push(...articles.items);
+      this.currentCursor = articles.cursor;
     });
 
     this.subscriptions = [...this.subscriptions, loadArticlesSub];
@@ -42,8 +62,8 @@ export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
     if (confirm("Möchtest du den Artikel wirklich löschen?")) {
       const deleteArticleSub = this.articleService.deleteArticle({
         article: article.id
-      }).subscribe(value => {
-        this.loadArticles(); // Todo: if okay?
+      }).subscribe(_ => {
+        this.updateArticle(article.id);
       });
 
       this.subscriptions = [...this.subscriptions, deleteArticleSub];
@@ -55,10 +75,15 @@ export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
       const restoreArticleSub = this.articleService.restoreArticle({
         article: article.id
       }).subscribe(value => {
-        this.loadArticles(); // Todo: if okay?
+        this.updateArticle(article.id);
       });
 
       this.subscriptions = [...this.subscriptions, restoreArticleSub];
     }
+  }
+
+  onLoadMoreArticles($event: MouseEvent) {
+    if (this.currentCursor)
+      this.loadArticles();
   }
 }
