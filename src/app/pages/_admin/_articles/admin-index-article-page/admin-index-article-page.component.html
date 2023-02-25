@@ -26,4 +26,7 @@
       </tbody>
     </table>
   </div>
+
+  <button *ngIf="currentCursor" (click)="onLoadMoreArticles($event)" class="btn btn-load">Mehr Laden</button>
+
 </app-admin-page-layout>
