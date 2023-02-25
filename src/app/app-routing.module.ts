@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {IndexPageComponent} from "./pages/index-page/index-page.component";
 import {LoginPageComponent} from "./pages/login-page/login-page.component";
 import {ArticlePageComponent} from "./pages/article-page/article-page.component";
 import {ArticleListPageComponent} from "./pages/article-list-page/article-list-page.component";
@@ -20,7 +19,7 @@ import {
 } from "./pages/_admin/_articles/admin-edit-article-page/admin-edit-article-page.component";
 
 const routes: Routes = [
-  {path: '', component: IndexPageComponent},
+  {path: '', component: ArticleListPageComponent},
   {path: 'login', component: LoginPageComponent},
   {path: 'articles/:articleId', component: ArticlePageComponent},
 

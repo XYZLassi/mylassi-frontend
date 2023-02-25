@@ -39,14 +39,15 @@ type AuthorGraphType {
 }
 
 type CategoryGraphType {
-    articles: [ArticleGraphType!]!
+    articles: [ArticleGraphType!]! @deprecated(reason: "It will be remove or changed in future update")
     category: String!
     id: ID!
+    uniqueName: String
 }
 
 type Query {
     articleById(article: Int!): ArticleGraphType
-    articles(cursor: String, size: Int! = 5): ArticleGraphTypePaginationResult!
+    articles(category: String, cursor: String, size: Int! = 5): ArticleGraphTypePaginationResult!
     authors: [AuthorGraphType!]!
     categories: [CategoryGraphType!]!
     categoryById(category: Int!): CategoryGraphType
