@@ -15,6 +15,8 @@ export { FileRestType } from './models/file-rest-type';
 export { FullArticleRestType } from './models/full-article-rest-type';
 export { HttpValidationError } from './models/http-validation-error';
 export { OkayResultRestType } from './models/okay-result-rest-type';
+export { PaginationResultRestTypeArticleRestType } from './models/pagination-result-rest-type-article-rest-type';
+export { PaginationResultRestTypeFullArticleRestType } from './models/pagination-result-rest-type-full-article-rest-type';
 export { TokenRestType } from './models/token-rest-type';
 export { UserRestType } from './models/user-rest-type';
 export { ValidationError } from './models/validation-error';

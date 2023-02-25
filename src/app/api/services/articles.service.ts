@@ -18,6 +18,8 @@ import { BodyAddCategoryToArticle } from '../models/body-add-category-to-article
 import { BodyUploadFileToArticle } from '../models/body-upload-file-to-article';
 import { FullArticleRestType } from '../models/full-article-rest-type';
 import { OkayResultRestType } from '../models/okay-result-rest-type';
+import { PaginationResultRestTypeArticleRestType } from '../models/pagination-result-rest-type-article-rest-type';
+import { PaginationResultRestTypeFullArticleRestType } from '../models/pagination-result-rest-type-full-article-rest-type';
 
 @Injectable({
   providedIn: 'root',
@@ -47,13 +49,17 @@ export class ArticlesService extends BaseService {
    */
   getArticles$Response(params?: {
     category?: number;
+    cursor?: string;
+    size?: number;
     context?: HttpContext
   }
-): Observable<StrictHttpResponse<Array<ArticleRestType>>> {
+): Observable<StrictHttpResponse<PaginationResultRestTypeArticleRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticlesPath, 'get');
     if (params) {
       rb.query('category', params.category, {});
+      rb.query('cursor', params.cursor, {});
+      rb.query('size', params.size, {});
     }
 
     return this.http.request(rb.build({
@@ -63,7 +69,7 @@ export class ArticlesService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<ArticleRestType>>;
+        return r as StrictHttpResponse<PaginationResultRestTypeArticleRestType>;
       })
     );
   }
@@ -80,12 +86,14 @@ export class ArticlesService extends BaseService {
    */
   getArticles(params?: {
     category?: number;
+    cursor?: string;
+    size?: number;
     context?: HttpContext
   }
-): Observable<Array<ArticleRestType>> {
+): Observable<PaginationResultRestTypeArticleRestType> {
 
     return this.getArticles$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<ArticleRestType>>) => r.body as Array<ArticleRestType>)
+      map((r: StrictHttpResponse<PaginationResultRestTypeArticleRestType>) => r.body as PaginationResultRestTypeArticleRestType)
     );
   }
 
@@ -165,13 +173,17 @@ export class ArticlesService extends BaseService {
    */
   getAllArticles$Response(params?: {
     category?: number;
+    cursor?: string;
+    size?: number;
     context?: HttpContext
   }
-): Observable<StrictHttpResponse<Array<FullArticleRestType>>> {
+): Observable<StrictHttpResponse<PaginationResultRestTypeFullArticleRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetAllArticlesPath, 'get');
     if (params) {
       rb.query('category', params.category, {});
+      rb.query('cursor', params.cursor, {});
+      rb.query('size', params.size, {});
     }
 
     return this.http.request(rb.build({
@@ -181,7 +193,7 @@ export class ArticlesService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<FullArticleRestType>>;
+        return r as StrictHttpResponse<PaginationResultRestTypeFullArticleRestType>;
       })
     );
   }
@@ -198,12 +210,14 @@ export class ArticlesService extends BaseService {
    */
   getAllArticles(params?: {
     category?: number;
+    cursor?: string;
+    size?: number;
     context?: HttpContext
   }
-): Observable<Array<FullArticleRestType>> {
+): Observable<PaginationResultRestTypeFullArticleRestType> {
 
     return this.getAllArticles$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<FullArticleRestType>>) => r.body as Array<FullArticleRestType>)
+      map((r: StrictHttpResponse<PaginationResultRestTypeFullArticleRestType>) => r.body as PaginationResultRestTypeFullArticleRestType)
     );
   }
 

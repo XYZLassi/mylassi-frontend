@@ -17,28 +17,38 @@ export class IndexPageComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = []
 
+  private paginationCursor: string | null | undefined = null;
+
   constructor(private apollo: Apollo, private state: TransferState) {
 
   }
 
   ngOnInit(): void {
     const query = graphql`
-      query DashboardPosts{
-        articles{
-          id
-          title
-          teaser
-          thumbnails:filesByUsage(usage: "thumbnail") {
-            fileId
+      query DashboardPosts($cursor:String){
+        articles(cursor: $cursor){
+          items {
+            id
+            title
+            teaser
+            thumbnails:filesByUsage(usage: "thumbnail") {
+              fileId
+            }
           }
+          cursor
         }
       }`
 
     this.articles = this.state.get(STATE_KEY_QUERY, []);
 
-    let querySub = this.apollo.watchQuery<DashboardPostsQuery>({query}).valueChanges.subscribe(next => {
+    const variables = {
+      cursor: this.paginationCursor,
+    };
+
+    let querySub = this.apollo.watchQuery<DashboardPostsQuery>({query, variables}).valueChanges.subscribe(next => {
       this.articles = [];
-      next.data.articles.forEach(article => {
+      this.paginationCursor = next.data.articles.cursor
+      next.data.articles.items.forEach(article => {
         this.articles.push({
           id: parseInt(article.id),
           title: article.title,
