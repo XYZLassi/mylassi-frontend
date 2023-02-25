@@ -12,6 +12,11 @@ button.btn, a.btn {
 
   transition: all 250ms;
 
+  &:disabled {
+    background-color: $ciAccent;
+    cursor: default;
+  }
+
   &:hover {
     background-color: $ciAccent;
   }

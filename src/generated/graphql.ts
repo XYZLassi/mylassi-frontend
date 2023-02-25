@@ -62,9 +62,11 @@ export type AuthorGraphType = {
 
 export type CategoryGraphType = {
   __typename?: 'CategoryGraphType';
+  /** @deprecated It will be remove or changed in future update */
   articles: Array<ArticleGraphType>;
   category: Scalars['String'];
   id: Scalars['ID'];
+  uniqueName?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -84,6 +86,7 @@ export type QueryArticleByIdArgs = {
 
 
 export type QueryArticlesArgs = {
+  category?: InputMaybe<Scalars['String']>;
   cursor?: InputMaybe<Scalars['String']>;
   size?: Scalars['Int'];
 };
@@ -98,12 +101,13 @@ export type QueryCategoryByUniqueNameArgs = {
   category: Scalars['String'];
 };
 
-export type CategoryArticlesQueryVariables = Exact<{
-  category: Scalars['String'];
+export type GetArticlesQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type CategoryArticlesQuery = { __typename?: 'Query', categoryByUniqueName?: { __typename?: 'CategoryGraphType', category: string, articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, filesByUsage: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } | null };
+export type GetArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, items: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
 
 export type LoadArticleQueryVariables = Exact<{
   articleId: Scalars['Int'];
@@ -112,25 +116,18 @@ export type LoadArticleQueryVariables = Exact<{
 
 export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }> } | null };
 
-export type DashboardPostsQueryVariables = Exact<{
-  cursor?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type DashboardPostsQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, items: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
-
-export const CategoryArticlesDocument = gql`
-    query CategoryArticles($category: String!) {
-  categoryByUniqueName(category: $category) {
-    category
-    articles {
+export const GetArticlesDocument = gql`
+    query GetArticles($cursor: String, $category: String) {
+  articles(category: $category, cursor: $cursor) {
+    items {
       id
       title
       teaser
-      filesByUsage(usage: "thumbnail") {
+      thumbnails: filesByUsage(usage: "thumbnail") {
         fileId
       }
     }
+    cursor
   }
 }
     `;
@@ -138,8 +135,8 @@ export const CategoryArticlesDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class CategoryArticlesGQL extends Apollo.Query<CategoryArticlesQuery, CategoryArticlesQueryVariables> {
-    document = CategoryArticlesDocument;
+  export class GetArticlesGQL extends Apollo.Query<GetArticlesQuery, GetArticlesQueryVariables> {
+    document = GetArticlesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -162,32 +159,6 @@ export const LoadArticleDocument = gql`
   })
   export class LoadArticleGQL extends Apollo.Query<LoadArticleQuery, LoadArticleQueryVariables> {
     document = LoadArticleDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DashboardPostsDocument = gql`
-    query DashboardPosts($cursor: String) {
-  articles(cursor: $cursor) {
-    items {
-      id
-      title
-      teaser
-      thumbnails: filesByUsage(usage: "thumbnail") {
-        fileId
-      }
-    }
-    cursor
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DashboardPostsGQL extends Apollo.Query<DashboardPostsQuery, DashboardPostsQueryVariables> {
-    document = DashboardPostsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
