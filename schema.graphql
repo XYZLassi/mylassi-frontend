@@ -26,6 +26,12 @@ type ArticleGraphType {
     title: String!
 }
 
+type ArticleGraphTypePaginationResult {
+    cursor: String
+    items: [ArticleGraphType!]!
+    size: Int!
+}
+
 type AuthorGraphType {
     articles: [ArticleGraphType!]!
     id: ID!
@@ -40,7 +46,7 @@ type CategoryGraphType {
 
 type Query {
     articleById(article: Int!): ArticleGraphType
-    articles: [ArticleGraphType!]!
+    articles(cursor: String, size: Int! = 5): ArticleGraphTypePaginationResult!
     authors: [AuthorGraphType!]!
     categories: [CategoryGraphType!]!
     categoryById(category: Int!): CategoryGraphType

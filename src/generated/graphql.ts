@@ -46,6 +46,13 @@ export type ArticleGraphTypeFilesByUsageArgs = {
   usage: Scalars['String'];
 };
 
+export type ArticleGraphTypePaginationResult = {
+  __typename?: 'ArticleGraphTypePaginationResult';
+  cursor?: Maybe<Scalars['String']>;
+  items: Array<ArticleGraphType>;
+  size: Scalars['Int'];
+};
+
 export type AuthorGraphType = {
   __typename?: 'AuthorGraphType';
   articles: Array<ArticleGraphType>;
@@ -63,7 +70,7 @@ export type CategoryGraphType = {
 export type Query = {
   __typename?: 'Query';
   articleById?: Maybe<ArticleGraphType>;
-  articles: Array<ArticleGraphType>;
+  articles: ArticleGraphTypePaginationResult;
   authors: Array<AuthorGraphType>;
   categories: Array<CategoryGraphType>;
   categoryById?: Maybe<CategoryGraphType>;
@@ -73,6 +80,12 @@ export type Query = {
 
 export type QueryArticleByIdArgs = {
   article: Scalars['Int'];
+};
+
+
+export type QueryArticlesArgs = {
+  cursor?: InputMaybe<Scalars['String']>;
+  size?: Scalars['Int'];
 };
 
 
@@ -99,10 +112,12 @@ export type LoadArticleQueryVariables = Exact<{
 
 export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }> } | null };
 
-export type DashboardPostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type DashboardPostsQueryVariables = Exact<{
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
 
 
-export type DashboardPostsQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> };
+export type DashboardPostsQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, items: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
 
 export const CategoryArticlesDocument = gql`
     query CategoryArticles($category: String!) {
@@ -153,14 +168,17 @@ export const LoadArticleDocument = gql`
     }
   }
 export const DashboardPostsDocument = gql`
-    query DashboardPosts {
-  articles {
-    id
-    title
-    teaser
-    thumbnails: filesByUsage(usage: "thumbnail") {
-      fileId
+    query DashboardPosts($cursor: String) {
+  articles(cursor: $cursor) {
+    items {
+      id
+      title
+      teaser
+      thumbnails: filesByUsage(usage: "thumbnail") {
+        fileId
+      }
     }
+    cursor
   }
 }
     `;
