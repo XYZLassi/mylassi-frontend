@@ -402,6 +402,65 @@ export class ArticlesService extends BaseService {
   }
 
   /**
+   * Path part for operation getFullArticle
+   */
+  static readonly GetFullArticlePath = '/articles/{article}/full';
+
+  /**
+   * Get Full Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getFullArticle()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getFullArticle$Response(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<FullArticleRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetFullArticlePath, 'get');
+    if (params) {
+      rb.path('article', params.article, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<FullArticleRestType>;
+      })
+    );
+  }
+
+  /**
+   * Get Full Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getFullArticle$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getFullArticle(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<FullArticleRestType> {
+
+    return this.getFullArticle$Response(params).pipe(
+      map((r: StrictHttpResponse<FullArticleRestType>) => r.body as FullArticleRestType)
+    );
+  }
+
+  /**
    * Path part for operation restoreArticle
    */
   static readonly RestoreArticlePath = '/articles/{article}/restore';
