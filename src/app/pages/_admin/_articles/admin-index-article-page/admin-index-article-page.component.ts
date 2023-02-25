@@ -31,7 +31,7 @@ export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
 
   loadArticles() {
     const loadArticlesSub = this.articleService.getAllArticles().subscribe(articles => {
-      this.articles = articles;
+      this.articles = articles.items;
     });
 
     this.subscriptions = [...this.subscriptions, loadArticlesSub];
