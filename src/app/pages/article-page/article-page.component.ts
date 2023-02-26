@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {Apollo, graphql} from "apollo-angular";
 import {LoadArticleQuery} from "../../../generated/graphql";
-import {Meta} from "@angular/platform-browser";
+import {Meta, Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -15,7 +15,9 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(private apollo: Apollo,
-              private route: ActivatedRoute, private router: Router, private meta: Meta) {
+              private route: ActivatedRoute,
+              private router: Router, private title: Title,
+              private meta: Meta) {
   }
 
   ngOnInit(): void {
@@ -40,6 +42,8 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       let querySub = this.apollo.watchQuery<LoadArticleQuery>({query, variables}).valueChanges.subscribe(value => {
         if (!value.data.article)
           return
+
+        this.title.setTitle(`MyLassi.xyz - ${value.data.article.title}`);
 
         this.meta.updateTag({
           property: 'og:title',

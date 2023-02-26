@@ -1,5 +1,5 @@
 import {forwardRef, NgModule, OnInit, Provider} from '@angular/core';
-import {BrowserModule, BrowserTransferStateModule, Meta, MetaDefinition} from '@angular/platform-browser';
+import {BrowserModule, BrowserTransferStateModule, Meta, MetaDefinition, Title} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -11,7 +11,7 @@ import {ApiModule} from "./api/api.module";
 import {ApiInterceptor} from "./api-interceptor.service";
 import {GraphQLModule} from './graphql.module';
 import {NavigationEnd, Router} from "@angular/router";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -53,7 +53,9 @@ export class AppModule {
     {property: 'og:image', content: this.imageUrl}
   ]
 
-  constructor(private router: Router, private meta: Meta) {
+  constructor(private router: Router, private meta: Meta, private title: Title) {
+    this.title.setTitle('MyLassi.xyz');
+
     this.tags.forEach(tag => {
       const selector = `property='${tag.property}'`;
       let searchTag = this.meta.getTag(selector);
@@ -68,6 +70,8 @@ export class AppModule {
 
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        this.title.setTitle('MyLassi.xyz');
+
         this.tags.forEach(tag => this.meta.updateTag(tag,));
         this.meta.updateTag({property: 'og:url', content: `https://mylassi.xyz${this.router.url}`},)
       }

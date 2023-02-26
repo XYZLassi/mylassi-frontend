@@ -3,7 +3,7 @@
     <ng-container *ngIf="imageUrl">
       <source *ngFor="let resolution of resolutionList"
               media="(max-width: {{resolution}}px)" srcset="{{imageUrl}}?width={{resolution}}">
-      <img [class.hover]="hoverEffect" alt="{{altText}}" src="{{imageUrl}}">
+      <img [class.hover]="hoverEffect" alt="{{altText}}" src="{{imageUrl}}" (error)="onImageLoadError($event)">
     </ng-container>
     <ng-container *ngIf="!imageUrl">
       <img alt="Picture Not Found" src="assets/404Picture.svg">

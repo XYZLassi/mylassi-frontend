@@ -3,7 +3,7 @@ import {ArticleListModel} from "../../components/articles/interfaces";
 import {Apollo, graphql} from "apollo-angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
-import {makeStateKey, TransferState} from "@angular/platform-browser";
+import {makeStateKey, Title, TransferState} from "@angular/platform-browser";
 import {CategoriesService} from "../../api/services/categories.service";
 import {CategoryRestType} from "../../api/models/category-rest-type";
 import {GetArticlesQuery, QueryArticlesArgs} from "../../../generated/graphql";
@@ -34,6 +34,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private apollo: Apollo, private state: TransferState,
+    private title: Title,
     private categoriesService: CategoriesService,
     private route: ActivatedRoute, private router: Router) {
   }
@@ -52,6 +53,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
           {
             next: (category) => {
               this.category = category;
+              this.title.setTitle(`MyLassi.xyz - ${category.category}`);
               this.loadArticles();
             },
             error: _ => {

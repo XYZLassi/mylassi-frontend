@@ -18,7 +18,7 @@ $maxImageHeight: 10rem;
   .image-container {
     position: relative;
     width: 100%;
-    aspect-ratio: $maxImageWidth/$maxImageHeight;
+    aspect-ratio: calc($maxImageWidth / $maxImageHeight);
     max-width: $maxImageWidth;
     max-height: $maxImageHeight;
 
