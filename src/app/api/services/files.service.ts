@@ -201,9 +201,78 @@ export class FilesService extends BaseService {
   }
 
   /**
+   * Path part for operation downloadImageFilesFileImageGet
+   */
+  static readonly DownloadImageFilesFileImageGetPath = '/files/{file}/image';
+
+  /**
+   * Download Image.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `downloadImageFilesFileImageGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   *
+   * @deprecated
+   */
+  downloadImageFilesFileImageGet$Response(params: {
+    file: string;
+    width?: number;
+    height?: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, FilesService.DownloadImageFilesFileImageGetPath, 'get');
+    if (params) {
+      rb.path('file', params.file, {});
+      rb.query('width', params.width, {});
+      rb.query('height', params.height, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * Download Image.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `downloadImageFilesFileImageGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   *
+   * @deprecated
+   */
+  downloadImageFilesFileImageGet(params: {
+    file: string;
+    width?: number;
+    height?: number;
+    context?: HttpContext
+  }
+): Observable<void> {
+
+    return this.downloadImageFilesFileImageGet$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation downloadImage
    */
-  static readonly DownloadImagePath = '/files/{file}/image';
+  static readonly DownloadImagePath = '/images/{file}';
 
   /**
    * Download Image.

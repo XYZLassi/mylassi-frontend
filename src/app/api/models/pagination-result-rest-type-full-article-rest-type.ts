@@ -4,5 +4,6 @@ import { FullArticleRestType } from './full-article-rest-type';
 export interface PaginationResultRestTypeFullArticleRestType {
   cursor?: string;
   items: Array<FullArticleRestType>;
-  size: number;
+  length: number;
+  pageSize: number;
 }

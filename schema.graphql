@@ -29,7 +29,8 @@ type ArticleGraphType {
 type ArticleGraphTypePaginationResult {
     cursor: String
     items: [ArticleGraphType!]!
-    size: Int!
+    length: Int!
+    pageSize: Int!
 }
 
 type AuthorGraphType {
