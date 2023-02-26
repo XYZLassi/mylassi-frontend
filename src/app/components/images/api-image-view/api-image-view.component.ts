@@ -18,6 +18,7 @@ export class ApiImageViewComponent implements OnChanges, OnDestroy {
 
   @Input() hoverEffect: boolean = true;
 
+  private imageOriginUrl: string | null | undefined;
 
   private subscriptions: Subscription[] = [];
 
@@ -28,6 +29,7 @@ export class ApiImageViewComponent implements OnChanges, OnDestroy {
     this.imageUrl = null;
     this.resolutionList = [];
     this.altText = null;
+    this.imageOriginUrl = null;
 
     const baseResolutions = [426, 640, 854, 1280, 1920, 2560, 3840, 7680];
 
@@ -49,7 +51,8 @@ export class ApiImageViewComponent implements OnChanges, OnDestroy {
       let querySub = this.fileService.getFileInfo({
         file: String(this.image)
       }).subscribe(next => {
-        this.imageUrl = next.url;
+        this.imageUrl = `/images/${next.id}`;
+        this.imageOriginUrl = next.url;
         this.altText = next.filename;
 
         this.resolutionList = []
@@ -70,4 +73,7 @@ export class ApiImageViewComponent implements OnChanges, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  onImageLoadError($event: ErrorEvent) {
+    this.imageUrl = this.imageOriginUrl;
+  }
 }
