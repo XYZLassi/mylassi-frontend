@@ -50,7 +50,8 @@ export type ArticleGraphTypePaginationResult = {
   __typename?: 'ArticleGraphTypePaginationResult';
   cursor?: Maybe<Scalars['String']>;
   items: Array<ArticleGraphType>;
-  size: Scalars['Int'];
+  length: Scalars['Int'];
+  pageSize: Scalars['Int'];
 };
 
 export type AuthorGraphType = {
