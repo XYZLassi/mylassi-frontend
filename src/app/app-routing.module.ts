@@ -33,7 +33,7 @@ const routes: Routes = [
 
   // 404
   {path: 'error/404', component: ErrorPageNotFoundPageComponent},
-  {path: '**', pathMatch: 'full', component: ErrorPageNotFoundPageComponent},
+  {path: '**', redirectTo: 'error/404'},
 ];
 
 @NgModule({
