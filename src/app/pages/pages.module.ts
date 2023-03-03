@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutsModule} from "../components/layouts/layouts.module";
+import {LayoutsModule} from "../layouts/layouts.module";
 import {ViewsModule} from "../views/views.module";
 import {LoginPageComponent} from './login-page/login-page.component';
 import {AppRoutingModule} from "../app-routing.module";

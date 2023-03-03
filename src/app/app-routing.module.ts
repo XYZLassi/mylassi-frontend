@@ -17,11 +17,26 @@ import {
 import {
   AdminEditArticlePageComponent
 } from "./pages/_admin/_articles/admin-edit-article-page/admin-edit-article-page.component";
+import {SinglePageLayoutComponent} from "./layouts/single-page-layout/single-page-layout.component";
 
 const routes: Routes = [
-  {path: '', component: ArticleListPageComponent},
-  {path: 'login', component: LoginPageComponent},
-  {path: 'articles/:articleId', component: ArticlePageComponent},
+  {
+    path: '', component: SinglePageLayoutComponent,
+    children: [
+      {path: '', component: ArticleListPageComponent},
+      {path: 'login', component: LoginPageComponent},
+      {path: 'articles/:articleId', component: ArticlePageComponent},
+      {path: ':category', component: ArticleListPageComponent},
+    ]
+  },
+  {
+    path: 'error', component: SinglePageLayoutComponent,
+    children: [
+      {path: '404', component: ErrorPageNotFoundPageComponent},
+    ]
+  },
+  {path: '**', redirectTo: 'error/404'},
+
 
   {path: 'admin', component: AdminIndexPageComponent, canActivate: [AuthGuard]},
   {path: 'admin/articles', component: AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
@@ -29,11 +44,6 @@ const routes: Routes = [
   {path: 'admin/articles/:id', component: AdminEditArticlePageComponent, canActivate: [AuthGuard]},
 
 
-  {path: ':category', component: ArticleListPageComponent},
-
-  // 404
-  {path: 'error/404', component: ErrorPageNotFoundPageComponent},
-  {path: '**', redirectTo: 'error/404'},
 ];
 
 @NgModule({

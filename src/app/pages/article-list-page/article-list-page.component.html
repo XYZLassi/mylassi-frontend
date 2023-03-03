@@ -1,10 +1,7 @@
-<app-single-page-layout [centerContent]="false">
-  <h1 *ngIf="category">{{category.category}}</h1>
+<h1 *ngIf="category">{{category.category}}</h1>
 
-  <app-article-list [articles]="articles"></app-article-list>
+<app-article-list [articles]="articles"></app-article-list>
 
-  <div #intersectionContainer class="intersection-container">
-    <button class="btn btn-load" [disabled]="isBusy" *ngIf="nextCursor" (click)="onLoadMore($event)">Mehr</button>
-  </div>
-
-</app-single-page-layout>
+<div #intersectionContainer class="intersection-container">
+  <button class="btn btn-load" [disabled]="isBusy" *ngIf="nextCursor" (click)="onLoadMore($event)">Mehr</button>
+</div>

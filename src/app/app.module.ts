@@ -3,7 +3,7 @@ import {BrowserModule, BrowserTransferStateModule, Meta, MetaDefinition, Title} 
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {LayoutsModule} from "./components/layouts/layouts.module";
+import {LayoutsModule} from "./layouts/layouts.module";
 import {PagesModule} from "./pages/pages.module";
 import {ViewsModule} from "./views/views.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";

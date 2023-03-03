@@ -1,5 +1,5 @@
 import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
-import {UserAuthenticationService} from "../../../services/user-authentication.service";
+import {UserAuthenticationService} from "../../services/user-authentication.service";
 
 @Component({
   selector: 'app-single-page-layout',
