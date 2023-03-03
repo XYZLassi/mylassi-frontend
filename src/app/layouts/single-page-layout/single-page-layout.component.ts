@@ -10,7 +10,6 @@ export class SinglePageLayoutComponent implements OnInit {
   @ViewChild('headerNav') headerNav!: ElementRef;
   @ViewChild('header') header!: ElementRef;
 
-  @Input() centerContent: boolean = false;
 
   constructor(private _authenticationService: UserAuthenticationService) {
   }

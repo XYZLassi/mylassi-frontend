@@ -7,20 +7,19 @@ $baseZIndex: 100;
 
 
 main {
+  width: 100%;
+  height: 100%;
   max-width: 100vw;
   min-height: calc(100vh - #{$headerHeight});
 
-  padding: 0 clamp(0.5rem, 5%, #{$maxMainPadding}) 2rem clamp(0.5rem, 5%, #{$maxMainPadding});
+  padding: 1rem clamp(0.5rem, 5%, #{$maxMainPadding}) 2rem clamp(0.5rem, 5%, #{$maxMainPadding});
 
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 
-  &.center-content {
-    justify-content: center;
-  }
 }
 
 header {

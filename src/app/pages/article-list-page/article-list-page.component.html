@@ -1,6 +1,9 @@
 <h1 *ngIf="category">{{category.category}}</h1>
 
-<app-article-list [articles]="articles"></app-article-list>
+<div class="articles-container">
+  <app-article-list [articles]="articles"></app-article-list>
+</div>
+
 
 <div #intersectionContainer class="intersection-container">
   <button class="btn btn-load" [disabled]="isBusy" *ngIf="nextCursor" (click)="onLoadMore($event)">Mehr</button>
