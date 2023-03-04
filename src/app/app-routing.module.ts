@@ -6,20 +6,26 @@ import {ArticleListPageComponent} from "./pages/article-list-page/article-list-p
 import {
   ErrorPageNotFoundPageComponent
 } from "./pages/_errors/error-page-not-found-page/error-page-not-found-page.component";
-import {AdminIndexPageComponent} from "./pages/_admin/admin-index-page/admin-index-page.component";
+import {
+  AdminCreateArticlePageComponent,
+  AdminEditArticlePageComponent,
+  AdminIndexArticlePageComponent,
+  AdminIndexPageComponent
+} from "./pages/_admin";
 import {AuthGuard} from "./guards/auth.guard";
-import {
-  AdminCreateArticlePageComponent
-} from "./pages/_admin/_articles/admin-create-article-page/admin-create-article-page.component";
-import {
-  AdminIndexArticlePageComponent
-} from "./pages/_admin/_articles/admin-index-article-page/admin-index-article-page.component";
-import {
-  AdminEditArticlePageComponent
-} from "./pages/_admin/_articles/admin-edit-article-page/admin-edit-article-page.component";
-import {SinglePageLayoutComponent} from "./layouts/single-page-layout/single-page-layout.component";
+import {AdminPageLayoutComponent, SinglePageLayoutComponent} from "./layouts";
 
 const routes: Routes = [
+  {
+    path: 'admin', component: AdminPageLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {path: '', component: AdminIndexPageComponent, canActivate: [AuthGuard]},
+      {path: 'articles', component: AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
+      {path: 'articles/new', component: AdminCreateArticlePageComponent, canActivate: [AuthGuard]},
+      {path: 'articles/:id', component: AdminEditArticlePageComponent, canActivate: [AuthGuard]},
+    ]
+  },
   {
     path: '', component: SinglePageLayoutComponent,
     children: [
@@ -36,14 +42,6 @@ const routes: Routes = [
     ]
   },
   {path: '**', redirectTo: 'error/404'},
-
-
-  {path: 'admin', component: AdminIndexPageComponent, canActivate: [AuthGuard]},
-  {path: 'admin/articles', component: AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
-  {path: 'admin/articles/new', component: AdminCreateArticlePageComponent, canActivate: [AuthGuard]},
-  {path: 'admin/articles/:id', component: AdminEditArticlePageComponent, canActivate: [AuthGuard]},
-
-
 ];
 
 @NgModule({
