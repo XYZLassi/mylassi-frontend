@@ -1,18 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "../../guards/auth.guard";
-import {AdminIndexPageComponent} from "./admin-index-page/admin-index-page.component";
-import {AdminIndexArticlePageComponent} from "./_articles/admin-index-article-page/admin-index-article-page.component";
-import {
-  AdminCreateArticlePageComponent
-} from "./_articles/admin-create-article-page/admin-create-article-page.component";
-import {AdminEditArticlePageComponent} from "./_articles/admin-edit-article-page/admin-edit-article-page.component";
+import * as pages from "./_pages"
 
 const routes: Routes = [
-  {path: '', component: AdminIndexPageComponent, canActivate: [AuthGuard]},
-  {path: 'articles', component: AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
-  {path: 'articles/new', component: AdminCreateArticlePageComponent, canActivate: [AuthGuard]},
-  {path: 'articles/:id', component: AdminEditArticlePageComponent, canActivate: [AuthGuard]},
+  {path: '', component: pages.AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
+  {path: 'articles', component: pages.AdminIndexArticlePageComponent, canActivate: [AuthGuard]},
+  {path: 'articles/new', component: pages.AdminCreateArticlePageComponent, canActivate: [AuthGuard]},
+  {path: 'articles/:id', component: pages.AdminEditArticlePageComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

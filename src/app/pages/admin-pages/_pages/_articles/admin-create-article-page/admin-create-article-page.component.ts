@@ -1,10 +1,10 @@
 import {Component, OnDestroy} from '@angular/core';
-import {ArticlesService} from "../../../../api/services/articles.service";
+import {ArticlesService} from "../../../../../api/services/articles.service";
 import {EMPTY, Subject, Subscription} from "rxjs";
-import {ArticleFileUsage} from "../../../../api/models/article-file-usage";
-import {ArticleOptionsRestType} from "../../../../api/models/article-options-rest-type";
+import {ArticleFileUsage} from "../../../../../api/models/article-file-usage";
+import {ArticleOptionsRestType} from "../../../../../api/models/article-options-rest-type";
 import {Router} from "@angular/router";
-import {ArticleFileUploadData, FileUploadService} from "../../../../services/file-upload.service";
+import {ArticleFileUploadData, FileUploadService} from "../../../../../services/file-upload.service";
 
 @Component({
   selector: 'app-admin-create-article-page',

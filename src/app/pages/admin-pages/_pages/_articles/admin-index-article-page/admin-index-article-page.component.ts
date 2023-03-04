@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
-import {ArticlesService} from "../../../../api/services/articles.service";
-import {FullArticleRestType} from "../../../../api/models/full-article-rest-type";
+import {ArticlesService} from "../../../../../api/services/articles.service";
+import {FullArticleRestType} from "../../../../../api/models/full-article-rest-type";
 import {faTrash, faTrashRestore} from "@fortawesome/free-solid-svg-icons";
 
 @Component({

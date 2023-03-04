@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ArticlesService} from "../../../../api/services/articles.service";
+import {ArticlesService} from "../../../../../api/services/articles.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {ArticleOptionsRestType} from "../../../../api/models/article-options-rest-type";
-import {ArticleRestType} from "../../../../api/models/article-rest-type";
-import {ArticleFileUsage} from "../../../../api/models/article-file-usage";
-import {ArticleFileUploadData, FileUploadService} from "../../../../services/file-upload.service";
+import {ArticleOptionsRestType} from "../../../../../api/models/article-options-rest-type";
+import {ArticleRestType} from "../../../../../api/models/article-rest-type";
+import {ArticleFileUsage} from "../../../../../api/models/article-file-usage";
+import {ArticleFileUploadData, FileUploadService} from "../../../../../services/file-upload.service";
 
 @Component({
   selector: 'app-admin-edit-article-page',
