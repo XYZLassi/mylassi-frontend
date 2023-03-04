@@ -53,6 +53,14 @@ export class SinglePageLayoutComponent implements OnInit {
   }
 
   getRouteAnimationData() {
-    return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
+    const base = this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
+    const index = this.contexts.getContext('primary')?.route?.snapshot?.params?.['index'];
+
+    if (base != null && index == null)
+      return base;
+    else if (base != null && index != null)
+      return `${base}-${index}`
+
+    return null;
   }
 }

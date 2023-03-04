@@ -18,14 +18,14 @@ const routes: Routes = [
     }
   },
   {
-    path: 'articles/:articleId', component: pages.ArticlePageComponent,
+    path: 'articles/:index', component: pages.ArticlePageComponent,
     data: {
       animation: 'ArticleDetailPage',
     }
   },
 
   {
-    path: ':category', component: pages.ArticleListPageComponent,
+    path: ':index', component: pages.ArticleListPageComponent,
     data: {
       animation: 'ArticleListByCategoryPage',
     }
