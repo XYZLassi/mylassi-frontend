@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {
   ErrorPageNotFoundPageComponent
-} from "./pages/_errors/error-page-not-found-page/error-page-not-found-page.component";
+} from "./pages/_errors";
 import {AdminPageLayoutComponent, SinglePageLayoutComponent} from "./layouts";
 
 const routes: Routes = [
