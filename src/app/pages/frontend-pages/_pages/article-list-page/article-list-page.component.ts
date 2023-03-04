@@ -1,8 +1,8 @@
-import {Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {ArticleListModel} from "../../../../components/articles/interfaces";
 import {Apollo, graphql} from "apollo-angular";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subject, Subscription} from "rxjs";
 import {makeStateKey, Title, TransferState} from "@angular/platform-browser";
 import {CategoriesService} from "../../../../api/services/categories.service";
 import {CategoryRestType} from "../../../../api/models/category-rest-type";
@@ -10,6 +10,12 @@ import {GetArticlesQuery, QueryArticlesArgs} from "../../../../../generated/grap
 import {isPlatformBrowser} from "@angular/common";
 import {map} from "rxjs/operators";
 
+interface LoadItemsInfos {
+  category: string | undefined | null;
+
+  cursor: string | undefined | null;
+
+}
 
 @Component({
   selector: 'app-article-list-page',
@@ -23,13 +29,14 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
   public articles: ArticleListModel[] = [];
   public category?: CategoryRestType | null;
 
-  public nextCursor: string | null = null;
+  public nextCursor?: string | null;
 
   public isBusy: boolean = true;
 
+
   private subscriptions: Subscription[] = [];
 
-  private observer: IntersectionObserver | null = null;
+  private observer?: IntersectionObserver;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -40,6 +47,8 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.createObserver();
+
     const routeSub = this.route.params.subscribe(params => {
       this.clear();
       let category = params['index'];
@@ -47,67 +56,93 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
       const loadKey = `ArticleList-${category || 'Index'}`;
       this.articles = this.loadArticlesFromStorage(loadKey) || this.loadArticlesFromState(loadKey) || [];
 
-      const articleSubscription = {
-        next: (next: GetArticlesQuery) => {
-          this.updateArticlesFromQuery(next);
-          this.saveArticleInStateOrStorage(loadKey, this.articles);
-          this.createObserver();
-        },
-        error: (e: any) => {
-          this.isBusy = false;
-        },
-        complete: () => {
-          this.isBusy = false;
-        }
-      };
 
       if (!category) {
-        const loadArticlesSub = this.loadNextArticlesFromApi(category, null).subscribe(articleSubscription);
-        this.subscriptions = [...this.subscriptions, loadArticlesSub];
+        this.loadNext();
       } else {
         const testCategorySub = this.categoriesService.getCategory({category}).subscribe(
           {
             next: (category) => {
               this.category = category;
               this.title.setTitle(`MyLassi.xyz - ${category.category}`);
-              const loadArticlesSub = this.loadNextArticlesFromApi(category.unique_name, null).subscribe(articleSubscription);
-              this.subscriptions = [...this.subscriptions, loadArticlesSub];
+              this.loadNext();
+              testCategorySub.unsubscribe();
             },
             error: _ => {
               this.router.navigate(['/error', '404']);
+              testCategorySub.unsubscribe();
             },
+            complete: () => {
+              testCategorySub.unsubscribe();
+            }
           });
 
         this.subscriptions = [...this.subscriptions, testCategorySub];
       }
-
     });
     this.subscriptions = [...this.subscriptions, routeSub];
   }
 
-  updateArticlesFromQuery(result: GetArticlesQuery) {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private clear() {
+    this.isBusy = false;
+    this.nextCursor = null;
+    this.category = null;
+    this.articles = [];
+  }
+
+  loadNext() {
+    if (this.isBusy)
+      return;
+
     this.isBusy = true;
-    this.nextCursor = result.articles.cursor || null;
 
-    result.articles.items.forEach(article => {
+    const category = this.category?.unique_name;
 
-      const articleItem: ArticleListModel = {
-        id: parseInt(article.id),
-        title: article.title,
-        teaser: article.teaser,
-        thumbnailImageId: article.thumbnails.length > 0 ? article.thumbnails[0].fileId : null,
-      }
+    const loadSub = this.loadNextArticlesFromApi(category, this.nextCursor).subscribe({
+      next: next => {
+        this.nextCursor = next.articles.cursor;
 
-      const index = this.articles.findIndex(i => i.id === articleItem.id)
-      if (index >= 0) {
-        this.articles[index] = articleItem;
-      } else {
-        this.articles.push(articleItem);
+        next.articles.items.forEach(item => {
+          const articleId = parseInt(item.id);
+          if (isNaN(articleId))
+            return;
+
+          const article: ArticleListModel = {
+            id: articleId,
+            title: item.title,
+            teaser: item.teaser,
+            thumbnailImageId: item.thumbnails.length > 0 ? item.thumbnails[0].fileId : null,
+          }
+
+          const findId = this.articles.findIndex(i => i.id === article.id);
+
+          if (findId >= 0)
+            this.articles[findId] = article;
+          else
+            this.articles.push(article);
+        });
+
+        const loadKey = `ArticleList-${category || 'Index'}`;
+        this.saveArticleInStateOrStorage(loadKey, this.articles);
+
+        this.isBusy = false;
+        loadSub.unsubscribe();
+      },
+      error: _ => {
+        this.isBusy = false;
+        loadSub.unsubscribe();
+      },
+      complete: () => {
+        this.isBusy = false;
+        loadSub.unsubscribe();
       }
     });
-
-    this.isBusy = false;
   }
+
 
   loadArticlesFromState(key: string): ArticleListModel[] | undefined {
     const STATE_KEY_QUERY = makeStateKey<ArticleListModel[]>(key);
@@ -138,7 +173,8 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadNextArticlesFromApi(category: string | undefined, cursor: string | undefined | null): Observable<GetArticlesQuery> {
+  loadNextArticlesFromApi(category: string | undefined | null, cursor: string | undefined | null)
+    : Observable<GetArticlesQuery> {
     const query = graphql`
       query GetArticles($cursor:String, $category:String){
         articles(category: $category,cursor: $cursor){
@@ -163,12 +199,6 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(map(i => i.data));
   }
 
-  private clear() {
-    this.nextCursor = null;
-    this.category = null;
-    this.articles = [];
-  }
-
   private createObserver() {
     if (this.observer)
       return
@@ -180,8 +210,8 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
           if (entry.isIntersecting)
             intersected = true;
 
-          if (intersected && this.nextCursor && !this.isBusy) {
-            this.onLoadMore(undefined);
+          if (intersected && !this.isBusy && !this.nextCursor) {
+            this.loadNext();
           }
         });
       }, {
@@ -189,19 +219,12 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
         rootMargin: '0px',
         threshold: 0.1,
       });
-
       this.observer.observe(this.intersectionContainer.nativeElement);
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-  onLoadMore($event: any) {
-    if (this.nextCursor) {
-      const loadSub = this.loadNextArticlesFromApi(this.category?.unique_name, this.nextCursor).subscribe(this.updateArticlesFromQuery);
-      this.subscriptions = [...this.subscriptions, loadSub];
-    }
+  onLoadNext($event: any) {
+    if (!this.isBusy && !this.nextCursor)
+      this.loadNext();
   }
 }
