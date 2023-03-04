@@ -1,17 +1,23 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {UserAuthenticationService} from "../../services/user-authentication.service";
+import {ChildrenOutletContexts} from "@angular/router";
+import {slideInAnimation} from "../../pages/frontend-pages/_animations";
 
 @Component({
   selector: 'app-single-page-layout',
   templateUrl: './single-page-layout.component.html',
-  styleUrls: ['./single-page-layout.component.scss']
+  styleUrls: ['./single-page-layout.component.scss'],
+  animations: [
+    slideInAnimation
+  ]
 })
 export class SinglePageLayoutComponent implements OnInit {
   @ViewChild('headerNav') headerNav!: ElementRef;
   @ViewChild('header') header!: ElementRef;
 
 
-  constructor(private _authenticationService: UserAuthenticationService) {
+  constructor(private authenticationService: UserAuthenticationService,
+              private contexts: ChildrenOutletContexts) {
   }
 
 
@@ -39,10 +45,14 @@ export class SinglePageLayoutComponent implements OnInit {
   }
 
   isLogin(): boolean {
-    return this._authenticationService.hasAccess();
+    return this.authenticationService.hasAccess();
   }
 
   logout($event: any) {
-    this._authenticationService.clearToken();
+    this.authenticationService.clearToken();
+  }
+
+  getRouteAnimationData() {
+    return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
   }
 }

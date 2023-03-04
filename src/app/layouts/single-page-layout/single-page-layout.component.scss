@@ -12,6 +12,8 @@ main {
   max-width: 100vw;
   min-height: calc(100vh - #{$headerHeight});
 
+  overflow: hidden;
+
   padding: 1rem clamp(0.5rem, 5%, #{$maxMainPadding}) 2rem clamp(0.5rem, 5%, #{$maxMainPadding});
 
 
