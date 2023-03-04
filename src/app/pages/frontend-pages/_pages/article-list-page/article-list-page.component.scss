@@ -1,0 +1,17 @@
+@import "../../../../../styles/preset";
+
+:host {
+  width: 100%;
+}
+
+.btn.btn-load {
+  margin: 2rem 0 2rem 0;
+}
+
+.articles-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+

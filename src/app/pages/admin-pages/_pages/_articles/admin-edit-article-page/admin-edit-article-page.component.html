@@ -1,0 +1,11 @@
+<ng-container *ngIf="article">
+  <h1>Article: {{article.title}}</h1>
+  <div class="form-container">
+    <app-article-edit-form (saveSubmit)="onSubmit($event)" [article]="article"></app-article-edit-form>
+  </div>
+</ng-container>
+
+<div class="thumbnail-container">
+  <app-api-image-uploader [defaultUsage]="thumbnailUsage"
+                          [(images)]="thumbnailImages"></app-api-image-uploader>
+</div>

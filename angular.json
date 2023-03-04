@@ -32,7 +32,8 @@
                 "input": "src/favicon",
                 "output": "/"
               },
-              "src/assets"
+              "src/assets",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles/main.scss"
@@ -104,7 +105,8 @@
                 "input": "src/favicon",
                 "output": "/"
               },
-              "src/assets"
+              "src/assets",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles/main.scss"
