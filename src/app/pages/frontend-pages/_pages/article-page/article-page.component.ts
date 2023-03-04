@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {Apollo, graphql} from "apollo-angular";
-import {LoadArticleQuery} from "../../../generated/graphql";
+import {LoadArticleQuery} from "../../../../../generated/graphql";
 import {Meta, Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
 

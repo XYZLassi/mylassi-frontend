@@ -1,12 +1,12 @@
 import {Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
-import {ArticleListModel} from "../../components/articles/interfaces";
+import {ArticleListModel} from "../../../../components/articles/interfaces";
 import {Apollo, graphql} from "apollo-angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {makeStateKey, Title, TransferState} from "@angular/platform-browser";
-import {CategoriesService} from "../../api/services/categories.service";
-import {CategoryRestType} from "../../api/models/category-rest-type";
-import {GetArticlesQuery, QueryArticlesArgs} from "../../../generated/graphql";
+import {CategoriesService} from "../../../../api/services/categories.service";
+import {CategoryRestType} from "../../../../api/models/category-rest-type";
+import {GetArticlesQuery, QueryArticlesArgs} from "../../../../../generated/graphql";
 import {isPlatformBrowser} from "@angular/common";
 
 const STATE_KEY_QUERY = makeStateKey<ArticleListModel[]>('articleListPageQuery');

@@ -1,8 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginPageComponent} from "./pages/login-page/login-page.component";
-import {ArticlePageComponent} from "./pages/article-page/article-page.component";
-import {ArticleListPageComponent} from "./pages/article-list-page/article-list-page.component";
 import {
   ErrorPageNotFoundPageComponent
 } from "./pages/_errors/error-page-not-found-page/error-page-not-found-page.component";
@@ -15,12 +12,7 @@ const routes: Routes = [
   },
   {
     path: '', component: SinglePageLayoutComponent,
-    children: [
-      {path: '', component: ArticleListPageComponent},
-      {path: 'login', component: LoginPageComponent},
-      {path: 'articles/:articleId', component: ArticlePageComponent},
-      {path: ':category', component: ArticleListPageComponent},
-    ]
+    loadChildren: () => import('./pages/frontend-pages/frontend-pages.module').then(m => m.FrontendPagesModule)
   },
   {
     path: 'error', component: SinglePageLayoutComponent,
