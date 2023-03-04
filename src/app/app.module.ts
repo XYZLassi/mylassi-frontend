@@ -12,6 +12,7 @@ import {ApiInterceptor} from "./api-interceptor.service";
 import {GraphQLModule} from './graphql.module';
 import {NavigationEnd, Router} from "@angular/router";
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -30,6 +31,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     LayoutsModule,
     PagesModule,
     ViewsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     ApiModule.forRoot({rootUrl: 'https://api.mylassi.xyz'}),
     GraphQLModule,

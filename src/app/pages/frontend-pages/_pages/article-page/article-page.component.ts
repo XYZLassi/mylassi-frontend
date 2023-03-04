@@ -33,7 +33,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       }`
 
     let routeSub = this.route.params.subscribe(params => {
-      const articleId = parseInt(params['articleId']);
+      const articleId = parseInt(params['index']);
 
       const variables = {
         articleId: articleId

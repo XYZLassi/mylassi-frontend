@@ -44,7 +44,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
 
     const routeSub = this.route.params.subscribe(params => {
       this.clear();
-      let category = params['category'];
+      let category = params['index'];
 
       if (!category) {
         this.loadArticles()
