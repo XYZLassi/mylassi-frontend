@@ -17,6 +17,14 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type ArticleContentGraphType = {
+  __typename?: 'ArticleContentGraphType';
+  contentType: Scalars['String'];
+  header: Scalars['String'];
+  id: Scalars['Int'];
+  position: Scalars['Int'];
+};
+
 export type ArticleFileGraphType = {
   __typename?: 'ArticleFileGraphType';
   articleFileId: Scalars['Int'];
@@ -33,9 +41,10 @@ export type ArticleGraphType = {
   __typename?: 'ArticleGraphType';
   author: AuthorGraphType;
   categories: Array<CategoryGraphType>;
+  contents: Array<ArticleContentGraphType>;
   files: Array<ArticleFileGraphType>;
   filesByUsage: Array<ArticleFileGraphType>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   teaser?: Maybe<Scalars['String']>;
   timeCreated: Scalars['DateTime'];
   title: Scalars['String'];
@@ -108,7 +117,7 @@ export type GetArticlesQueryVariables = Exact<{
 }>;
 
 
-export type GetArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, items: Array<{ __typename?: 'ArticleGraphType', id: string, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
+export type GetArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, items: Array<{ __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
 
 export type LoadArticleQueryVariables = Exact<{
   articleId: Scalars['Int'];
