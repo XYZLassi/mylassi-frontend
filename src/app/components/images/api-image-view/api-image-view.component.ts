@@ -86,7 +86,7 @@ export class ApiImageViewComponent implements OnInit, OnChanges, OnDestroy {
 
     this.resolutionList = []
     baseResolutions.forEach(i => {
-      if (restFile.image_width && i < restFile.image_width)
+      if (restFile.imageWidth && i < restFile.imageWidth)
         this.resolutionList.push(i)
     });
   }

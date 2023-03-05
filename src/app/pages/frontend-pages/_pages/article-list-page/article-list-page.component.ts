@@ -1,8 +1,8 @@
-import {Component, ElementRef, EventEmitter, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
-import {ArticleListModel} from "../../../../components/articles/interfaces";
+import {Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
+import {ArticleListModel} from "../../../../components/articles";
 import {Apollo, graphql} from "apollo-angular";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, Subject, Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {makeStateKey, Title, TransferState} from "@angular/platform-browser";
 import {CategoriesService} from "../../../../api/services/categories.service";
 import {CategoryRestType} from "../../../../api/models/category-rest-type";
@@ -100,7 +100,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
 
     this.isBusy = true;
 
-    const category = this.category?.unique_name;
+    const category = this.category?.uniqueName;
 
     const loadSub = this.loadNextArticlesFromApi(category, this.nextCursor).subscribe({
       next: next => {
@@ -189,7 +189,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
       }`;
 
     let variables: QueryArticlesArgs = {
-      category: this.category?.unique_name,
+      category: this.category?.uniqueName,
       cursor: this.nextCursor
     }
 

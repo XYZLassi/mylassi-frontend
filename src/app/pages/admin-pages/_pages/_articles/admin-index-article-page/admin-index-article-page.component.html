@@ -12,12 +12,12 @@
     <tbody>
     <tr *ngFor="let article of articles">
       <td><a [routerLink]="['/admin','articles',article.id]">{{article.title}}</a></td>
-      <td>{{article.is_deleted | date : 'short' }}</td>
+      <td>{{article.isDeleted | date : 'short' }}</td>
       <td>
-        <a class="btn btn-icon" *ngIf="!article.is_deleted" (click)="onDeleteArticle($event,article)">
+        <a class="btn btn-icon" *ngIf="!article.isDeleted" (click)="onDeleteArticle($event,article)">
           <fa-icon class="text-danger" [icon]="faTrash"></fa-icon>
         </a>
-        <a class="btn btn-icon" *ngIf="article.is_deleted" (click)="onRestoreArticle($event,article)">
+        <a class="btn btn-icon" *ngIf="article.isDeleted" (click)="onRestoreArticle($event,article)">
           <fa-icon class="text-success" [icon]="faTrashRestore"></fa-icon>
         </a>
       </td>

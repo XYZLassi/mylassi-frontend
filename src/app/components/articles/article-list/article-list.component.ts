@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ArticleListModel} from "../interfaces";
+import {ArticleListModel} from "../_interfaces/article-list-model";
 
 
 @Component({

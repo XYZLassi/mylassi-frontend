@@ -40,10 +40,10 @@ export class AdminEditArticlePageComponent implements OnInit, OnDestroy {
         const loadArticleFileSub = this.articlesService.getArticleFiles({
           article: article.id,
         }).subscribe(articleFiles => {
-          this.thumbnailImages = articleFiles.filter(i => i.file_usage == ArticleFileUsage.Thumbnail)
+          this.thumbnailImages = articleFiles.filter(i => i.fileUsage == ArticleFileUsage.Thumbnail)
             .map<ArticleFileUploadData>(i => new class implements ArticleFileUploadData {
-              file = i.file_id;
-              fileUsage = i.file_usage || null;
+              file = i.fileId;
+              fileUsage = i.fileUsage || null;
             });
         });
 

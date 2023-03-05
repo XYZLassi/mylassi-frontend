@@ -1,17 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Apollo, graphql} from "apollo-angular";
 import {LoadArticleQuery} from "../../../../../generated/graphql";
 import {Meta, Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
 import {map} from "rxjs/operators";
+import {ArticleContentModel} from "../../../../components/articles";
 
-interface ArticleContentType {
-  position: number
-  contentType: string
-  header: string | null | undefined
-
-}
 
 @Component({
   selector: 'app-article-page',
@@ -23,7 +18,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   public isBusy: boolean = true;
 
   public title?: string;
-  public contents: ArticleContentType[] = []
+  public contents: ArticleContentModel[] = []
 
   private subscriptions: Subscription[] = [];
 

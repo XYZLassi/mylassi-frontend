@@ -1,11 +1,6 @@
 <ng-container *ngIf="!isBusy">
   <ng-container *ngFor="let content of contents">
-    <ng-template #headerTemplate>
-      <h1>{{content.header}}</h1>
-    </ng-template>
-
-    <ng-container *ngIf="content.contentType == 'header'"
-                  [ngTemplateOutlet]="headerTemplate"></ng-container>
+    <app-article-content-view [content]="content"></app-article-content-view>
   </ng-container>
 </ng-container>
 <ng-container *ngIf="isBusy">
