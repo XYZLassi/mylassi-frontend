@@ -35,7 +35,7 @@ export class LoginFormComponent implements OnInit {
       }
     }).subscribe(next => {
       localStorage.setItem('token', JSON.stringify(next));
-      this._router.navigate(['/']);
+      this._router.navigate(['/admin']);
     })
   }
 }

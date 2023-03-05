@@ -13,16 +13,18 @@ import {UserAuthenticationService} from "./services/user-authentication.service"
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  constructor(private _authenticationService : UserAuthenticationService) {
+  constructor(private _authenticationService: UserAuthenticationService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this._authenticationService.getToken()
 
-    if (token) {
+
+    // Todo: Dynamic Url
+    if (token && (request.url.startsWith('https://api.mylassi.xyz') || request.url.startsWith('https://mylassi.xyz'))) {
       request = request.clone({
         setHeaders: {
-          'Authorization': `${token.token_type} ${token.access_token}`
+          'Authorization': `${token.tokenType} ${token.accessToken}`
         }
       });
     }
