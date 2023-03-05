@@ -107,12 +107,10 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
         this.nextCursor = next.articles.cursor;
 
         next.articles.items.forEach(item => {
-          const articleId = parseInt(item.id);
-          if (isNaN(articleId))
-            return;
+
 
           const article: ArticleListModel = {
-            id: articleId,
+            id: item.id,
             title: item.title,
             teaser: item.teaser,
             thumbnailImageId: item.thumbnails.length > 0 ? item.thumbnails[0].fileId : null,

@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { AppendArticleFileOptionsRestType } from '../models/append-article-file-options-rest-type';
+import { ArticleContentOptionsRestType } from '../models/article-content-options-rest-type';
+import { ArticleContentRestType } from '../models/article-content-rest-type';
 import { ArticleFileOptionsRestType } from '../models/article-file-options-rest-type';
 import { ArticleFileRestType } from '../models/article-file-rest-type';
 import { ArticleOptionsRestType } from '../models/article-options-rest-type';
@@ -520,130 +522,6 @@ export class ArticlesService extends BaseService {
   }
 
   /**
-   * Path part for operation replaceCategoryToArticle
-   */
-  static readonly ReplaceCategoryToArticlePath = '/articles/{article}/category';
-
-  /**
-   * Replace Category To Article.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `replaceCategoryToArticle()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  replaceCategoryToArticle$Response(params: {
-    article: number;
-    context?: HttpContext
-    body: (number | Array<number>)
-  }
-): Observable<StrictHttpResponse<ArticleRestType>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.ReplaceCategoryToArticlePath, 'put');
-    if (params) {
-      rb.path('article', params.article, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: params?.context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ArticleRestType>;
-      })
-    );
-  }
-
-  /**
-   * Replace Category To Article.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `replaceCategoryToArticle$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  replaceCategoryToArticle(params: {
-    article: number;
-    context?: HttpContext
-    body: (number | Array<number>)
-  }
-): Observable<ArticleRestType> {
-
-    return this.replaceCategoryToArticle$Response(params).pipe(
-      map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
-    );
-  }
-
-  /**
-   * Path part for operation addCategoryToArticle
-   */
-  static readonly AddCategoryToArticlePath = '/articles/{article}/category';
-
-  /**
-   * Add Category To Article.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `addCategoryToArticle()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  addCategoryToArticle$Response(params: {
-    article: number;
-    context?: HttpContext
-    body: BodyAddCategoryToArticle
-  }
-): Observable<StrictHttpResponse<ArticleRestType>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ArticlesService.AddCategoryToArticlePath, 'post');
-    if (params) {
-      rb.path('article', params.article, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: params?.context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ArticleRestType>;
-      })
-    );
-  }
-
-  /**
-   * Add Category To Article.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `addCategoryToArticle$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  addCategoryToArticle(params: {
-    article: number;
-    context?: HttpContext
-    body: BodyAddCategoryToArticle
-  }
-): Observable<ArticleRestType> {
-
-    return this.addCategoryToArticle$Response(params).pipe(
-      map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
-    );
-  }
-
-  /**
    * Path part for operation uploadFileToArticle
    */
   static readonly UploadFileToArticlePath = '/articles/{article}/uploadFile';
@@ -950,6 +828,437 @@ export class ArticlesService extends BaseService {
 
     return this.updateArticleFile$Response(params).pipe(
       map((r: StrictHttpResponse<ArticleFileRestType>) => r.body as ArticleFileRestType)
+    );
+  }
+
+  /**
+   * Path part for operation getArticleContent
+   */
+  static readonly GetArticleContentPath = '/articles/{article}/content';
+
+  /**
+   * Get All Contents From Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getArticleContent()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getArticleContent$Response(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<Array<ArticleContentRestType>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticleContentPath, 'get');
+    if (params) {
+      rb.path('article', params.article, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<ArticleContentRestType>>;
+      })
+    );
+  }
+
+  /**
+   * Get All Contents From Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getArticleContent$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getArticleContent(params: {
+    article: number;
+    context?: HttpContext
+  }
+): Observable<Array<ArticleContentRestType>> {
+
+    return this.getArticleContent$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<ArticleContentRestType>>) => r.body as Array<ArticleContentRestType>)
+    );
+  }
+
+  /**
+   * Path part for operation getContent
+   */
+  static readonly GetContentPath = '/articles/{article}/content/{content}';
+
+  /**
+   * Get Article Content.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getContent()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getContent$Response(params: {
+    article: number;
+    content: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<ArticleContentRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetContentPath, 'get');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.path('content', params.content, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<ArticleContentRestType>;
+      })
+    );
+  }
+
+  /**
+   * Get Article Content.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getContent$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getContent(params: {
+    article: number;
+    content: number;
+    context?: HttpContext
+  }
+): Observable<ArticleContentRestType> {
+
+    return this.getContent$Response(params).pipe(
+      map((r: StrictHttpResponse<ArticleContentRestType>) => r.body as ArticleContentRestType)
+    );
+  }
+
+  /**
+   * Path part for operation getArticleContent_1
+   */
+  static readonly GetArticleContent_1Path = '/articles/{article}/content/{content}';
+
+  /**
+   * Remove Article Content.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getArticleContent_1()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getArticleContent_1$Response(params: {
+    article: number;
+    content: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<OkayResultRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetArticleContent_1Path, 'delete');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.path('content', params.content, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<OkayResultRestType>;
+      })
+    );
+  }
+
+  /**
+   * Remove Article Content.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getArticleContent_1$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getArticleContent_1(params: {
+    article: number;
+    content: number;
+    context?: HttpContext
+  }
+): Observable<OkayResultRestType> {
+
+    return this.getArticleContent_1$Response(params).pipe(
+      map((r: StrictHttpResponse<OkayResultRestType>) => r.body as OkayResultRestType)
+    );
+  }
+
+  /**
+   * Path part for operation replaceArticleContent
+   */
+  static readonly ReplaceArticleContentPath = '/articles/{article}/content/';
+
+  /**
+   * Replace Contents To Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `replaceArticleContent()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  replaceArticleContent$Response(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<ArticleContentOptionsRestType>
+  }
+): Observable<StrictHttpResponse<Array<ArticleContentRestType>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.ReplaceArticleContentPath, 'put');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<ArticleContentRestType>>;
+      })
+    );
+  }
+
+  /**
+   * Replace Contents To Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `replaceArticleContent$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  replaceArticleContent(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<ArticleContentOptionsRestType>
+  }
+): Observable<Array<ArticleContentRestType>> {
+
+    return this.replaceArticleContent$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<ArticleContentRestType>>) => r.body as Array<ArticleContentRestType>)
+    );
+  }
+
+  /**
+   * Path part for operation addArticleContent
+   */
+  static readonly AddArticleContentPath = '/articles/{article}/content/';
+
+  /**
+   * Add Contents To Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addArticleContent()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addArticleContent$Response(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<ArticleContentOptionsRestType>
+  }
+): Observable<StrictHttpResponse<Array<ArticleContentRestType>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.AddArticleContentPath, 'post');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<ArticleContentRestType>>;
+      })
+    );
+  }
+
+  /**
+   * Add Contents To Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `addArticleContent$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addArticleContent(params: {
+    article: number;
+    context?: HttpContext
+    body: Array<ArticleContentOptionsRestType>
+  }
+): Observable<Array<ArticleContentRestType>> {
+
+    return this.addArticleContent$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<ArticleContentRestType>>) => r.body as Array<ArticleContentRestType>)
+    );
+  }
+
+  /**
+   * Path part for operation replaceCategoryToArticle
+   */
+  static readonly ReplaceCategoryToArticlePath = '/articles/{article}/category';
+
+  /**
+   * Replace Category To Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `replaceCategoryToArticle()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  replaceCategoryToArticle$Response(params: {
+    article: number;
+    context?: HttpContext
+    body: (number | Array<number>)
+  }
+): Observable<StrictHttpResponse<ArticleRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.ReplaceCategoryToArticlePath, 'put');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<ArticleRestType>;
+      })
+    );
+  }
+
+  /**
+   * Replace Category To Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `replaceCategoryToArticle$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  replaceCategoryToArticle(params: {
+    article: number;
+    context?: HttpContext
+    body: (number | Array<number>)
+  }
+): Observable<ArticleRestType> {
+
+    return this.replaceCategoryToArticle$Response(params).pipe(
+      map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
+    );
+  }
+
+  /**
+   * Path part for operation addCategoryToArticle
+   */
+  static readonly AddCategoryToArticlePath = '/articles/{article}/category';
+
+  /**
+   * Add Category To Article.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addCategoryToArticle()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addCategoryToArticle$Response(params: {
+    article: number;
+    context?: HttpContext
+    body: BodyAddCategoryToArticle
+  }
+): Observable<StrictHttpResponse<ArticleRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.AddCategoryToArticlePath, 'post');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<ArticleRestType>;
+      })
+    );
+  }
+
+  /**
+   * Add Category To Article.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `addCategoryToArticle$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addCategoryToArticle(params: {
+    article: number;
+    context?: HttpContext
+    body: BodyAddCategoryToArticle
+  }
+): Observable<ArticleRestType> {
+
+    return this.addCategoryToArticle$Response(params).pipe(
+      map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
     );
   }
 
