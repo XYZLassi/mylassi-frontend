@@ -15,6 +15,7 @@ export class SinglePageLayoutComponent implements OnInit {
   @ViewChild('headerNav') headerNav!: ElementRef;
   @ViewChild('header') header!: ElementRef;
 
+  private firstAnimation = true;
 
   constructor(private authenticationService: UserAuthenticationService,
               private contexts: ChildrenOutletContexts) {
@@ -53,6 +54,12 @@ export class SinglePageLayoutComponent implements OnInit {
   }
 
   getRouteAnimationData() {
+
+    if (this.firstAnimation) {
+      this.firstAnimation = false;
+      return;
+    }
+
     const base = this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
     const index = this.contexts.getContext('primary')?.route?.snapshot?.params?.['index'];
 
@@ -61,6 +68,6 @@ export class SinglePageLayoutComponent implements OnInit {
     else if (base != null && index != null)
       return `${base}-${index}`
 
-    return null;
+    return;
   }
 }
