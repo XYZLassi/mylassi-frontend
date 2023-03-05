@@ -124,7 +124,7 @@ export type LoadArticleQueryVariables = Exact<{
 }>;
 
 
-export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }> } | null };
+export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }>, author: { __typename?: 'AuthorGraphType', username: string }, contents: Array<{ __typename?: 'ArticleContentGraphType', position: number, contentType: string, header: string }> } | null };
 
 export const GetArticlesDocument = gql`
     query GetArticles($cursor: String, $category: String) {
@@ -159,6 +159,14 @@ export const LoadArticleDocument = gql`
     teaser
     thumbnails: filesByUsage(usage: "thumbnail") {
       url
+    }
+    author {
+      username
+    }
+    contents {
+      position
+      contentType
+      header
     }
   }
 }

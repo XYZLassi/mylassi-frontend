@@ -4,6 +4,14 @@ import {Apollo, graphql} from "apollo-angular";
 import {LoadArticleQuery} from "../../../../../generated/graphql";
 import {Meta, Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
+import {map} from "rxjs/operators";
+
+interface ArticleContentType {
+  position: number
+  contentType: string
+  header: string | null | undefined
+
+}
 
 @Component({
   selector: 'app-article-page',
@@ -12,11 +20,16 @@ import {Subscription} from "rxjs";
 })
 export class ArticlePageComponent implements OnInit, OnDestroy {
 
+  public isBusy: boolean = true;
+
+  public title?: string;
+  public contents: ArticleContentType[] = []
+
   private subscriptions: Subscription[] = [];
 
   constructor(private apollo: Apollo,
               private route: ActivatedRoute,
-              private router: Router, private title: Title,
+              private router: Router, private titleMeta: Title,
               private meta: Meta) {
   }
 
@@ -29,52 +42,77 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
           thumbnails:filesByUsage(usage: "thumbnail") {
             url
           }
+
+          author {
+            username
+          }
+
+          contents {
+            position
+            contentType
+            header
+          }
         }
       }`
 
     let routeSub = this.route.params.subscribe(params => {
+      this.isBusy = true;
       const articleId = parseInt(params['index']);
+
+      // Test NaN
 
       const variables = {
         articleId: articleId
       };
 
-      let querySub = this.apollo.watchQuery<LoadArticleQuery>({query, variables}).valueChanges.subscribe(value => {
-        if (!value.data.article)
-          return
+      let querySub = this.apollo.watchQuery<LoadArticleQuery>({query, variables}).valueChanges
+        .pipe(map(i => i.data))
+        .subscribe(value => {
+          if (!value.article)
+            return;
+          this.updateMeta(value);
 
-        this.title.setTitle(`MyLassi.xyz - ${value.data.article.title}`);
+          this.title = value.article.title;
+          this.contents = value.article.contents;
 
-        this.meta.updateTag({
-          property: 'og:title',
-          content: value.data.article.title
+          this.isBusy = false;
         });
-
-        if (value.data.article.teaser) {
-          this.meta.updateTag({
-            property: 'og:description',
-            content: value.data.article.teaser,
-          })
-        }
-
-        this.meta.updateTag({
-          property: 'og:url',
-          content: `https://mylassi.xyz${this.router.url}`,
-        });
-
-        if (value.data.article.thumbnails.length > 0) {
-          const url = value.data.article.thumbnails[0].url;
-          this.meta.updateTag({
-            property: 'og:image',
-            content: url
-          });
-        }
-      });
 
       this.subscriptions = [...this.subscriptions, querySub];
     });
 
     this.subscriptions = [...this.subscriptions, routeSub];
+  }
+
+  updateMeta(query: LoadArticleQuery) {
+    if (!query.article)
+      return
+    this.titleMeta.setTitle(`MyLassi.xyz - ${query.article.title}`);
+
+    this.meta.updateTag({
+      property: 'og:title',
+      content: query.article.title
+    });
+
+    if (query.article.teaser) {
+      this.meta.updateTag({
+        property: 'og:description',
+        content: query.article.teaser,
+      })
+    }
+
+    this.meta.updateTag({
+      property: 'og:url',
+      content: `https://mylassi.xyz${this.router.url}`,
+    });
+
+    if (query.article.thumbnails.length > 0) {
+      const url = query.article.thumbnails[0].url;
+      this.meta.updateTag({
+        property: 'og:image',
+        content: url
+      });
+    }
   }
 
   ngOnDestroy(): void {
