@@ -12,6 +12,10 @@ import {
   AdminIndexArticlePageComponent,
   AdminIndexPageComponent
 } from "./_pages";
+import {ApiImageUploaderComponent} from "./_components";
+import {ShapesModule} from "../../components/shapes/shapes.module";
+import {ArticleEditFormComponent} from "./_forms";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -19,14 +23,23 @@ import {
     AdminIndexPageComponent,
     AdminCreateArticlePageComponent,
     AdminIndexArticlePageComponent,
-    AdminEditArticlePageComponent
+    AdminEditArticlePageComponent,
+
+    ApiImageUploaderComponent,
+    ArticleEditFormComponent,
   ],
   imports: [
     CommonModule,
     AdminPagesRoutingModule,
     FontAwesomeModule,
     ImagesModule,
-    ArticlesModule
+    ArticlesModule,
+    ShapesModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    ApiImageUploaderComponent,
+    ArticleEditFormComponent
   ]
 })
 export class AdminPagesModule {

@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {ArticleFileUsage} from "../../../api/models/article-file-usage";
+import {ArticleFileUsage} from "../../../../api/models/article-file-usage";
 import {faTrash, faCloudArrowUp} from "@fortawesome/free-solid-svg-icons";
-import {ArticleFileUploadData} from "../../../services/file-upload.service";
+import {ArticleFileUploadData} from "../../../../services/file-upload.service";
 
 
 @Component({
