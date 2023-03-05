@@ -11,6 +11,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { BodyUploadFile } from '../models/body-upload-file';
 import { FileRestType } from '../models/file-rest-type';
+import { ImageFormatType } from '../models/image-format-type';
 
 @Injectable({
   providedIn: 'root',
@@ -221,6 +222,8 @@ export class FilesService extends BaseService {
     file: string;
     width?: number;
     height?: number;
+    quality?: number;
+    format_type?: ImageFormatType;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<void>> {
@@ -230,6 +233,8 @@ export class FilesService extends BaseService {
       rb.path('file', params.file, {});
       rb.query('width', params.width, {});
       rb.query('height', params.height, {});
+      rb.query('quality', params.quality, {});
+      rb.query('format_type', params.format_type, {});
     }
 
     return this.http.request(rb.build({
@@ -260,6 +265,8 @@ export class FilesService extends BaseService {
     file: string;
     width?: number;
     height?: number;
+    quality?: number;
+    format_type?: ImageFormatType;
     context?: HttpContext
   }
 ): Observable<void> {
@@ -288,6 +295,8 @@ export class FilesService extends BaseService {
     file: string;
     width?: number;
     height?: number;
+    quality?: number;
+    format_type?: ImageFormatType;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<void>> {
@@ -297,6 +306,8 @@ export class FilesService extends BaseService {
       rb.path('file', params.file, {});
       rb.query('width', params.width, {});
       rb.query('height', params.height, {});
+      rb.query('quality', params.quality, {});
+      rb.query('format_type', params.format_type, {});
     }
 
     return this.http.request(rb.build({
@@ -325,6 +336,8 @@ export class FilesService extends BaseService {
     file: string;
     width?: number;
     height?: number;
+    quality?: number;
+    format_type?: ImageFormatType;
     context?: HttpContext
   }
 ): Observable<void> {

@@ -1,4 +1,7 @@
 export { AppendArticleFileOptionsRestType } from './models/append-article-file-options-rest-type';
+export { ArticleContentOptionsRestType } from './models/article-content-options-rest-type';
+export { ArticleContentRestType } from './models/article-content-rest-type';
+export { ArticleContentType } from './models/article-content-type';
 export { ArticleFileOptionsRestType } from './models/article-file-options-rest-type';
 export { ArticleFileRestType } from './models/article-file-rest-type';
 export { ArticleFileUsage } from './models/article-file-usage';
@@ -14,6 +17,7 @@ export { CategoryRestType } from './models/category-rest-type';
 export { FileRestType } from './models/file-rest-type';
 export { FullArticleRestType } from './models/full-article-rest-type';
 export { HttpValidationError } from './models/http-validation-error';
+export { ImageFormatType } from './models/image-format-type';
 export { OkayResultRestType } from './models/okay-result-rest-type';
 export { PaginationResultRestTypeArticleRestType } from './models/pagination-result-rest-type-article-rest-type';
 export { PaginationResultRestTypeFullArticleRestType } from './models/pagination-result-rest-type-full-article-rest-type';

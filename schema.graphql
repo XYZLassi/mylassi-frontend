@@ -1,58 +1,66 @@
 # This file was generated based on ".graphqlconfig". Do not edit manually.
 
 schema {
-    query: Query
+  query: Query
+}
+
+type ArticleContentGraphType {
+  contentType: String!
+  header: String!
+  id: Int!
+  position: Int!
 }
 
 type ArticleFileGraphType {
-    articleFileId: Int!
-    fileId: String!
-    fileUsage: String
-    filename: String!
-    imageHeight: Int
-    imageWidth: Int
-    mimetype: String!
-    url: String!
+  articleFileId: Int!
+  fileId: String!
+  fileUsage: String
+  filename: String!
+  imageHeight: Int
+  imageWidth: Int
+  mimetype: String!
+  url: String!
 }
 
 type ArticleGraphType {
-    author: AuthorGraphType!
-    categories: [CategoryGraphType!]!
-    files: [ArticleFileGraphType!]!
-    filesByUsage(usage: String!): [ArticleFileGraphType!]!
-    id: ID!
-    teaser: String
-    timeCreated: DateTime!
-    title: String!
+  author: AuthorGraphType!
+  categories: [CategoryGraphType!]!
+  contents: [ArticleContentGraphType!]!
+  files: [ArticleFileGraphType!]!
+  filesByUsage(usage: String!): [ArticleFileGraphType!]!
+  id: Int!
+  teaser: String
+  timeCreated: DateTime!
+  title: String!
 }
 
 type ArticleGraphTypePaginationResult {
-    cursor: String
-    items: [ArticleGraphType!]!
-    length: Int!
-    pageSize: Int!
+  cursor: String
+  items: [ArticleGraphType!]!
+  length: Int!
+  pageSize: Int!
 }
 
 type AuthorGraphType {
-    articles: [ArticleGraphType!]!
-    id: ID!
-    username: String!
+  articles: [ArticleGraphType!]!
+  id: ID!
+  username: String!
 }
 
 type CategoryGraphType {
-    articles: [ArticleGraphType!]! @deprecated(reason: "It will be remove or changed in future update")
-    category: String!
-    id: ID!
-    uniqueName: String
+  articles: [ArticleGraphType!]! @deprecated(reason: "It will be remove or changed in future update")
+  category: String!
+  id: ID!
+  uniqueName: String
 }
 
 type Query {
-    articleById(article: Int!): ArticleGraphType
-    articles(category: String, cursor: String, size: Int! = 5): ArticleGraphTypePaginationResult!
-    authors: [AuthorGraphType!]!
-    categories: [CategoryGraphType!]!
-    categoryById(category: Int!): CategoryGraphType
-    categoryByUniqueName(category: String!): CategoryGraphType
+  articleById(article: Int!): ArticleGraphType
+  articles(category: String, cursor: String, size: Int! = 5): ArticleGraphTypePaginationResult!
+  authors: [AuthorGraphType!]!
+  categories: [CategoryGraphType!]!
+  categoryById(category: Int!): CategoryGraphType
+  categoryByUniqueName(category: String!): CategoryGraphType
 }
 
 "Date with time (isoformat)"
