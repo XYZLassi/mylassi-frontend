@@ -33,7 +33,7 @@ export class AdminEditArticleContentPageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      const loadContentSUb = this.articlesService.getContent({
+      const loadContentSUb = this.articlesService.getContentFromArticle({
         article: articleId,
         content: contentId,
       }).subscribe(content => {

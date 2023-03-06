@@ -52,7 +52,7 @@ export class AdminEditArticlePageComponent implements OnInit, OnDestroy {
             });
         });
 
-        const loadContentSub = this.articlesService.getArticleContent({
+        const loadContentSub = this.articlesService.getContentsFromArticle({
           article: article.id
         }).subscribe(value => {
           this.articleContent = value;
