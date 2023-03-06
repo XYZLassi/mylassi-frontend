@@ -1,22 +1,24 @@
-<h1>Article: {{article.title}}</h1>
-<div class="form-container mb-1">
-  <app-article-edit-form (saveSubmit)="onSubmit($event)" [article]="article"
-                         submitText="Speichern"></app-article-edit-form>
-</div>
-
-<h2>Thumbnails</h2>
-<div class="thumbnail-container mb-1">
-  <app-api-image-uploader [defaultUsage]="thumbnailUsage"
-                          [(images)]="thumbnailImages"></app-api-image-uploader>
-</div>
-
-<h2>Inhalte</h2>
-
-<div class="contents-container mb-1">
-  <div class="content-container mb-1" *ngFor="let content of articleContent">
-    <div class="content-container-menu">
-      <a class="btn" [routerLink]="['/admin','articles',article.id,content.id]">Bearbeiten</a>
-    </div>
-    <app-article-content-view [content]="content"></app-article-content-view>
+<ng-container *ngIf="article">
+  <h1>Article: {{article.title}}</h1>
+  <div class="form-container mb-1">
+    <app-article-edit-form (saveSubmit)="onSubmit($event)" [article]="article"
+                           submitText="Speichern"></app-article-edit-form>
   </div>
-</div>
+
+  <h2>Thumbnails</h2>
+  <div class="thumbnail-container mb-1">
+    <app-api-image-uploader [defaultUsage]="thumbnailUsage"
+                            [(images)]="thumbnailImages"></app-api-image-uploader>
+  </div>
+
+  <h2>Inhalte</h2>
+
+  <div class="contents-container mb-1">
+    <div class="content-container mb-1" *ngFor="let content of articleContent">
+      <div class="content-container-menu">
+        <a class="btn" [routerLink]="['/admin','articles',article.id,content.id]">Bearbeiten</a>
+      </div>
+      <app-article-content-view [content]="content"></app-article-content-view>
+    </div>
+  </div>
+</ng-container>

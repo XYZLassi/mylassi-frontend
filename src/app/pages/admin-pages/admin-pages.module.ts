@@ -17,6 +17,7 @@ import {ShapesModule} from "../../components/shapes/shapes.module";
 import {ArticleEditFormComponent} from "./_forms";
 import {ReactiveFormsModule} from "@angular/forms";
 import { AdminEditArticleContentPageComponent } from './_pages/_articles/admin-edit-article-content-page/admin-edit-article-content-page.component';
+import { ArticleContentEditFormComponent } from './_forms/article-content-edit-form/article-content-edit-form.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { AdminEditArticleContentPageComponent } from './_pages/_articles/admin-e
     ApiImageUploaderComponent,
     ArticleEditFormComponent,
     AdminEditArticleContentPageComponent,
+    ArticleContentEditFormComponent,
   ],
   imports: [
     CommonModule,

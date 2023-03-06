@@ -14,7 +14,7 @@ import {ArticleContentRestType} from "../../../../../api/models/article-content-
   styleUrls: ['./admin-edit-article-page.component.scss']
 })
 export class AdminEditArticlePageComponent implements OnInit, OnDestroy {
-  article!: ArticleRestType;
+  article?: ArticleRestType;
   articleContent: ArticleContentRestType[] = [];
 
   private subscriptions: Subscription[] = [];
@@ -73,6 +73,9 @@ export class AdminEditArticlePageComponent implements OnInit, OnDestroy {
 
 
   onSubmit($event: ArticleOptionsRestType) {
+    if (!this.article)
+      return
+
     const updateSub = this.articlesService.updateArticle({
       article: this.article.id,
       body: $event
