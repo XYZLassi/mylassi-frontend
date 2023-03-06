@@ -953,6 +953,71 @@ export class ArticlesService extends BaseService {
   }
 
   /**
+   * Path part for operation updateArticleContent
+   */
+  static readonly UpdateArticleContentPath = '/articles/{article}/content/{content}';
+
+  /**
+   * Update Article Content.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateArticleContent()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateArticleContent$Response(params: {
+    article: number;
+    content: number;
+    context?: HttpContext
+    body: ArticleContentOptionsRestType
+  }
+): Observable<StrictHttpResponse<ArticleContentRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticleContentPath, 'post');
+    if (params) {
+      rb.path('article', params.article, {});
+      rb.path('content', params.content, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<ArticleContentRestType>;
+      })
+    );
+  }
+
+  /**
+   * Update Article Content.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `updateArticleContent$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateArticleContent(params: {
+    article: number;
+    content: number;
+    context?: HttpContext
+    body: ArticleContentOptionsRestType
+  }
+): Observable<ArticleContentRestType> {
+
+    return this.updateArticleContent$Response(params).pipe(
+      map((r: StrictHttpResponse<ArticleContentRestType>) => r.body as ArticleContentRestType)
+    );
+  }
+
+  /**
    * Path part for operation deleteContent
    */
   static readonly DeleteContentPath = '/articles/{article}/content/{content}';

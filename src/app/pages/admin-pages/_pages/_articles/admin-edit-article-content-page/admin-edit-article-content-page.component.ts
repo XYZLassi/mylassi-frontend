@@ -3,6 +3,7 @@ import {Subscription} from "rxjs";
 import {ArticlesService} from "../../../../../api/services/articles.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ArticleContentRestType} from "../../../../../api/models/article-content-rest-type";
+import {ArticleContentOptionsRestType} from "../../../../../api/models/article-content-options-rest-type";
 
 @Component({
   selector: 'app-admin-edit-article-content-page',
@@ -49,13 +50,18 @@ export class AdminEditArticleContentPageComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-
-  onSubmit($event: MouseEvent, redirect: boolean) {
-    $event.preventDefault()
-
-    if (redirect && this.articleId) {
-      this.router.navigate(['/admin', 'articles', this.articleId]);
+  onSave(articleContent: ArticleContentOptionsRestType) {
+    if (!this.articleContent || !this.articleId)
       return;
-    }
+
+    const updateSub = this.articlesService.updateArticleContent({
+      article: this.articleId,
+      content: this.articleContent.id,
+      body: articleContent,
+    }).subscribe(value => {
+      this.router.navigate(['/admin', 'articles', this.articleId]);
+    });
+
+    this.subscriptions = [...this.subscriptions, updateSub];
   }
 }

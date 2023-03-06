@@ -20,5 +20,8 @@
       </div>
       <app-article-content-view [content]="content"></app-article-content-view>
     </div>
+
+    <a class="btn mt-1" [routerLink]="['/admin','articles',article.id,'createContent']">Hinzufügen</a>
+
   </div>
 </ng-container>

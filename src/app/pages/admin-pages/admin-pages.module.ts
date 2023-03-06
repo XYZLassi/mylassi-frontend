@@ -18,6 +18,7 @@ import {ArticleEditFormComponent} from "./_forms";
 import {ReactiveFormsModule} from "@angular/forms";
 import { AdminEditArticleContentPageComponent } from './_pages/_articles/admin-edit-article-content-page/admin-edit-article-content-page.component';
 import { ArticleContentEditFormComponent } from './_forms/article-content-edit-form/article-content-edit-form.component';
+import { AdminCreateArticleContentPageComponent } from './_pages/_articles/admin-create-article-content-page/admin-create-article-content-page.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ArticleContentEditFormComponent } from './_forms/article-content-edit-f
     ArticleEditFormComponent,
     AdminEditArticleContentPageComponent,
     ArticleContentEditFormComponent,
+    AdminCreateArticleContentPageComponent,
   ],
   imports: [
     CommonModule,

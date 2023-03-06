@@ -1,1 +1,1 @@
-<app-article-content-edit-form [articleContent]="articleContent"></app-article-content-edit-form>
+<app-article-content-edit-form *ngIf="articleContent" [articleContent]="articleContent" (saveSubmit)="onSave($event)"></app-article-content-edit-form>
