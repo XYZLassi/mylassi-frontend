@@ -5,17 +5,18 @@
 <div class="container">
   <div #navSidebar class="left-sidebar">
     <nav class="submenu">
-      <ul>
-        <li [routerLink]="['/admin']">Dashboard</li>
-      </ul>
+      <a class="menu-link" routerLinkActive="active" routerLink="/admin/board">
+        <fa-icon class="fa-2xl link-icon" [icon]="faTableColumns"></fa-icon>
+        <span class="link-text">Dashboard</span></a>
     </nav>
+
     <nav class="submenu">
-      <h1><a [routerLink]="['/admin','articles']">Beiträge</a></h1>
-      <ul>
-        <li [routerLink]="['/admin','articles','new']">Erstellen</li>
-      </ul>
+      <a class="menu-link" routerLinkActive="active" routerLink="/admin/articles">
+        <fa-icon class="fa-2xl link-icon" [icon]="faFileLines"></fa-icon>
+        <span class="link-text">Artikel</span></a>
     </nav>
   </div>
+
 
   <main #main>
     <router-outlet></router-outlet>

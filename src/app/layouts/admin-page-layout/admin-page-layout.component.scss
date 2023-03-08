@@ -1,20 +1,19 @@
 @import "../../../styles/preset";
 
-$sidebarLeftWidth: 15rem;
+$sidebarLeftWidth: 3.5rem;
 
 
 .container {
   position: relative;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
 
 .left-sidebar {
   position: fixed;
-  min-height: 100vh;
-  padding: 2rem;
+  height: 100vh;
 
   width: $sidebarLeftWidth;
 
@@ -22,30 +21,52 @@ $sidebarLeftWidth: 15rem;
   background-color: $prime;
 
   .submenu {
-    padding: 0 0 1rem 0;
+    width: 100%;
+    margin: 1rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0.75rem;
 
-    h1 {
-      font-size: 1.5rem;
-      margin: 0 0 0.5rem 0;
-      cursor: default;
-    }
 
-    ul {
-      margin: 0 0 0 0.5rem;
+    .menu-link {
+      height: 3rem;
+      width: fit-content;
+      background-color: $prime;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      overflow: visible;
 
-      li {
-        font-size: 1.25rem;
-        list-style: none;
-        margin: 0 0 0.25rem 0;
-        cursor: pointer;
+      color: lightgrey;
+
+      border-radius: 1rem;
+
+      transition: width 200ms ease-in-out;
+
+      .link-text {
+        font-size: 1.5rem;
+        width: 0;
+        transition: width 200ms ease-in-out, padding-left 200ms ease-in-out;
+        overflow: hidden;
+      }
+
+      &.active {
+        color: white;
+      }
+
+      &:hover {
+        .link-text {
+          padding-left: 1rem;
+          width: 10rem;
+        }
       }
     }
-
   }
+
 }
 
 main {
-  margin: 0 0 0 $sidebarLeftWidth + 1rem;
+  margin: 0 0 0 $sidebarLeftWidth;
   width: 100%;
-  padding: 1rem;
 }
