@@ -1,4 +1,4 @@
-<ng-container *ngIf="article">
+<div class="container w-100 p-2" *ngIf="article">
   <h1>Article: {{article.title}}</h1>
   <div class="form-container mb-1">
     <app-article-edit-form (saveSubmit)="onSubmit($event)" [article]="article"
@@ -24,4 +24,4 @@
     <a class="btn mt-1" [routerLink]="['/admin','articles',article.id,'createContent']">Hinzufügen</a>
 
   </div>
-</ng-container>
+</div>
