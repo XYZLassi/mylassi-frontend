@@ -1,29 +1,40 @@
-<div class="container">
+<div class="container p-2 w-100">
   <h1>Artikel</h1>
 
-  <table class="table w-100 auto-width">
-    <thead>
-    <tr>
-      <th class="w-100">Title</th>
-      <th>Gelöscht am</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let article of articles">
-      <td><a [routerLink]="['/admin','articles',article.id]">{{article.title}}</a></td>
-      <td>{{article.is_deleted | date : 'short' }}</td>
-      <td>
-        <a class="btn btn-icon" *ngIf="!article.is_deleted" (click)="onDeleteArticle($event,article)">
-          <fa-icon class="text-danger" [icon]="faTrash"></fa-icon>
-        </a>
-        <a class="btn btn-icon" *ngIf="article.is_deleted" (click)="onRestoreArticle($event,article)">
-          <fa-icon class="text-success" [icon]="faTrashRestore"></fa-icon>
-        </a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="table-container w-100 mb-2 p-1">
+
+    <table class="table w-100 split-xs">
+      <thead>
+      <tr>
+        <th class="">Artikel</th>
+        <th class="d-xs-none">Gelöscht am</th>
+        <th class="d-xs-none"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let article of articles">
+        <td><a [routerLink]="['/admin','articles',article.id]">{{article.title}}</a></td>
+        <td class="text-xs-align-right"
+            [class.d-xs-none]="!article.isDeleted"
+            data-label="Gelöscht am">{{article.isDeleted | date : 'short' }}</td>
+        <td class="d-xs-none">
+          <a class="btn btn-icon" *ngIf="!article.isDeleted" (click)="onDeleteArticle($event,article)">
+            <fa-icon class="text-danger" [icon]="faTrash"></fa-icon>
+          </a>
+          <a class="btn btn-icon" *ngIf="article.isDeleted" (click)="onRestoreArticle($event,article)">
+            <fa-icon class="text-success" [icon]="faTrashRestore"></fa-icon>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="w-100">
+    <button *ngIf="currentCursor" (click)="onLoadMoreArticles($event)" class="btn btn-load ml-2">Mehr Laden</button>
+  </div>
+
+
 </div>
 
-<button *ngIf="currentCursor" (click)="onLoadMoreArticles($event)" class="btn btn-load">Mehr Laden</button>
+

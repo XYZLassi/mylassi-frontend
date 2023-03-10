@@ -1,0 +1,13 @@
+<form *ngIf="articleContent" [formGroup]="contentForm" (ngSubmit)="onSubmit($event)">
+  <div class="form-group">
+    <div class="form-group flex-column">
+      <label for="header">Überschrift:</label>
+      <input id="header" type="text" formControlName="header">
+    </div>
+
+  </div>
+
+  <div class="form-group">
+    <button class="btn">Speichern</button>
+  </div>
+</form>

@@ -4,6 +4,7 @@ import {FullSinglePageLayoutComponent} from './full-single-page-layout/full-sing
 import {SinglePageLayoutComponent} from './single-page-layout/single-page-layout.component';
 import {AppRoutingModule} from "../app-routing.module";
 import { AdminPageLayoutComponent } from './admin-page-layout/admin-page-layout.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
@@ -17,10 +18,11 @@ import { AdminPageLayoutComponent } from './admin-page-layout/admin-page-layout.
         SinglePageLayoutComponent,
         AdminPageLayoutComponent
     ],
-  imports: [
-    CommonModule,
-    AppRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        AppRoutingModule,
+        FontAwesomeModule
+    ]
 })
 export class LayoutsModule {
 }

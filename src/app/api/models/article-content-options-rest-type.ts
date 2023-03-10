@@ -2,6 +2,6 @@
 /* eslint-disable */
 import { ArticleContentType } from './article-content-type';
 export interface ArticleContentOptionsRestType {
-  content_type: ArticleContentType;
+  contentType: ArticleContentType;
   header?: string;
 }

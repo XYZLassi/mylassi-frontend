@@ -2,11 +2,14 @@ button.btn, a.btn {
   background-color: $accent;
   color: $ciSecond;
 
+
   font-size: 1.5rem;
   padding: 0.5rem;
   border: none;
 
   cursor: pointer;
+
+  display: inline-block;
 
   text-decoration: none;
 

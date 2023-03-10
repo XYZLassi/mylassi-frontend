@@ -104,8 +104,8 @@ export class FileUploadService {
         const uploadSub = this.uploadFilesOrGetInfo(...files).subscribe({
           next: info => {
             results.push({
-              file_id: info.info.id,
-              file_usage: info.uploadInfo.fileUsage || undefined,
+              fileId: info.info.id,
+              fileUsage: info.uploadInfo.fileUsage || undefined,
             });
           },
           error: (err) => {

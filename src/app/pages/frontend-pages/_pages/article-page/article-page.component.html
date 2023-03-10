@@ -1,0 +1,10 @@
+<ng-container *ngIf="!isBusy">
+  <ng-container *ngFor="let content of contents">
+    <app-article-content-view [content]="content"></app-article-content-view>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="isBusy">
+  <h1>Inhalt wird geladen</h1>
+</ng-container>
+
+

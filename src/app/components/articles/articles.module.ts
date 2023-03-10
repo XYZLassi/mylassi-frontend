@@ -3,25 +3,26 @@ import {CommonModule} from '@angular/common';
 import {ArticleListComponent} from './article-list/article-list.component';
 import {RouterLink} from "@angular/router";
 import {ImagesModule} from "../images/images.module";
-import { ArticleEditFormComponent } from './article-edit-form/article-edit-form.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { ArticleContentViewComponent } from './article-content-view/article-content-view.component';
 
 
 @NgModule({
   declarations: [
     ArticleListComponent,
-    ArticleEditFormComponent,
+    ArticleContentViewComponent,
   ],
     exports: [
         ArticleListComponent,
-        ArticleEditFormComponent,
+        ArticleContentViewComponent,
+
     ],
-    imports: [
-        CommonModule,
-        RouterLink,
-        ImagesModule,
-        ReactiveFormsModule
-    ]
+  imports: [
+    CommonModule,
+    RouterLink,
+    ImagesModule,
+    ReactiveFormsModule
+  ]
 })
 export class ArticlesModule {
 }

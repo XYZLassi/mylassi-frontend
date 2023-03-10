@@ -5,7 +5,7 @@ export interface FullArticleRestType {
   categories?: Array<number>;
   contents?: Array<number>;
   id: number;
-  is_deleted?: string;
+  isDeleted?: string;
   teaser?: string;
   title: string;
 }

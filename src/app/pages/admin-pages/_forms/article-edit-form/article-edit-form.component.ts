@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {ArticleOptionsRestType} from "../../../api/models/article-options-rest-type";
+import {ArticleOptionsRestType} from "../../../../api/models/article-options-rest-type";
 
 @Component({
   selector: 'app-article-edit-form',
@@ -14,6 +14,8 @@ export class ArticleEditFormComponent implements OnInit, OnChanges, OnDestroy {
     title: 'New Title',
     teaser: 'Beispiel Teaser'
   }
+
+  @Input() submitText: string = 'Erstellen';
 
   @Output() saveSubmit = new EventEmitter<ArticleOptionsRestType>();
 

@@ -3,8 +3,8 @@ import jwt_decode from "jwt-decode";
 import {isPlatformBrowser} from "@angular/common";
 
 export interface AccessToken {
-  token_type: string
-  access_token: string
+  tokenType: string
+  accessToken: string
 }
 
 export interface TokenPayload {
@@ -35,30 +35,39 @@ export class UserAuthenticationService {
     if (!isPlatformBrowser(this.platformId)) {
       return null;
     }
-    const tokenStringInfo = localStorage.getItem('token');
 
-    if (!tokenStringInfo) {
-      return null;
-    }
+    try {
+      const tokenStringInfo = localStorage.getItem('token');
 
-    const tokenInfo: AccessToken = JSON.parse(tokenStringInfo)
+      if (!tokenStringInfo) {
+        return null;
+      }
 
-    const tokenPayload: TokenPayload = jwt_decode(tokenInfo.access_token);
+      const tokenInfo: AccessToken = JSON.parse(tokenStringInfo)
 
-    if (!tokenPayload.exp) {
-      return null;
-    }
+      const tokenPayload: TokenPayload = jwt_decode(tokenInfo.accessToken);
 
-    const date = new Date(0);
-    date.setUTCSeconds(tokenPayload.exp);
+      if (!tokenPayload.exp) {
+        this.clearToken();
+        return null;
+      }
 
-    const dateNow = new Date();
+      const date = new Date(0);
+      date.setUTCSeconds(tokenPayload.exp);
 
-    if (dateNow >= date) {
+      const dateNow = new Date();
+
+      if (dateNow >= date) {
+        this.clearToken();
+        return null;
+      }
+
+      return tokenInfo
+    } catch (error) {
       this.clearToken();
       return null;
     }
 
-    return tokenInfo
+
   }
 }
