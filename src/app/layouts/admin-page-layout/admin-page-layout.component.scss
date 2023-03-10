@@ -1,4 +1,4 @@
-@import "../../../styles/preset";
+@import "src/styles/preset";
 
 $sidebarLeftWidth: 3.5rem;
 
@@ -6,14 +6,13 @@ $sidebarLeftWidth: 3.5rem;
 .container {
   position: relative;
   min-height: 100vh;
-  width: 100%;
   display: flex;
   flex-direction: row;
 }
 
 .left-sidebar {
   position: fixed;
-  height: 100vh;
+  height: 100%;
 
   width: $sidebarLeftWidth;
 
@@ -46,6 +45,7 @@ $sidebarLeftWidth: 3.5rem;
 
       .link-text {
         font-size: 1.5rem;
+
         width: 0;
         transition: width 200ms ease-in-out, padding-left 200ms ease-in-out;
         overflow: hidden;
@@ -68,5 +68,40 @@ $sidebarLeftWidth: 3.5rem;
 
 main {
   margin: 0 0 0 $sidebarLeftWidth;
-  width: 100%;
+}
+
+@media screen and (max-width: $widthXS) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left-sidebar {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+
+    height: auto;
+    width: 100%;
+
+    .submenu {
+      width: auto;
+      height: auto;
+      margin: inherit;
+
+      .menu-link {
+        &.active {
+          width: auto;
+
+          .link-text {
+            padding-left: 1rem;
+            width: auto;
+          }
+        }
+      }
+    }
+  }
+
+  main {
+    margin: 0;
+  }
 }
