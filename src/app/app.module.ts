@@ -45,7 +45,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
 })
 export class AppModule {
 
-  private imageUrl = 'https://api.mylassi.xyz/files/75d0c531-6bf9-46c5-9766-2d6216855680/image';
+  private imageUrl = 'https://mylassi.xyz/assets/preview.jpg';
   public tags: MetaDefinition[] = [
     {property: 'og:title', content: 'MyLassi.xyz'},
     {property: 'og:description', content: 'MyLassi.xyz'},
