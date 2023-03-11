@@ -32,6 +32,11 @@
                 "input": "src/favicon",
                 "output": "/"
               },
+              {
+                "glob": "**/*.js",
+                "input": "src/js",
+                "output": "/"
+              },
               "src/assets",
               "src/robots.txt",
               "src/manifest.webmanifest"
@@ -106,6 +111,11 @@
               {
                 "glob": "**/*",
                 "input": "src/favicon",
+                "output": "/"
+              },
+              {
+                "glob": "**/*.js",
+                "input": "src/js",
                 "output": "/"
               },
               "src/assets",
