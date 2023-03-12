@@ -27,6 +27,5 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method == 'GET') {
-    console.log(request);
   }
 });
