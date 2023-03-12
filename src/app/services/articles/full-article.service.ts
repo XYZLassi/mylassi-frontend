@@ -1,7 +1,7 @@
 import {Inject, Injectable, isDevMode, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from "@angular/common";
 
-import {ArticleContentModel, ArticleModel} from "../../models";
+import {ArticleContentModel, ArticleFileModel, ArticleModel} from "../../models";
 import {concatWith, EMPTY, Observable, of, Subject} from "rxjs";
 import {ItemDataSource, ItemTransferState} from "../interfaces";
 import {makeStateKey, TransferState} from "@angular/platform-browser";
@@ -10,9 +10,11 @@ import {Apollo} from "apollo-angular";
 import {LoadArticleGQL} from "../../../generated/graphql";
 import {filter, map, tap} from "rxjs/operators";
 import {ArticleContentType} from "../../api/models/article-content-type";
+import {ArticleFileCacheModel} from "./_interfaces";
 
 const DBName = 'ArticleCache';
 const DBTableArticles = 'Articles';
+const DBTableArticleFiles = 'ArticleFiles';
 
 function inputIsNotNullOrUndefined<T>(input: null | undefined | T): input is T {
   return input !== null && input !== undefined;
@@ -38,12 +40,10 @@ export class FullArticleService {
     if (!isPlatformBrowser(this.platformId))
       return
 
-    const openDB = indexedDB.open(DBName, 1);
+    const openDB = indexedDB.open(DBName, 2);
 
     openDB.onupgradeneeded = (event) => {
-      if (event.oldVersion < 1) {
-        this.migrate_db(openDB.result, 1)
-      }
+      this.migrate_db(openDB.result, event.oldVersion);
     };
 
     openDB.onsuccess = _ => {
@@ -61,6 +61,7 @@ export class FullArticleService {
 
     const apolloSub = this.getApolloArticle(articleId).pipe(
       tap(value => {
+        this.saveInState(value.item);
         this.saveInSession(value.item);
         this.cacheUpdateIfExistsArticle(value.item);
       })
@@ -79,15 +80,74 @@ export class FullArticleService {
   }
 
   async cachePutArticle(article: ArticleModel) {
+    if (!isPlatformBrowser(this.platformId))
+      return;
+
     const db = await this.getDatabase();
-    const transaction = db.transaction(DBTableArticles, "readwrite");
-    const store = transaction.objectStore(DBTableArticles);
+    const transaction = db.transaction([DBTableArticles], "readwrite");
+    const articleStore = transaction.objectStore(DBTableArticles);
 
-    const request = store.put(article);
+    const request = articleStore.put(article);
 
+    request.onsuccess = (ev) => {
+      article.files.forEach(f => this.updateArticleFile(f, article));
+    }
+  }
+
+  async updateArticleFile(articleFile: ArticleFileModel, article: ArticleModel): Promise<ArticleFileCacheModel> {
+    return new Promise<ArticleFileCacheModel>(async (resolve, reject) => {
+      const db = await this.getDatabase();
+      const transaction = db.transaction([DBTableArticleFiles], "readonly");
+
+      const fileStore = transaction.objectStore(DBTableArticleFiles);
+
+
+      const getRequest = fileStore.get(articleFile.fileId);
+      getRequest.onsuccess = (ev) => {
+        const cacheItem = getRequest.result as ArticleFileCacheModel
+
+
+        if (cacheItem) {
+          if (!cacheItem.articles.includes(article.id)) {
+            cacheItem.articles.push(article.id);
+
+            const transaction = db.transaction([DBTableArticleFiles], "readwrite");
+            const fileStore = transaction.objectStore(DBTableArticleFiles);
+            const putRequest = fileStore.put(cacheItem);
+
+            putRequest.onsuccess = () => {
+              resolve(cacheItem)
+            }
+          } else {
+            resolve(cacheItem)
+          }
+        } else {
+          caches.open('ArticleImageCache').then(cache => {
+            cache.add(articleFile.url).then(() => {
+              const newCacheItem: ArticleFileCacheModel = {
+                fileId: articleFile.fileId,
+                url: articleFile.url,
+                articles: [article.id],
+              }
+
+
+              const transaction = db.transaction([DBTableArticleFiles], "readwrite");
+              const fileStore = transaction.objectStore(DBTableArticleFiles);
+              const putRequest = fileStore.put(newCacheItem);
+              putRequest.onsuccess = () => {
+                resolve(newCacheItem);
+              }
+            })
+          });
+        }
+      };
+    });
   }
 
   async cacheUpdateIfExistsArticle(article: ArticleModel) {
+    if (!isPlatformBrowser(this.platformId))
+      return;
+
     const db = await this.getDatabase();
     const transaction = db.transaction(DBTableArticles, "readwrite");
     const store = transaction.objectStore(DBTableArticles);
@@ -111,6 +171,7 @@ export class FullArticleService {
 
     return sub.pipe(map(i => {
       const contents: ArticleContentModel[] = [];
+      const files: ArticleFileModel[] = [];
 
       i.contents.forEach(content => {
         contents.push({
@@ -118,6 +179,13 @@ export class FullArticleService {
           contentType: content.contentType as ArticleContentType,
           header: content.header,
         });
+      });
+
+      i.files.forEach(file => {
+        files.push({
+          fileId: file.fileId,
+          url: file.url,
+        })
       });
 
 
@@ -128,6 +196,7 @@ export class FullArticleService {
           title: i.title,
           teaser: i.teaser || undefined,
           contents: contents,
+          files: files,
         }
       }
     }));
@@ -214,14 +283,22 @@ export class FullArticleService {
   }
 
   private migrate_db(result: IDBDatabase, version: number) {
-    if (version == 1) {
+    if (version < 1) {
       if (result.objectStoreNames.contains(DBTableArticles))
         result.deleteObjectStore(DBTableArticles);
 
       result.createObjectStore(DBTableArticles, {
         keyPath: 'id',
       });
-      return;
+    }
+
+    if (version < 2) {
+      if (result.objectStoreNames.contains(DBTableArticleFiles))
+        result.deleteObjectStore(DBTableArticleFiles)
+
+      result.createObjectStore(DBTableArticleFiles, {
+        keyPath: 'fileId',
+      });
     }
   }
 
@@ -236,10 +313,21 @@ export class FullArticleService {
 
   private saveInSession(item: ArticleModel) {
     if (!isPlatformBrowser(this.platformId))
-      return
+      return;
 
     const key = this.getArticleKey(item);
     const articleString = JSON.stringify(item);
     sessionStorage.setItem(key, articleString);
+  }
+
+  private saveInState(item: ArticleModel) {
+    if (isPlatformBrowser(this.platformId))
+      return;
+
+    const key = this.getArticleKey(item);
+    const STATE_KEY_QUERY = makeStateKey<ArticleModel>(key);
+
+
+    this.state.set(STATE_KEY_QUERY, item);
   }
 }

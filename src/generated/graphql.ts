@@ -119,23 +119,20 @@ export type GetArticlesQueryVariables = Exact<{
 
 export type GetArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, items: Array<{ __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
 
-export type ArticleFragmentFragment = { __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }>, author: { __typename?: 'AuthorGraphType', username: string }, contents: Array<{ __typename?: 'ArticleContentGraphType', position: number, contentType: string, header: string }>, files: Array<{ __typename?: 'ArticleFileGraphType', fileId: string, url: string }> };
+export type ArticleFragmentFragment = { __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, author: { __typename?: 'AuthorGraphType', username: string }, contents: Array<{ __typename?: 'ArticleContentGraphType', position: number, contentType: string, header: string }>, files: Array<{ __typename?: 'ArticleFileGraphType', fileId: string, url: string }> };
 
 export type LoadArticleQueryVariables = Exact<{
   articleId: Scalars['Int'];
 }>;
 
 
-export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', url: string }>, author: { __typename?: 'AuthorGraphType', username: string }, contents: Array<{ __typename?: 'ArticleContentGraphType', position: number, contentType: string, header: string }>, files: Array<{ __typename?: 'ArticleFileGraphType', fileId: string, url: string }> } | null };
+export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, author: { __typename?: 'AuthorGraphType', username: string }, contents: Array<{ __typename?: 'ArticleContentGraphType', position: number, contentType: string, header: string }>, files: Array<{ __typename?: 'ArticleFileGraphType', fileId: string, url: string }> } | null };
 
 export const ArticleFragmentFragmentDoc = gql`
     fragment ArticleFragment on ArticleGraphType {
   id
   title
   teaser
-  thumbnails: filesByUsage(usage: "thumbnail") {
-    url
-  }
   author {
     username
   }

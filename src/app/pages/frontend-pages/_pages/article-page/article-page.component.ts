@@ -43,9 +43,8 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       loadSub = this.fullArticleService.getArticle(articleId).subscribe(
         {
           next: item => {
-            console.log(item);
             this.article = item.item;
-
+            this.updateMeta(item.item);
             this.isBusy = false;
           },
           error: err => {

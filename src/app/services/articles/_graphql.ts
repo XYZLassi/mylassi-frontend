@@ -5,9 +5,6 @@ export const ArticleFragment = graphql`
     id
     title
     teaser
-    thumbnails:filesByUsage(usage: "thumbnail") {
-      url
-    }
 
     author {
       username

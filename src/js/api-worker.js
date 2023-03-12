@@ -1,6 +1,6 @@
 const CACHE_VERSION = 1;
 const CURRENT_CACHES = {
-  default: 'default',
+  articleImageCache: 'ArticleImageCache',
   main: `main-v${CACHE_VERSION}`,
 };
 
@@ -24,8 +24,25 @@ self.addEventListener('install', event => {
 
 });
 
+async function getCacheImage(request) {
+  const url = new URL(request.url);
+  const subFullFileUrl = url.origin + url.pathname;
+  console.log(url);
+  console.log(subFullFileUrl)
+
+  const response = await caches.match(subFullFileUrl);
+  if (response) {
+    return response
+  }
+  return await fetch(request);
+}
+
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method == 'GET') {
+    const url = new URL(request.url);
+    if (url.pathname.startsWith('/images') || url.pathname.startsWith('/files')) {
+      event.respondWith(getCacheImage(request));
+    }
   }
 });
