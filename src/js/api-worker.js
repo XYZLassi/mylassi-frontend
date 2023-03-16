@@ -27,8 +27,6 @@ self.addEventListener('install', event => {
 async function getCacheImage(request) {
   const url = new URL(request.url);
   const subFullFileUrl = url.origin + url.pathname;
-  console.log(url);
-  console.log(subFullFileUrl)
 
   const response = await caches.match(subFullFileUrl);
   if (response) {

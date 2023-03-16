@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, isDevMode, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Meta, Title} from "@angular/platform-browser";
-import {Observable, Subscription} from "rxjs";
-import {FullArticleService, ItemTransferState} from "../../../../services";
+import {Subscription} from "rxjs";
+import {FullArticleService, ItemDataSource} from "../../../../services";
 import {ArticleModel} from "../../../../models";
 
 
@@ -19,6 +19,8 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  public isCached?: boolean;
+
   constructor(private fullArticleService: FullArticleService,
               private route: ActivatedRoute,
               private router: Router, private titleMeta: Title,
@@ -31,6 +33,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
 
     let routeSub = this.route.params.subscribe(params => {
       this.isBusy = true;
+      this.isCached = undefined;
 
       if (loadSub) {
         loadSub.unsubscribe();
@@ -43,6 +46,12 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       loadSub = this.fullArticleService.getArticle(articleId).subscribe(
         {
           next: item => {
+            if (isDevMode())
+              console.log(item);
+
+            this.isCached = this.isCached || false;
+            if (item.source == ItemDataSource.Cache)
+              this.isCached = true;
             this.article = item.item;
             this.updateMeta(item.item);
             this.isBusy = false;
@@ -97,10 +106,33 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  async onSaveArticle($event: any) {
+  onCacheChangeArticle($event: any) {
     if (!this.article)
       return
 
-    await this.fullArticleService.cachePutArticle(this.article)
+    if (!this.isCached) {
+      this.fullArticleService.putArticleInCache(this.article).subscribe({
+        next: (i) => {
+          this.isCached = true;
+        },
+        complete: () => {
+          console.log('Complete');
+        },
+        error: (err) => {
+          if (isDevMode())
+            console.error(err);
+        },
+      });
+    } else {
+      this.fullArticleService.removeArticleFormCache(this.article).subscribe({
+        next: (i) => {
+          this.isCached = false;
+        },
+        error: (err) => {
+          if (isDevMode())
+            console.error(err);
+        }
+      })
+    }
   }
 }
