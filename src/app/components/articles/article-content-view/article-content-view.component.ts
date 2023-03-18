@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {ArticleContentModel} from "../_interfaces/article-content-model";
 import {ArticleContentRestType} from "../../../api/models/article-content-rest-type";
+import {ArticleContentModel} from "../../../models";
 
 @Component({
   selector: 'app-article-content-view',

@@ -10,6 +10,7 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 
+RUN ./bin/create_favicons.sh
 RUN ./bin/create_header_images.sh header.jpg
 RUN npm run build:ssr
 

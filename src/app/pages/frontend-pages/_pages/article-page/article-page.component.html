@@ -1,9 +1,13 @@
-<ng-container *ngIf="!isBusy">
-  <ng-container *ngFor="let content of contents">
+<ng-container *ngIf="!isBusy && article">
+  <button class="btn mb-2" *ngIf="isCached !== undefined" (click)="onCacheChangeArticle($event)">
+    <span *ngIf="!isCached">Speichern</span>
+    <span *ngIf="isCached">Entfernen</span>
+  </button>
+  <ng-container *ngFor="let content of article.contents || []">
     <app-article-content-view [content]="content"></app-article-content-view>
   </ng-container>
 </ng-container>
-<ng-container *ngIf="isBusy">
+<ng-container *ngIf="isBusy || !article">
   <h1>Inhalt wird geladen</h1>
 </ng-container>
 
