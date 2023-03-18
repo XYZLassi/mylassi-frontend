@@ -2,6 +2,7 @@
   "name": "mylassi-frontend",
   "version": "0.0.0",
   "scripts": {
+    "pwa-asset-generator": "pwa-asset-generator",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
