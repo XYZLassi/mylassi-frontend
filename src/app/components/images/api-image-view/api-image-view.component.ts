@@ -27,7 +27,7 @@ export class ApiImageViewComponent implements OnInit, OnChanges, OnDestroy {
 
   public resolutionList: number[] = []
 
-  @Input() image!: File | string | null;
+  @Input() image?: File | string | null;
 
   @Input() hoverEffect: boolean = true;
 

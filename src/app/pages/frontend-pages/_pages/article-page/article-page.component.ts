@@ -1,11 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, isDevMode, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Apollo, graphql} from "apollo-angular";
-import {LoadArticleQuery} from "../../../../../generated/graphql";
 import {Meta, Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
-import {map} from "rxjs/operators";
-import {ArticleContentModel} from "../../../../components/articles";
+import {FullArticleService, ItemDataSource} from "../../../../services";
+import {ArticleModel} from "../../../../models";
 
 
 @Component({
@@ -17,82 +15,74 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
 
   public isBusy: boolean = true;
 
-  public title?: string;
-  public contents: ArticleContentModel[] = []
+  public article?: ArticleModel;
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private apollo: Apollo,
+  public isCached?: boolean;
+
+  constructor(private fullArticleService: FullArticleService,
               private route: ActivatedRoute,
               private router: Router, private titleMeta: Title,
               private meta: Meta) {
   }
 
   ngOnInit(): void {
-    const query = graphql`
-      query LoadArticle($articleId : Int!){
-        article:articleById(article: $articleId){
-          title
-          teaser
-          thumbnails:filesByUsage(usage: "thumbnail") {
-            url
-          }
 
-          author {
-            username
-          }
-
-          contents {
-            position
-            contentType
-            header
-          }
-        }
-      }`
+    let loadSub: Subscription | undefined;
 
     let routeSub = this.route.params.subscribe(params => {
       this.isBusy = true;
-      const articleId = parseInt(params['index']);
+      this.isCached = undefined;
 
+      if (loadSub) {
+        loadSub.unsubscribe();
+        loadSub = undefined;
+      }
+
+      const articleId = parseInt(params['index']);
       // Test NaN
 
-      const variables = {
-        articleId: articleId
-      };
+      loadSub = this.fullArticleService.getArticle(articleId).subscribe(
+        {
+          next: item => {
+            if (isDevMode())
+              console.log(item);
 
-      let querySub = this.apollo.watchQuery<LoadArticleQuery>({query, variables}).valueChanges
-        .pipe(map(i => i.data))
-        .subscribe(value => {
-          if (!value.article)
-            return;
-          this.updateMeta(value);
+            this.isCached = this.isCached || false;
+            if (item.source == ItemDataSource.Cache)
+              this.isCached = true;
+            this.article = item.item;
+            this.updateMeta(item.item);
+            this.isBusy = false;
+          },
+          error: err => {
 
-          this.title = value.article.title;
-          this.contents = value.article.contents;
+          },
+          complete: () => {
 
-          this.isBusy = false;
-        });
-
-      this.subscriptions = [...this.subscriptions, querySub];
+          }
+        }
+      );
+      this.subscriptions = [...this.subscriptions, loadSub];
     });
 
     this.subscriptions = [...this.subscriptions, routeSub];
   }
 
-  updateMeta(query: LoadArticleQuery) {
-    if (!query.article)
-      return
-    this.titleMeta.setTitle(`MyLassi.xyz - ${query.article.title}`);
+  updateMeta(article: ArticleModel) {
+
+    this.titleMeta.setTitle(`MyLassi.xyz - ${article.title}`);
 
     this.meta.updateTag({
       property: 'og:title',
-      content: query.article.title
+      content: article.title
     });
 
-    if (query.article.teaser) {
+    if (article.teaser) {
       this.meta.updateTag({
         property: 'og:description',
-        content: query.article.teaser,
+        content: article.teaser,
       })
     }
 
@@ -101,17 +91,48 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       content: `https://mylassi.xyz${this.router.url}`,
     });
 
-    if (query.article.thumbnails.length > 0) {
-      const url = query.article.thumbnails[0].url;
+    /*
+    if (article.thumbnails.length > 0) {
+      const url = article.thumbnails[0].url;
       this.meta.updateTag({
         property: 'og:image',
         content: url
       });
     }
+    */
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  onCacheChangeArticle($event: any) {
+    if (!this.article)
+      return
+
+    if (!this.isCached) {
+      this.fullArticleService.putArticleInCache(this.article).subscribe({
+        next: (i) => {
+          this.isCached = true;
+        },
+        complete: () => {
+          console.log('Complete');
+        },
+        error: (err) => {
+          if (isDevMode())
+            console.error(err);
+        },
+      });
+    } else {
+      this.fullArticleService.removeArticleFormCache(this.article).subscribe({
+        next: (i) => {
+          this.isCached = false;
+        },
+        error: (err) => {
+          if (isDevMode())
+            console.error(err);
+        }
+      })
+    }
+  }
 }

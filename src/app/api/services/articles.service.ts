@@ -18,6 +18,7 @@ import { ArticleOptionsRestType } from '../models/article-options-rest-type';
 import { ArticleRestType } from '../models/article-rest-type';
 import { BodyAddCategoryToArticle } from '../models/body-add-category-to-article';
 import { BodyUploadFileToArticle } from '../models/body-upload-file-to-article';
+import { FilterDeletedItems } from '../models/filter-deleted-items';
 import { FullArticleRestType } from '../models/full-article-rest-type';
 import { OkayResultRestType } from '../models/okay-result-rest-type';
 import { PaginationResultRestTypeArticleRestType } from '../models/pagination-result-rest-type-article-rest-type';
@@ -177,6 +178,7 @@ export class ArticlesService extends BaseService {
     category?: number;
     cursor?: string;
     size?: number;
+    filter_deleted?: FilterDeletedItems;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<PaginationResultRestTypeFullArticleRestType>> {
@@ -186,6 +188,7 @@ export class ArticlesService extends BaseService {
       rb.query('category', params.category, {});
       rb.query('cursor', params.cursor, {});
       rb.query('size', params.size, {});
+      rb.query('filter_deleted', params.filter_deleted, {});
     }
 
     return this.http.request(rb.build({
@@ -214,6 +217,7 @@ export class ArticlesService extends BaseService {
     category?: number;
     cursor?: string;
     size?: number;
+    filter_deleted?: FilterDeletedItems;
     context?: HttpContext
   }
 ): Observable<PaginationResultRestTypeFullArticleRestType> {

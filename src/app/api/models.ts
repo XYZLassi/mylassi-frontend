@@ -15,6 +15,7 @@ export { BodyUploadFileToArticle } from './models/body-upload-file-to-article';
 export { CategoryOptionRestType } from './models/category-option-rest-type';
 export { CategoryRestType } from './models/category-rest-type';
 export { FileRestType } from './models/file-rest-type';
+export { FilterDeletedItems } from './models/filter-deleted-items';
 export { FullArticleRestType } from './models/full-article-rest-type';
 export { HttpValidationError } from './models/http-validation-error';
 export { ImageFormatType } from './models/image-format-type';

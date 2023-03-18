@@ -1,4 +1,4 @@
-import {forwardRef, NgModule, OnInit, Provider} from '@angular/core';
+import {forwardRef, NgModule, OnInit, Provider, isDevMode} from '@angular/core';
 import {BrowserModule, BrowserTransferStateModule, Meta, MetaDefinition, Title} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -13,6 +13,7 @@ import {GraphQLModule} from './graphql.module';
 import {NavigationEnd, Router} from "@angular/router";
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -35,7 +36,15 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     HttpClientModule,
     ApiModule.forRoot({rootUrl: 'https://api.mylassi.xyz'}),
     GraphQLModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+    ServiceWorkerModule.register('api-worker.js', {
+      enabled: true,
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     ApiInterceptor,
