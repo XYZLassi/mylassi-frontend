@@ -1,5 +1,8 @@
-import {ArticleFileModel} from "../../models";
+import {ArticleInfoModel} from "../../models";
 
-export interface ArticleFileCacheModel extends ArticleFileModel {
-  articles: number[]
+export interface IArticleInfoCursorContainer {
+  articles: ArticleInfoModel[]
+  cursor?: string
+
 }
+

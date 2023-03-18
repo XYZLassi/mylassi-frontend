@@ -1,14 +1,14 @@
 import {Inject, Injectable, isDevMode, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from "@angular/common";
 
-import {ArticleContentModel, ArticleFileModel, ArticleModel} from "../../models";
-import {concat, concatWith, EMPTY, mergeMap, Observable, of, take} from "rxjs";
+import {ArticleContentModel, ArticleFileModel, ArticleInfoModel, ArticleModel} from "../../models";
+import {concat, concatWith, EMPTY, mergeMap, Observable, of, take, toArray} from "rxjs";
 import {ItemDataSource, ItemTransferState} from "../interfaces";
 import {TransferState} from "@angular/platform-browser";
 import {Apollo} from "apollo-angular";
 
-import {LoadArticleGQL} from "../../../generated/graphql";
-import {filter, map, tap} from "rxjs/operators";
+import {GetArticlesGQL, GetArticlesQueryVariables, LoadArticleGQL} from "../../../generated/graphql";
+import {map, tap} from "rxjs/operators";
 import {ArticleContentType} from "../../api/models/article-content-type";
 
 import {
@@ -17,20 +17,20 @@ import {
   createDbTransactionWithItem,
   deleteDbItem,
   existsDbItem,
+  getAllDbItems,
   getDatabase,
   getDbItem,
   injectDatabase,
-  IPutInCacheItem,
   isNotNullOrUndefined,
   mapDbItem,
   putDbItem,
-  putInCache,
   restoreFromSession,
   restoreFromState,
   saveInSession,
   saveInState
 } from "../../rx";
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
+import {IArticleInfoCursorContainer} from "./_interfaces";
 
 const DBName = 'ArticleCache';
 const DBTableArticles = 'Articles';
@@ -104,14 +104,14 @@ export class FullArticleService {
         existsDbItem(i => i.item.item.id,
           mergeMap(i => {
             return this.putArticleInCache(i.item.item).pipe(map(j => i.item));
-          }), map(i => i.item)),
+          }),
+          map(i => i.item)),
       )
     } else {
       apolloSub = apolloSub.pipe(
         saveInState(i => itemKey, this.state, i => i.item),
       )
     }
-
 
     let resultSub = concat(sessionSub, cacheSub, apolloSub);
 
@@ -123,6 +123,18 @@ export class FullArticleService {
     }))
 
     return resultSub;
+  }
+
+  public getCachedArticles() {
+    return getDatabase(() => this.db).pipe(
+      createDbTransaction(DBTableArticles),
+      getAllDbItems<ArticleModel>(),
+      mapDbItem(),
+    )
+  }
+
+  public loadArticleInfos(variables?: GetArticlesQueryVariables) {
+    return this.loadApolloArticleInfos(variables);
   }
 
   public putArticleInCache(article: ArticleModel) {
@@ -157,11 +169,42 @@ export class FullArticleService {
     )
   }
 
+  private loadApolloArticleInfos(variables?: GetArticlesQueryVariables): Observable<ItemTransferState<IArticleInfoCursorContainer>> {
+    const qgl = new GetArticlesGQL(this.apollo);
+    const sub = qgl.fetch(variables).pipe(
+      map(i => i.data.articles)
+    );
+
+    return sub.pipe(mergeMap(r => {
+      return of(...r.items).pipe(map(i => {
+        const result: ArticleInfoModel = {
+          id: i.id,
+          title: i.title,
+          teaser: i.teaser || undefined,
+          thumbnailImageId: i.thumbnails.length > 0 ? i.thumbnails[0].fileId : undefined,
+        }
+        return result;
+      })).pipe(
+        toArray(),
+        map(i => {
+          const result: ItemTransferState<IArticleInfoCursorContainer> = {
+            source: ItemDataSource.API,
+            item: {
+              articles: i,
+              cursor: r.cursor || undefined,
+            },
+          }
+          return result;
+        })
+      );
+    }));
+  }
+
   private getApolloArticle(articleId: number): Observable<ItemTransferState<ArticleModel>> {
     const qgl = new LoadArticleGQL(this.apollo);
-    const sub = qgl.watch({
+    const sub = qgl.fetch({
       articleId: articleId
-    }).valueChanges.pipe(
+    }).pipe(
       map(i => i.data.article),
       isNotNullOrUndefined()
     );
@@ -185,7 +228,6 @@ export class FullArticleService {
         })
       });
 
-
       return {
         source: ItemDataSource.API,
         item: {
@@ -193,6 +235,7 @@ export class FullArticleService {
           title: i.title,
           teaser: i.teaser || undefined,
           contents: contents,
+          thumbnailImageId: i.thumbnails.length > 0 ? i.thumbnails[0].fileId : undefined,
           files: files,
         }
       }

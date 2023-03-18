@@ -1,5 +1,5 @@
 import {
-  EMPTY,
+  EMPTY, flatMap,
   from,
   fromEvent,
   iif,
@@ -39,7 +39,7 @@ export function getDatabase(callback: () => (IDBDatabase | undefined | null)): O
     }
     resolve(db as IDBDatabase);
   });
-  return from(getPromise);
+  return from(getPromise).pipe(take(1));
 }
 
 export function injectDatabase<T>(callback: () => (IDBDatabase | undefined | null)) {
@@ -329,6 +329,38 @@ export function updateDbItemIfExist<T>(key: (arg0: T) => (IDBValidKey | IDBKeyRa
   };
 }
 
+export function getAllDbItems<T>() {
+  const errorSubject = new Subject<ItemDbObject<T>>();
+  return (source$: Observable<TransactionDbObject>) => {
+    return source$.pipe(mergeMap(transObject => {
+      const getAllRequest = transObject.transaction.getAll();
+      getAllRequest.onerror = (err) => {
+        errorSubject.error(err);
+      };
+
+      return merge(
+        errorSubject,
+        fromEvent(getAllRequest, 'success', _ => {
+          try {
+            return getAllRequest.result as T[];
+          } finally {
+            errorSubject.complete();
+          }
+        }).pipe(
+          take(1),
+          mergeMap(a => of(...a)),
+          map(i => {
+            const result: ItemDbObject<T> = {
+              db: transObject.db,
+              item: i
+            }
+            return result;
+          })
+        )
+      )
+    }))
+  };
+}
 
 export function mapDbItem<T>() {
   return (source$: Observable<ItemDbObject<T>>) => {

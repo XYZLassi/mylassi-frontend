@@ -1,10 +1,22 @@
 import {graphql} from "apollo-angular";
 
-export const ArticleFragment = graphql`
-  fragment ArticleFragment on ArticleGraphType {
+export const ArticleInfoFragment = graphql`
+  fragment ArticleInfoFragment on ArticleGraphType{
     id
     title
     teaser
+
+    thumbnails:filesByUsage(usage: "thumbnail"){
+      fileId
+    }
+  }
+`;
+
+export const ArticleFragment = graphql`
+  ${ArticleInfoFragment}
+
+  fragment ArticleFragment on ArticleGraphType {
+    ...ArticleInfoFragment
 
     author {
       username
@@ -30,3 +42,16 @@ export const LoadArticleQuery = graphql`
       ...ArticleFragment
     }
   }`
+
+export const GetArticlesQuery = graphql`
+    query GetArticles($cursor:String, $category:String){
+        ${ArticleInfoFragment}
+
+        articles(category: $category,cursor: $cursor){
+            items {
+                ...ArticleInfoFragment,
+            }
+            cursor
+            length
+        }
+    }`;
