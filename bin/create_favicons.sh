@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+mkdir -p "src/favicon/"
 cp ./favicon.svg src/favicon
 convert ./favicon.svg -resize 48x48 src/favicon/favicon.ico
 convert ./favicon.svg -resize 192x192 src/favicon/favicon.png
