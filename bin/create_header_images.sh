@@ -19,8 +19,11 @@ headerCut () {
 
 echo "Create Origin Header"
 mkdir -v -p "$outputDir"
+echo "Create Origin Header-jpg"
 convert "$1" "$outputDir/header.jpg"
+echo "Create Origin Header-webp"
 convert "$1" "$outputDir/header.webp"
+echo "Create Origin Header-avif"
 convert "$1" "$outputDir/header.avif"
 
 echo "Create JPG Header"
