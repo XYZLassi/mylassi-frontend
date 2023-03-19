@@ -23,8 +23,6 @@ echo "Create Origin Header-jpg"
 convert "$1" "$outputDir/header.jpg"
 echo "Create Origin Header-webp"
 convert "$1" "$outputDir/header.webp"
-echo "Create Origin Header-avif"
-convert "$1" "$outputDir/header.avif"
 
 echo "Create JPG Header"
 headerCut "$1" 3840 jpg
@@ -43,13 +41,3 @@ headerCut "$1" 1280 webp
 headerCut "$1" 854 webp
 headerCut "$1" 620 webp
 headerCut "$1" 426 webp
-
-echo "Create avif Header"
-headerCut "$1" 3840 avif
-headerCut "$1" 2560 avif
-headerCut "$1" 1920 avif
-headerCut "$1" 1280 avif
-headerCut "$1" 854 avif
-headerCut "$1" 620 avif
-headerCut "$1" 426 avif
-
