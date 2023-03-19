@@ -9,4 +9,4 @@ convert ./favicon.svg -resize 96x96 src/favicon/favicon-96.png
 convert ./favicon.svg -resize 180x180 src/favicon/apple-touch-icon.png
 convert ./favicon.svg -resize 144x144 src/favicon/mstile-144x144.png
 
-pwa-asset-generator favicon.svg ./src/favicon -v "" -i ./src/index.html -m ./src/manifest.webmanifest
+npm run pwa-asset-generator favicon.svg ./src/favicon -v "" -i ./src/index.html -m ./src/manifest.webmanifest
