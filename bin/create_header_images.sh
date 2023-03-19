@@ -5,7 +5,11 @@ outputDir=src/assets/header
 
 headerCut () {
   outputFile="$outputDir/header-$2.$3"
+  echo "Create Header: '$outputFile'"
+
   convert "$1" -resize "$2" -gravity Center -crop "$2x$minHeight+0+0" "$outputFile"
+
+
 
   width=$(identify "$outputFile" | cut -f 3 -d " " | sed s/x.*//) #width
   height=$(identify "$outputFile" | cut -f 3 -d " " | sed s/.*x//) #height
@@ -13,11 +17,13 @@ headerCut () {
   [[ "$height" -lt "$minHeight" ]] && convert "$1" -resize "x$minHeight" -gravity Center -crop "$2x$minHeight+0+0"  "$outputFile"
 }
 
-mkdir -p "$outputDir"
+echo "Create Origin Header"
+mkdir -v -p "$outputDir"
 convert "$1" "$outputDir/header.jpg"
 convert "$1" "$outputDir/header.webp"
 convert "$1" "$outputDir/header.avif"
 
+echo "Create JPG Header"
 headerCut "$1" 3840 jpg
 headerCut "$1" 2560 jpg
 headerCut "$1" 1920 jpg
@@ -26,6 +32,7 @@ headerCut "$1" 854 jpg
 headerCut "$1" 620 jpg
 headerCut "$1" 426 jpg
 
+echo "Create Webp Header"
 headerCut "$1" 3840 webp
 headerCut "$1" 2560 webp
 headerCut "$1" 1920 webp
@@ -34,6 +41,7 @@ headerCut "$1" 854 webp
 headerCut "$1" 620 webp
 headerCut "$1" 426 webp
 
+echo "Create avif Header"
 headerCut "$1" 3840 avif
 headerCut "$1" 2560 avif
 headerCut "$1" 1920 avif
