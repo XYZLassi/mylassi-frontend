@@ -11,10 +11,6 @@
     "https://api.mylassi.xyz"
   ],
   "icons": [
-      {
-        "src": "/favicon.svg",
-        "purpose": "any"
-      },
     {
       "src": "/manifest-icon-192.maskable.png",
       "sizes": "192x192",
@@ -38,6 +34,10 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "purpose": "any"
     }
   ]
 }
