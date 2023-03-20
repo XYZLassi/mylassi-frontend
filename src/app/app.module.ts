@@ -37,13 +37,9 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     ApiModule.forRoot({rootUrl: 'https://api.mylassi.xyz'}),
     GraphQLModule,
     FontAwesomeModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-    ServiceWorkerModule.register('api-worker.js', {
-      enabled: true,
-      registrationStrategy: 'registerWhenStable:30000'
+    ServiceWorkerModule.register(isDevMode() ? 'api-worker.js' : 'custom-ngsw-worker.js', {
+      enabled: true,//!isDevMode(),
+      registrationStrategy: isDevMode() ? 'registerImmediately' : 'registerWhenStable:30000',
     }),
   ],
   providers: [
