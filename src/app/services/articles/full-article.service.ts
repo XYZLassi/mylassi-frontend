@@ -126,6 +126,9 @@ export class FullArticleService {
   }
 
   public getCachedArticles() {
+    if(!isPlatformBrowser(this.platformId))
+      return EMPTY;
+
     return getDatabase(() => this.db).pipe(
       createDbTransaction(DBTableArticles),
       getAllDbItems<ArticleModel>(),
