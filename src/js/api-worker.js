@@ -28,6 +28,8 @@ async function getCacheImage(request) {
   const url = new URL(request.url);
   const subFullFileUrl = url.origin + url.pathname;
 
+  console.log(subFullFileUrl);
+
   const response = await caches.match(subFullFileUrl);
   if (response) {
     return response
@@ -39,7 +41,7 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method == 'GET') {
     const url = new URL(request.url);
-    if (url.pathname.startsWith('/images') || url.pathname.startsWith('/files')) {
+    if (url.pathname.startsWith('/images') || (url.pathname.startsWith('/files') && url.pathname.endsWith('/image'))) {
       event.respondWith(getCacheImage(request));
     }
   }
