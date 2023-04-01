@@ -1,11 +1,14 @@
 # Stage 1
 FROM ghcr.io/puppeteer/puppeteer:latest as puppeteer-step
+
+USER pptruser
 RUN mkdir -p /home/pptruser/app
 
 WORKDIR /home/pptruser/app
 COPY package.json /home/pptruser/app
 
-COPY . /home/pptruser/app
+
+COPY --chown=pptruser:pptruser . /home/pptruser/app
 RUN ls -la /home/pptruser/app
 
 RUN ./bin/create_favicons.sh
