@@ -1,22 +1,10 @@
 # Stage 1
-FROM ghcr.io/puppeteer/puppeteer:latest as puppeteer-step
-
-RUN mkdir -p /home/pptruser/app
-
-WORKDIR /home/pptruser/app
-COPY package.json /home/pptruser/app
-
-
-COPY --chown=pptruser:pptruser . /home/pptruser/app
-
-RUN ./bin/create_favicons.sh
-
 FROM node:alpine as build-step
 
 RUN mkdir -p /app
 
 WORKDIR /app
-COPY --from=puppeteer-step --chown=root:root /home/pptruser/app /app
+COPY . /app
 
 RUN set -x \
     && apk update \
