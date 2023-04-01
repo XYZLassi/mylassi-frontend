@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {ApiImageViewComponent} from './api-image-view/api-image-view.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ShapesModule} from "../shapes/shapes.module";
@@ -15,7 +15,8 @@ import {ShapesModule} from "../shapes/shapes.module";
   imports: [
     CommonModule,
     FontAwesomeModule,
-    ShapesModule
+    ShapesModule,
+    NgOptimizedImage
   ]
 })
 export class ImagesModule {
