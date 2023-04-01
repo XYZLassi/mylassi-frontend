@@ -6,6 +6,8 @@ WORKDIR /home/pptruser/app
 COPY package.json /home/pptruser/app
 
 COPY . /home/pptruser/app
+RUN ls -la /home/pptruser/app
+
 RUN ./bin/create_favicons.sh
 
 FROM node:alpine as build-step
@@ -13,8 +15,7 @@ FROM node:alpine as build-step
 RUN mkdir -p /app
 
 WORKDIR /app
-COPY package.json /app
-
+COPY --from=puppeteer-step /home/pptruser/app /app
 
 RUN set -x \
     && apk update \
@@ -23,9 +24,7 @@ RUN set -x \
     imagemagick
 
 RUN npm install
-COPY . /app
 
-COPY --from=puppeteer-step /home/pptruser/app/src/favicon /app/src/favicon
 RUN ./bin/create_header_images.sh header.jpg
 RUN npm run build:ssr
 
