@@ -6,4 +6,5 @@ export interface ArticleContentRestType {
   header?: string;
   id: number;
   position: number;
+  textContent?: string;
 }
