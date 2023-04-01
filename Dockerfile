@@ -1,4 +1,13 @@
 # Stage 1
+FROM ghcr.io/puppeteer/puppeteer:latest as puppeteer-step
+RUN mkdir -p /app
+
+WORKDIR /app
+COPY package.json /app
+
+COPY . /app
+RUN ./bin/create_favicons.sh
+
 FROM node:alpine as build-step
 
 RUN mkdir -p /app
@@ -6,23 +15,16 @@ RUN mkdir -p /app
 WORKDIR /app
 COPY package.json /app
 
-ENV CHROME_BIN="/usr/bin/chromium-browser" \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
 
 RUN set -x \
     && apk update \
     && apk upgrade \
     && apk add --no-cache \
-    udev \
-    ttf-freefont \
-    chromium \
     imagemagick
 
-RUN npm install --save puppeteer-core
 RUN npm install
 COPY . /app
 
-RUN ./bin/create_favicons.sh
 RUN ./bin/create_header_images.sh header.jpg
 RUN npm run build:ssr
 
