@@ -6,3 +6,9 @@ export interface IArticleInfoCursorContainer {
 
 }
 
+export interface IFileArticleAssoziation {
+  fileId: string
+  imageUrl: string
+  articles: number[]
+}
+

@@ -23,14 +23,14 @@ import {
   injectDatabase,
   isNotNullOrUndefined,
   mapDbItem,
-  putDbItem,
+  putDbItem, removeFromCache,
   restoreFromSession,
   restoreFromState,
   saveInSession,
   saveInState
 } from "../../rx";
 import {HttpClient} from "@angular/common/http";
-import {IArticleInfoCursorContainer} from "./_interfaces";
+import {IArticleInfoCursorContainer, IFileArticleAssoziation} from "./_interfaces";
 
 const DBName = 'ArticleCache';
 const DBTableArticles = 'Articles';
@@ -51,7 +51,7 @@ export class FullArticleService {
     if (!isPlatformBrowser(this.platformId))
       return
 
-    const openDB = indexedDB.open(DBName, 2);
+    const openDB = indexedDB.open(DBName, 4);
 
     openDB.onupgradeneeded = (event) => {
       this.migrate_db(openDB.result, event.oldVersion);
@@ -81,9 +81,10 @@ export class FullArticleService {
 
     let cacheSub: Observable<ItemTransferState<ArticleModel>> = EMPTY;
     if (isPlatformBrowser(this.platformId)) {
-      cacheSub = getDatabase(() => this.db).pipe(
-        createDbTransaction(DBTableArticles),
-        getDbItem<ArticleModel>(articleId),
+      cacheSub = of(articleId).pipe(
+        injectDatabase(() => this.db),
+        createDbTransactionWithItem(DBTableArticles),
+        getDbItem<number, ArticleModel>(i => i),
         map(i => {
           return {
             source: ItemDataSource.Cache,
@@ -126,7 +127,7 @@ export class FullArticleService {
   }
 
   public getCachedArticles() {
-    if(!isPlatformBrowser(this.platformId))
+    if (!isPlatformBrowser(this.platformId))
       return EMPTY;
 
     return getDatabase(() => this.db).pipe(
@@ -149,15 +150,32 @@ export class FullArticleService {
       mergeMap(a => {
         return of(...a.files).pipe(
           mergeMap(f => {
-            return of(f.url).pipe(
+            const imageUrl = new URL(f.url); //Todo: Add Api Attribute without host
+
+            return of(imageUrl.pathname).pipe(
               addInCache('ArticleImageCache'),
-              map(_ => f),
+              map(_ => {
+                const result: IFileArticleAssoziation = {
+                  fileId: f.fileId,
+                  imageUrl: imageUrl.pathname,
+                  articles: [],
+                }
+                return result
+              }),
             )
           }),
           injectDatabase(() => this.db),
+          createDbTransactionWithItem(DBTableArticleFiles, 'readonly'),
+          getDbItem(i => i.fileId, i => i),
+          map(i => {
+            if (!i.item.articles.includes(a.id))
+              i.item.articles = [...i.item.articles, a.id]
+            return i;
+          }),
           createDbTransactionWithItem(DBTableArticleFiles, 'readwrite'),
           putDbItem(),
-          mapDbItem(),
+          toArray(),
+          map(_ => a)
         )
       })
     )
@@ -169,6 +187,30 @@ export class FullArticleService {
       createDbTransactionWithItem(DBTableArticles, 'readwrite'),
       deleteDbItem(i => i.id),
       mapDbItem(),
+      mergeMap(a => {
+        return of(...a.files).pipe(
+          injectDatabase(() => this.db),
+          createDbTransactionWithItem(DBTableArticleFiles, 'readonly'),
+          getDbItem<ArticleFileModel, IFileArticleAssoziation>(i => i.fileId),
+          map(i => {
+            i.item.articles = i.item.articles.filter(articleId => articleId !== a.id);
+            return i
+          }),
+          mergeMap(f => {
+            if (f.item.articles.length == 0) {
+              return of(f.item.imageUrl).pipe(
+                removeFromCache('ArticleImageCache'),
+                map(_ => f)
+              );
+            }
+            return of(f);
+          }),
+          createDbTransactionWithItem(DBTableArticleFiles, 'readwrite'),
+          putDbItem(),
+          toArray(),
+          map(_ => a),
+        );
+      })
     )
   }
 
@@ -255,22 +297,18 @@ export class FullArticleService {
   }
 
   private migrate_db(result: IDBDatabase, version: number) {
-    if (version < 1) {
-      if (result.objectStoreNames.contains(DBTableArticles))
-        result.deleteObjectStore(DBTableArticles);
+    if (result.objectStoreNames.contains(DBTableArticles))
+      result.deleteObjectStore(DBTableArticles);
 
-      result.createObjectStore(DBTableArticles, {
-        keyPath: 'id',
-      });
-    }
+    result.createObjectStore(DBTableArticles, {
+      keyPath: 'id',
+    });
 
-    if (version < 2) {
-      if (result.objectStoreNames.contains(DBTableArticleFiles))
-        result.deleteObjectStore(DBTableArticleFiles)
+    if (result.objectStoreNames.contains(DBTableArticleFiles))
+      result.deleteObjectStore(DBTableArticleFiles)
 
-      result.createObjectStore(DBTableArticleFiles, {
-        keyPath: 'fileId',
-      });
-    }
+    result.createObjectStore(DBTableArticleFiles, {
+      keyPath: 'fileId',
+    });
   }
 }

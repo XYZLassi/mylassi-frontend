@@ -4,6 +4,7 @@ const CURRENT_CACHES = {
   main: `main-v${CACHE_VERSION}`,
 };
 
+
 self.addEventListener("activate", (event) => {
   const expectedCacheNamesSet = new Set(Object.values(CURRENT_CACHES));
   event.waitUntil(
@@ -26,20 +27,32 @@ self.addEventListener('install', event => {
 
 async function getCacheImage(request) {
   const url = new URL(request.url);
-  const subFullFileUrl = url.origin + url.pathname;
+  const id = url.pathname.split('/').filter(i => i)[1];
 
-  const response = await caches.match(subFullFileUrl);
-  if (response) {
-    return response
+  if (id) {
+    const urls = [
+      request.url,
+      `/images/${id}`,
+      `/files/${id}/image`,
+    ]
+
+    for (let url of urls) {
+      const imageResponse = await caches.match(url);
+      if (imageResponse) {
+        return imageResponse
+      }
+    }
   }
+
+
   return await fetch(request);
 }
 
 self.addEventListener('fetch', event => {
   const request = event.request;
-  if (request.method == 'GET') {
+  if (request.method === 'GET') {
     const url = new URL(request.url);
-    if (url.pathname.startsWith('/images') || url.pathname.startsWith('/files')) {
+    if (url.pathname.startsWith('/images') || (url.pathname.startsWith('/files') && url.pathname.endsWith('/image'))) {
       event.respondWith(getCacheImage(request));
     }
   }

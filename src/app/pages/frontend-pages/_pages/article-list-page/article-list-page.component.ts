@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, isDevMode, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {concat, mergeMap, Subscription, switchMap, toArray} from "rxjs";
 import {Title} from "@angular/platform-browser";
@@ -77,8 +77,8 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
       this.cursor = articles.item.cursor;
       this.updateArticles(articles.item.articles);
 
-
-      console.log(articles);
+      if (isDevMode())
+        console.log(articles);
     });
 
     this.subscriptions = [...this.subscriptions, loadSub];

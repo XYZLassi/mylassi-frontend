@@ -154,13 +154,13 @@ export function createDbTransactionWithItem<T>(storeName: string, mode?: IDBTran
   };
 }
 
-export function getDbItem<T>(key: IDBValidKey | IDBKeyRange) {
+export function getDbItem<C, T>(fn: (arg0: C) => (IDBValidKey | IDBKeyRange), defaultFn?: (arg0: C) => T) {
   const errorSubject = new Subject<ItemDbObject<T>>();
 
-  return (source$: Observable<TransactionDbObject>) => {
+  return (source$: Observable<TransactionItemDbObject<C>>) => {
     return source$.pipe(
       mergeMap(transObject => {
-        const request = transObject.transaction.get(key);
+        const request = transObject.transaction.get(fn(transObject.item));
 
         request.onerror = (err) => {
           errorSubject.error(err);
@@ -175,6 +175,12 @@ export function getDbItem<T>(key: IDBValidKey | IDBKeyRange) {
                 const result: ItemDbObject<T> = {
                   db: transObject.db,
                   item: resultItem,
+                };
+                return result;
+              } else if (defaultFn) {
+                const result: ItemDbObject<T> = {
+                  db: transObject.db,
+                  item: defaultFn(transObject.item),
                 };
                 return result;
               }

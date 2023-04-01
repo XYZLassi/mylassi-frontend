@@ -306,7 +306,7 @@ export class ArticlesService extends BaseService {
     context?: HttpContext
     body: ArticleOptionsRestType
   }
-): Observable<StrictHttpResponse<ArticleRestType>> {
+): Observable<StrictHttpResponse<FullArticleRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticlePath, 'put');
     if (params) {
@@ -321,7 +321,7 @@ export class ArticlesService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ArticleRestType>;
+        return r as StrictHttpResponse<FullArticleRestType>;
       })
     );
   }
@@ -341,10 +341,10 @@ export class ArticlesService extends BaseService {
     context?: HttpContext
     body: ArticleOptionsRestType
   }
-): Observable<ArticleRestType> {
+): Observable<FullArticleRestType> {
 
     return this.updateArticle$Response(params).pipe(
-      map((r: StrictHttpResponse<ArticleRestType>) => r.body as ArticleRestType)
+      map((r: StrictHttpResponse<FullArticleRestType>) => r.body as FullArticleRestType)
     );
   }
 
@@ -786,8 +786,8 @@ export class ArticlesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   updateArticleFile$Response(params: {
-    article: number;
     article_file: number;
+    article: number;
     context?: HttpContext
     body: ArticleFileOptionsRestType
   }
@@ -795,8 +795,8 @@ export class ArticlesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticleFilePath, 'put');
     if (params) {
-      rb.path('article', params.article, {});
       rb.path('article_file', params.article_file, {});
+      rb.path('article', params.article, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -823,8 +823,8 @@ export class ArticlesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   updateArticleFile(params: {
-    article: number;
     article_file: number;
+    article: number;
     context?: HttpContext
     body: ArticleFileOptionsRestType
   }
@@ -910,16 +910,16 @@ export class ArticlesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getContentFromArticle$Response(params: {
-    article: number;
     content: number;
+    article: number;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<ArticleContentRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.GetContentFromArticlePath, 'get');
     if (params) {
-      rb.path('article', params.article, {});
       rb.path('content', params.content, {});
+      rb.path('article', params.article, {});
     }
 
     return this.http.request(rb.build({
@@ -945,8 +945,8 @@ export class ArticlesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getContentFromArticle(params: {
-    article: number;
     content: number;
+    article: number;
     context?: HttpContext
   }
 ): Observable<ArticleContentRestType> {
@@ -972,8 +972,8 @@ export class ArticlesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   updateArticleContent$Response(params: {
-    article: number;
     content: number;
+    article: number;
     context?: HttpContext
     body: ArticleContentOptionsRestType
   }
@@ -981,8 +981,8 @@ export class ArticlesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.UpdateArticleContentPath, 'post');
     if (params) {
-      rb.path('article', params.article, {});
       rb.path('content', params.content, {});
+      rb.path('article', params.article, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -1009,8 +1009,8 @@ export class ArticlesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   updateArticleContent(params: {
-    article: number;
     content: number;
+    article: number;
     context?: HttpContext
     body: ArticleContentOptionsRestType
   }
@@ -1037,16 +1037,16 @@ export class ArticlesService extends BaseService {
    * This method doesn't expect any request body.
    */
   deleteContent$Response(params: {
-    article: number;
     content: number;
+    article: number;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<OkayResultRestType>> {
 
     const rb = new RequestBuilder(this.rootUrl, ArticlesService.DeleteContentPath, 'delete');
     if (params) {
-      rb.path('article', params.article, {});
       rb.path('content', params.content, {});
+      rb.path('article', params.article, {});
     }
 
     return this.http.request(rb.build({
@@ -1072,8 +1072,8 @@ export class ArticlesService extends BaseService {
    * This method doesn't expect any request body.
    */
   deleteContent(params: {
-    article: number;
     content: number;
+    article: number;
     context?: HttpContext
   }
 ): Observable<OkayResultRestType> {

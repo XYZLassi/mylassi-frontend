@@ -5,5 +5,6 @@
  * An enumeration.
  */
 export enum ArticleContentType {
-  Header = 'header'
+  Header = 'header',
+  Text = 'text'
 }

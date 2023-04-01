@@ -91,15 +91,14 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       content: `https://mylassi.xyz${this.router.url}`,
     });
 
-    /*
-    if (article.thumbnails.length > 0) {
-      const url = article.thumbnails[0].url;
+    if (article.thumbnailImageId) {
+      const url = `https://api.mylassi.xyz/images/${article.thumbnailImageId}`
       this.meta.updateTag({
         property: 'og:image',
         content: url
       });
     }
-    */
+
   }
 
   ngOnDestroy(): void {

@@ -22,16 +22,17 @@ import {isPlatformBrowser} from "@angular/common";
 })
 export class ApiImageViewComponent implements OnInit, OnChanges, OnDestroy {
 
-  public imageUrl: string | null | undefined;
-  public altText: string | null | undefined;
+  public loadError: boolean = false;
+
+  public imageUrl?: string;
+  public altText?: string;
 
   public resolutionList: number[] = []
 
-  @Input() image?: File | string | null;
+  @Input() image?: File | string;
 
   @Input() hoverEffect: boolean = true;
 
-  private imageOriginUrl: string | null | undefined;
 
   private subscriptions: Subscription[] = [];
 
@@ -48,15 +49,15 @@ export class ApiImageViewComponent implements OnInit, OnChanges, OnDestroy {
       if (result) {
         this.updateImageFromRestFile(result);
       } else {
-        this.updateImage();
+        this.updateImageFromFileObject();
       }
     } else {
-      this.updateImage();
+      this.updateImageFromFileObject();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.updateImage();
+    this.updateImageFromFileObject();
   }
 
   ngOnDestroy() {
@@ -78,28 +79,20 @@ export class ApiImageViewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   updateImageFromRestFile(restFile: FileRestType) {
-    this.imageUrl = isDevMode() ? restFile.url : `/images/${restFile.id}`;
-    this.imageOriginUrl = restFile.url;
+    this.imageUrl = `/images/${restFile.id}`
     this.altText = restFile.filename;
 
-    const baseResolutions = [426, 640, 854, 1280, 1920, 2560, 3840, 7680];
+    const baseResolutions = [16, 32, 48, 64, 96, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
-    this.resolutionList = []
-    baseResolutions.forEach(i => {
-      if (restFile.imageWidth && i < restFile.imageWidth)
-        this.resolutionList.push(i)
-    });
+    const width = restFile.imageWidth || 0;
+    this.resolutionList = baseResolutions.filter(i => i <= width);
   }
 
-  updateImage() {
-    this.imageUrl = null;
+  updateImageFromFileObject() {
     this.resolutionList = [];
-    this.altText = null;
-    this.imageOriginUrl = null;
 
     if (isPlatformBrowser(this.platformId) && this.image instanceof File) {
       this.resolutionList = [];
-      this.altText = null;
 
       let reader = new FileReader();
       reader.onload = (event) => {
@@ -114,6 +107,6 @@ export class ApiImageViewComponent implements OnInit, OnChanges, OnDestroy {
 
 
   onImageLoadError($event: ErrorEvent) {
-    this.imageUrl = this.imageOriginUrl;
+    this.loadError = true;
   }
 }

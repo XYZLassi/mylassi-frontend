@@ -40,6 +40,7 @@ export class SecurityService extends BaseService {
    * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
    */
   createNewToken$Response(params: {
+    expire_time?: number;
     context?: HttpContext
     body: BodyCreateNewToken
   }
@@ -47,6 +48,7 @@ export class SecurityService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, SecurityService.CreateNewTokenPath, 'post');
     if (params) {
+      rb.query('expire_time', params.expire_time, {});
       rb.body(params.body, 'application/x-www-form-urlencoded');
     }
 
@@ -73,12 +75,72 @@ export class SecurityService extends BaseService {
    * This method sends `application/x-www-form-urlencoded` and handles request body of type `application/x-www-form-urlencoded`.
    */
   createNewToken(params: {
+    expire_time?: number;
     context?: HttpContext
     body: BodyCreateNewToken
   }
 ): Observable<TokenRestType> {
 
     return this.createNewToken$Response(params).pipe(
+      map((r: StrictHttpResponse<TokenRestType>) => r.body as TokenRestType)
+    );
+  }
+
+  /**
+   * Path part for operation refreshToken
+   */
+  static readonly RefreshTokenPath = '/token/refresh/';
+
+  /**
+   * Refresh Token.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `refreshToken()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  refreshToken$Response(params?: {
+    expire_time?: number;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<TokenRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SecurityService.RefreshTokenPath, 'post');
+    if (params) {
+      rb.query('expire_time', params.expire_time, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<TokenRestType>;
+      })
+    );
+  }
+
+  /**
+   * Refresh Token.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `refreshToken$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  refreshToken(params?: {
+    expire_time?: number;
+    context?: HttpContext
+  }
+): Observable<TokenRestType> {
+
+    return this.refreshToken$Response(params).pipe(
       map((r: StrictHttpResponse<TokenRestType>) => r.body as TokenRestType)
     );
   }
