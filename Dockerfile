@@ -16,7 +16,7 @@ RUN set -x \
     udev \
     ttf-freefont \
     chromium \
-    imagemagick \
+    imagemagick
 
 RUN npm install --save puppeteer-core
 RUN npm install
