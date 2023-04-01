@@ -4,7 +4,6 @@ const CURRENT_CACHES = {
   main: `main-v${CACHE_VERSION}`,
 };
 
-const BASE_URL = "https://api.mylassi.xyz";
 
 self.addEventListener("activate", (event) => {
   const expectedCacheNamesSet = new Set(Object.values(CURRENT_CACHES));
@@ -32,8 +31,9 @@ async function getCacheImage(request) {
 
   if (id) {
     const urls = [
-      `${BASE_URL}/images/${id}`,
-      `${BASE_URL}/files/${id}/image`,
+      request.url,
+      `/images/${id}`,
+      `/files/${id}/image`,
     ]
 
     for (let url of urls) {

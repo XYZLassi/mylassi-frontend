@@ -79,7 +79,7 @@ export class ApiImageViewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   updateImageFromRestFile(restFile: FileRestType) {
-    this.imageUrl = isDevMode() ? restFile.url : `/images/${restFile.id}`;
+    this.imageUrl = `/images/${restFile.id}`
     this.altText = restFile.filename;
 
     const baseResolutions = [16, 32, 48, 64, 96, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
