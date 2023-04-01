@@ -1,12 +1,24 @@
 # Stage 1
-FROM node:16-alpine as build-step
-
-RUN apk add --no-cache imagemagick chromium
+FROM node:alpine as build-step
 
 RUN mkdir -p /app
 
 WORKDIR /app
 COPY package.json /app
+
+ENV CHROME_BIN="/usr/bin/chromium-browser" \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
+
+RUN set -x \
+    && apk update \
+    && apk upgrade \
+    && apk add --no-cache \
+    udev \
+    ttf-freefont \
+    chromium \
+    imagemagick \
+    && npm install puppeteer
+
 RUN npm install --save puppeteer-core
 RUN npm install
 COPY . /app
