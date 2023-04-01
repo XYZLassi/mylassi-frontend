@@ -2,8 +2,8 @@
 
 backgroundColor="#1b1e20"
 
-mkdir -p "src/favicon/"
-cp ./favicon.svg src/favicon
+mkdir -p "./src/favicon/"
+cp ./favicon.svg ./src/favicon
 convert -background "$backgroundColor" ./favicon.svg  -resize 48x48 src/favicon/favicon.ico
 convert -background "$backgroundColor" ./favicon.svg -resize 192x192  src/favicon/favicon.png
 convert -background "$backgroundColor" ./favicon.svg  -resize 32x32 src/favicon/favicon-32.png
