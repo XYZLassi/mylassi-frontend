@@ -11,4 +11,4 @@ convert -background "$backgroundColor" ./favicon.svg  -resize 96x96 src/favicon/
 convert -background "$backgroundColor" ./favicon.svg  -resize 180x180 src/favicon/apple-touch-icon.png
 convert -background "$backgroundColor" ./favicon.svg  -resize 144x144 src/favicon/mstile-144x144.png
 
-npm run pwa-asset-generator -- --path-override "" --background "$backgroundColor" -i ./src/index.html -m ./src/manifest.webmanifest favicon.svg ./src/favicon
+npm run pwa-asset-generator -- --path-override "" --background "$backgroundColor" -i ./src/index.html -m ./src/manifest.webmanifest favicon.svg
