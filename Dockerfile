@@ -25,6 +25,7 @@ RUN set -x \
 RUN npm install
 COPY . /app
 
+COPY --from=puppeteer-step /home/pptruser/app/src/favicon /app/src/favicon
 RUN ./bin/create_header_images.sh header.jpg
 RUN npm run build:ssr
 
