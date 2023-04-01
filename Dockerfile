@@ -1,7 +1,7 @@
 # Stage 1
 FROM node:16-alpine as build-step
 
-RUN apk add --no-cache imagemagick
+RUN apk add --no-cache imagemagick chromium
 
 RUN mkdir -p /app
 
