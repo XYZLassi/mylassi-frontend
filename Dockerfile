@@ -1,11 +1,11 @@
 # Stage 1
 FROM ghcr.io/puppeteer/puppeteer:latest as puppeteer-step
-RUN mkdir -p /app
+RUN mkdir -p /home/pptruser/app
 
-WORKDIR /app
-COPY package.json /app
+WORKDIR /home/pptruser/app
+COPY package.json /home/pptruser/app
 
-COPY . /app
+COPY . /home/pptruser/app
 RUN ./bin/create_favicons.sh
 
 FROM node:alpine as build-step
