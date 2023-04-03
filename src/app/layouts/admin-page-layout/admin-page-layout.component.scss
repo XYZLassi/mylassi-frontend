@@ -43,6 +43,11 @@ $sidebarLeftWidth: 3.5rem;
 
       transition: width 200ms ease-in-out;
 
+      .link-icon {
+        max-width: 32px;
+        max-height: 32px;
+      }
+
       .link-text {
         font-size: 1.5rem;
 
