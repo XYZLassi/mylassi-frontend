@@ -1,5 +1,10 @@
 {
   "/images": {
+    "target": "https://api.mylassi.xyz/api",
+    "secure": true,
+    "changeOrigin": true
+  },
+  "/api": {
     "target": "https://api.mylassi.xyz",
     "secure": true,
     "changeOrigin": true
