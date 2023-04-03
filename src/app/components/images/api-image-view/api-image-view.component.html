@@ -1,12 +1,15 @@
-<div class="image">
+<div class="image-container">
   <picture>
-    <ng-container *ngIf="!loadError && imageUrl">
-      <source *ngFor="let resolution of resolutionList"
-              media="(max-width: {{resolution}}px)" srcset="{{imageUrl}}?width={{resolution}}">
-      <img [class.hover]="hoverEffect" alt="{{altText}}" src="{{imageUrl}}" (error)="onImageLoadError($event)">
+    <ng-container *ngIf="!loadError && imageId">
+      <img class="image"
+           [ngSrc]="imageId" [width]="imageWidth" [height]="imageHeight"
+           sizes="100vw" [ngSrcset]="getSrcSet()"
+           [alt]="altText"
+           (error)="onImageLoadError($event)">
     </ng-container>
     <ng-container *ngIf="loadError">
-      <img alt="Picture Not Found" ngSrc="assets/404Picture.svg" height="320" width="480">
+      <!--suppress AngularNgOptimizedImage -->
+      <img alt="Picture Not Found" src="assets/404Picture.svg">
     </ng-container>
   </picture>
 </div>

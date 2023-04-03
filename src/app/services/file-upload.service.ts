@@ -10,13 +10,14 @@ import {AppendArticleFileOptionsRestType} from "../api/models/append-article-fil
 import {tap} from "rxjs/operators";
 
 export interface ArticleFileUploadData {
-  file: File | string
-  fileUsage: ArticleFileUsage | null
+  file: File | string;
+  fileUsage: ArticleFileUsage | null;
+
 }
 
 export interface UploadResult {
-  info: FileRestType,
-  uploadInfo: ArticleFileUploadData,
+  info: FileRestType;
+  uploadInfo: ArticleFileUploadData;
 }
 
 @Injectable({

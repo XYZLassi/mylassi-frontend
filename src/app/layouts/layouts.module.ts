@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FullSinglePageLayoutComponent} from './full-single-page-layout/full-single-page-layout.component';
 import {SinglePageLayoutComponent} from './single-page-layout/single-page-layout.component';
 import {AppRoutingModule} from "../app-routing.module";
@@ -21,7 +21,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     imports: [
         CommonModule,
         AppRoutingModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        NgOptimizedImage
     ]
 })
 export class LayoutsModule {

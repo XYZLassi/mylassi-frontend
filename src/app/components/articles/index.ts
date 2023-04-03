@@ -5,5 +5,4 @@ export * from './articles.module'
 export * from './article-list/article-list.component'
 
 //Interfaces
-export * from './_interfaces/article-list-model'
 

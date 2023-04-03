@@ -6,7 +6,7 @@
     <input #inputElement class="form-control file-input" type="file" accept="image/*" (change)="onChangeImage($event)">
   </div>
   <div class="image-container" *ngFor="let image of images">
-    <app-api-image-view [hoverEffect]="false" [image]="image.file"></app-api-image-view>
+    <app-api-file-image-selector-view [image]="image.file"></app-api-file-image-selector-view>
     <button class="left-bottom danger" (click)="removeImage(image)">
       <fa-icon [icon]="faTrash"></fa-icon>
     </button>
