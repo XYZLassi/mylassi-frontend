@@ -34,7 +34,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     ViewsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ApiModule.forRoot({rootUrl: 'https://api.mylassi.xyz'}),
+    ApiModule.forRoot({rootUrl: './api'}),
     GraphQLModule,
     FontAwesomeModule,
     ServiceWorkerModule.register(isDevMode() ? 'api-worker.js' : 'custom-ngsw-worker.js', {
