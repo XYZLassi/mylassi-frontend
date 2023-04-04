@@ -10,7 +10,7 @@ export class FileImageViewComponent implements OnInit, OnChanges {
 
   @Input() image!: File;
 
-  private imageObject?: string;
+  public imageObject?: string;
 
 
   ngOnInit(): void {

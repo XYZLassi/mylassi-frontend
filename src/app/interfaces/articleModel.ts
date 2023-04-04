@@ -1,7 +1,7 @@
 import {ArticleOptionsRestType} from "../api/models/article-options-rest-type";
 import {ArticleContentType} from "../api/models/article-content-type";
 
-export interface ArticleInfoModel extends ArticleOptionsRestType {
+export interface IArticleInfoModel extends ArticleOptionsRestType {
   id: number
   title: string
   teaser?: string
@@ -9,20 +9,20 @@ export interface ArticleInfoModel extends ArticleOptionsRestType {
 }
 
 
-export interface ArticleModel extends ArticleInfoModel {
+export interface IArticleModel extends IArticleInfoModel {
   id: number;
-  contents: ArticleContentModel[];
+  contents: IArticleContentModel[];
 
-  files: ArticleFileModel[];
+  files: IArticleFileModel[];
 }
 
-export interface ArticleContentModel {
+export interface IArticleContentModel {
   position: number
   contentType: ArticleContentType
   header?: string
 }
 
-export interface ArticleFileModel {
+export interface IArticleFileModel {
   fileId: string
   url: string
 }

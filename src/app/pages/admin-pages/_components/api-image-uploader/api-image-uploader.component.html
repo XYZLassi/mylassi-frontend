@@ -1,15 +1,7 @@
-<div class="container">
-  <div class="image-container">
-    <app-border-box-text-with-icon text="Upload" class="uploadBox" (click)="openUpload($event)">
-      <fa-icon [icon]="faUpload" class="fa-2xl"></fa-icon>
-    </app-border-box-text-with-icon>
-    <input #inputElement class="form-control file-input" type="file" accept="image/*" (change)="onChangeImage($event)">
-  </div>
-  <div class="image-container" *ngFor="let image of images">
-    <app-api-file-image-selector-view [image]="image.file"></app-api-file-image-selector-view>
-    <button class="left-bottom danger" (click)="removeImage(image)">
-      <fa-icon [icon]="faTrash"></fa-icon>
-    </button>
-  </div>
-</div>
+<app-image-container>
+  <app-border-box-text-with-icon text="Upload" class="uploadBox" (click)="openUpload($event)">
+    <fa-icon [icon]="faUpload" class="fa-2xl"></fa-icon>
+  </app-border-box-text-with-icon>
+</app-image-container>
 
+<input #inputElement class="form-control file-input" type="file" accept="image/*">

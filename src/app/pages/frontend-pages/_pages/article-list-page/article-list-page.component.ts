@@ -6,7 +6,7 @@ import {CategoriesService} from "../../../../api/services/categories.service";
 import {CategoryRestType} from "../../../../api/models/category-rest-type";
 import {map} from "rxjs/operators";
 import {FullArticleService, ItemDataSource, ItemTransferState} from "../../../../services";
-import {ArticleInfoModel} from "../../../../models";
+import {IArticleInfoModel} from "../../../../interfaces";
 import {IArticleInfoCursorContainer} from "../../../../services/articles/_interfaces";
 
 interface LoadItemsInfos {
@@ -25,7 +25,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
 
   @ViewChild('intersectionContainer') intersectionContainer?: ElementRef;
 
-  public articles: ArticleInfoModel[] = [];
+  public articles: IArticleInfoModel[] = [];
 
   public cursor?: string;
 
@@ -112,7 +112,7 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateArticles(articles: ArticleInfoModel[]) {
+  private updateArticles(articles: IArticleInfoModel[]) {
     articles.forEach(a => {
       const index = this.articles.findIndex(i => i.id === a.id);
 

@@ -1,7 +1,7 @@
 import {Inject, Injectable, isDevMode, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from "@angular/common";
 
-import {ArticleContentModel, ArticleFileModel, ArticleInfoModel, ArticleModel} from "../../models";
+import {IArticleContentModel, IArticleFileModel, IArticleInfoModel, IArticleModel} from "../../interfaces";
 import {concat, concatWith, EMPTY, mergeMap, Observable, of, take, toArray} from "rxjs";
 import {ItemDataSource, ItemTransferState} from "../interfaces";
 import {TransferState} from "@angular/platform-browser";
@@ -76,27 +76,27 @@ export class FullArticleService {
     return this.canSaveInDb;
   }
 
-  getArticle(articleId: number): Observable<ItemTransferState<ArticleModel>> {
+  getArticle(articleId: number): Observable<ItemTransferState<IArticleModel>> {
     const itemKey = this.getArticleKey(articleId);
 
 
-    let sessionSub: Observable<ItemTransferState<ArticleModel>> = EMPTY;
+    let sessionSub: Observable<ItemTransferState<IArticleModel>> = EMPTY;
     if (isPlatformBrowser(this.platformId)) {
       sessionSub = sessionSub.pipe(
         concatWith(
-          restoreFromSession<ArticleModel>(itemKey),
-          restoreFromState<ArticleModel>(itemKey, this.state),
+          restoreFromSession<IArticleModel>(itemKey),
+          restoreFromState<IArticleModel>(itemKey, this.state),
         ),
         take(1),
       );
     }
 
-    let cacheSub: Observable<ItemTransferState<ArticleModel>> = EMPTY;
+    let cacheSub: Observable<ItemTransferState<IArticleModel>> = EMPTY;
     if (isPlatformBrowser(this.platformId) && this.canSaveInDb) {
       cacheSub = of(articleId).pipe(
         injectDatabase(() => this.db),
         createDbTransactionWithItem(DBTableArticles),
-        getDbItem<number, ArticleModel>(i => i),
+        getDbItem<number, IArticleModel>(i => i),
         map(i => {
           return {
             source: ItemDataSource.Cache,
@@ -150,7 +150,7 @@ export class FullArticleService {
 
     return getDatabase(() => this.db).pipe(
       createDbTransaction(DBTableArticles),
-      getAllDbItems<ArticleModel>(),
+      getAllDbItems<IArticleModel>(),
       mapDbItem(),
     )
   }
@@ -159,7 +159,7 @@ export class FullArticleService {
     return this.loadApolloArticleInfos(variables);
   }
 
-  public putArticleInCache(article: ArticleModel) {
+  public putArticleInCache(article: IArticleModel) {
     if (!this.canSaveInDb)
       return EMPTY;
 
@@ -202,7 +202,7 @@ export class FullArticleService {
     )
   }
 
-  public removeArticleFormCache(article: ArticleModel) {
+  public removeArticleFormCache(article: IArticleModel) {
     if (!this.canSaveInDb)
       return EMPTY;
 
@@ -215,7 +215,7 @@ export class FullArticleService {
         return of(...a.files).pipe(
           injectDatabase(() => this.db),
           createDbTransactionWithItem(DBTableArticleFiles, 'readonly'),
-          getDbItem<ArticleFileModel, IFileArticleAssoziation>(i => i.fileId),
+          getDbItem<IArticleFileModel, IFileArticleAssoziation>(i => i.fileId),
           map(i => {
             i.item.articles = i.item.articles.filter(articleId => articleId !== a.id);
             return i
@@ -246,7 +246,7 @@ export class FullArticleService {
 
     return sub.pipe(mergeMap(r => {
       return of(...r.items).pipe(map(i => {
-        const result: ArticleInfoModel = {
+        const result: IArticleInfoModel = {
           id: i.id,
           title: i.title,
           teaser: i.teaser || undefined,
@@ -269,7 +269,7 @@ export class FullArticleService {
     }));
   }
 
-  private getApolloArticle(articleId: number): Observable<ItemTransferState<ArticleModel>> {
+  private getApolloArticle(articleId: number): Observable<ItemTransferState<IArticleModel>> {
     const qgl = new LoadArticleGQL(this.apollo);
     const sub = qgl.fetch({
       articleId: articleId
@@ -279,8 +279,8 @@ export class FullArticleService {
     );
 
     return sub.pipe(map(i => {
-      const contents: ArticleContentModel[] = [];
-      const files: ArticleFileModel[] = [];
+      const contents: IArticleContentModel[] = [];
+      const files: IArticleFileModel[] = [];
 
       i.contents.forEach(content => {
         contents.push({
@@ -312,8 +312,8 @@ export class FullArticleService {
   }
 
 
-  private getArticleKey(article: number | ArticleModel): string {
-    const model = article as ArticleModel;
+  private getArticleKey(article: number | IArticleModel): string {
+    const model = article as IArticleModel;
     if (model.id) {
       return `Article-${model.id}`;
     }

@@ -1,0 +1,7 @@
+<app-image-container *ngFor="let image of images"
+                     [allowDelete]="allowDelete" [imageData]="image"
+                     (removeImage)="onRemoveImage($event)" >
+  <app-api-image-view [image]="image.fileId"></app-api-image-view>
+</app-image-container>
+
+

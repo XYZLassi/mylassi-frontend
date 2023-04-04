@@ -1,1 +1,6 @@
-<p>file-image-view works!</p>
+<div class="image-container">
+  <picture>
+    <!--suppress AngularNgOptimizedImage -->
+    <img *ngIf="imageObject" class="image" [src]="imageObject">
+  </picture>
+</div>

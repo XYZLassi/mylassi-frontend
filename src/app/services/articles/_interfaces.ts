@@ -1,7 +1,7 @@
-import {ArticleInfoModel} from "../../models";
+import {IArticleInfoModel} from "../../interfaces";
 
 export interface IArticleInfoCursorContainer {
-  articles: ArticleInfoModel[]
+  articles: IArticleInfoModel[]
   cursor?: string
 
 }

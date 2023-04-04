@@ -7,8 +7,16 @@
 
   <h2>Thumbnails</h2>
   <div class="thumbnail-container mb-1">
-    <app-api-image-uploader [defaultUsage]="thumbnailUsage"
-                            [(images)]="thumbnailImages"></app-api-image-uploader>
+    <app-image-gallery>
+      <app-api-image-uploader (uploadedImage)="onThumbnailUploaded($event)">
+      </app-api-image-uploader>
+      <app-api-images-list-view
+        [images]="thumbnailImages"
+        (removedImage)="onRemoveImage($event)"
+        [allowDelete]="true"></app-api-images-list-view>
+    </app-image-gallery>
+
+
   </div>
 
   <h2>Inhalte</h2>

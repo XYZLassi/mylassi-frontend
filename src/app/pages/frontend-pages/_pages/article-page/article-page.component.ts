@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Meta, Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
 import {FullArticleService, ItemDataSource} from "../../../../services";
-import {ArticleModel} from "../../../../models";
+import {IArticleModel} from "../../../../interfaces";
 
 
 @Component({
@@ -15,7 +15,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
 
   public isBusy: boolean = true;
 
-  public article?: ArticleModel;
+  public article?: IArticleModel;
 
   private subscriptions: Subscription[] = [];
 
@@ -70,7 +70,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     this.subscriptions = [...this.subscriptions, routeSub];
   }
 
-  updateMeta(article: ArticleModel) {
+  updateMeta(article: IArticleModel) {
 
     this.titleMeta.setTitle(`MyLassi.xyz - ${article.title}`);
 

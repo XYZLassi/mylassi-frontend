@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ArticleContentRestType} from "../../../api/models/article-content-rest-type";
-import {ArticleContentModel} from "../../../models";
+import {IArticleContentModel} from "../../../interfaces";
 
 @Component({
   selector: 'app-article-content-view',
@@ -9,6 +9,6 @@ import {ArticleContentModel} from "../../../models";
 })
 export class ArticleContentViewComponent {
 
-  @Input() content?: ArticleContentModel | ArticleContentRestType;
+  @Input() content?: IArticleContentModel | ArticleContentRestType;
 
 }
