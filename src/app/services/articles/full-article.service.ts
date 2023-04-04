@@ -44,6 +44,8 @@ export class FullArticleService {
 
   private db!: IDBDatabase;
 
+  private canSaveInDb = false;
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
               private http: HttpClient,
               private apollo: Apollo,
@@ -61,7 +63,17 @@ export class FullArticleService {
       if (isDevMode())
         console.log(`Open DB: ${DBName}`);
       this.db = openDB.result;
+      this.canSaveInDb = true;
     };
+
+    openDB.onerror = err => {
+      if (isDevMode())
+        console.error(err);
+    }
+  }
+
+  cacheReady() {
+    return this.canSaveInDb;
   }
 
   getArticle(articleId: number): Observable<ItemTransferState<ArticleModel>> {
@@ -80,7 +92,7 @@ export class FullArticleService {
     }
 
     let cacheSub: Observable<ItemTransferState<ArticleModel>> = EMPTY;
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId) && this.canSaveInDb) {
       cacheSub = of(articleId).pipe(
         injectDatabase(() => this.db),
         createDbTransactionWithItem(DBTableArticles),
@@ -99,19 +111,25 @@ export class FullArticleService {
     if (isPlatformBrowser(this.platformId)) {
       apolloSub = apolloSub.pipe(
         saveInSession(i => this.getArticleKey(i.item)),
+      );
+
+      if (this.canSaveInDb) {
         //Save in DB
-        injectDatabase(() => this.db),
-        createDbTransactionWithItem(DBTableArticles, "readwrite"),
-        existsDbItem(i => i.item.item.id,
-          mergeMap(i => {
-            return this.putArticleInCache(i.item.item).pipe(map(j => i.item));
-          }),
-          map(i => i.item)),
-      )
+        apolloSub = apolloSub.pipe(
+          injectDatabase(() => this.db),
+          createDbTransactionWithItem(DBTableArticles, "readwrite"),
+          existsDbItem(i => i.item.item.id,
+            mergeMap(i => {
+              return this.putArticleInCache(i.item.item).pipe(map(j => i.item));
+            }),
+            map(i => i.item)),
+        );
+      }
+
     } else {
       apolloSub = apolloSub.pipe(
         saveInState(i => itemKey, this.state, i => i.item),
-      )
+      );
     }
 
     let resultSub = concat(sessionSub, cacheSub, apolloSub);
@@ -127,7 +145,7 @@ export class FullArticleService {
   }
 
   public getCachedArticles() {
-    if (!isPlatformBrowser(this.platformId))
+    if (!isPlatformBrowser(this.platformId) || !this.canSaveInDb)
       return EMPTY;
 
     return getDatabase(() => this.db).pipe(
@@ -142,6 +160,9 @@ export class FullArticleService {
   }
 
   public putArticleInCache(article: ArticleModel) {
+    if (!this.canSaveInDb)
+      return EMPTY;
+
     return of(article).pipe(
       injectDatabase(() => this.db),
       createDbTransactionWithItem(DBTableArticles, 'readwrite'),
@@ -182,6 +203,9 @@ export class FullArticleService {
   }
 
   public removeArticleFormCache(article: ArticleModel) {
+    if (!this.canSaveInDb)
+      return EMPTY;
+
     return of(article).pipe(
       injectDatabase(() => this.db),
       createDbTransactionWithItem(DBTableArticles, 'readwrite'),

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, isDevMode, OnDestroy, OnInit} from '@angular/core';
+import {Component, isDevMode, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Meta, Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
@@ -92,7 +92,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     });
 
     if (article.thumbnailImageId) {
-      const url = `https://api.mylassi.xyz/images/${article.thumbnailImageId}`
+      const url = `https://api.mylassi.xyz/images/${article.thumbnailImageId}`;
       this.meta.updateTag({
         property: 'og:image',
         content: url
@@ -105,6 +105,10 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  canCacheArticle(){
+    return this.fullArticleService.cacheReady();
+  }
+
   onCacheChangeArticle($event: any) {
     if (!this.article)
       return
@@ -113,9 +117,6 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
       this.fullArticleService.putArticleInCache(this.article).subscribe({
         next: (i) => {
           this.isCached = true;
-        },
-        complete: () => {
-          console.log('Complete');
         },
         error: (err) => {
           if (isDevMode())
