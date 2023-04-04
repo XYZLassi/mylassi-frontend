@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
-import {UserAuthenticationService} from "../../../services/user-authentication.service";
+import {UserAuthenticationService} from "../../../services/user-authentication/user-authentication.service";
 import {Subscription} from "rxjs";
 
 @Component({

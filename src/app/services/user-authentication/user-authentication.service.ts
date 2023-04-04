@@ -1,8 +1,8 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import jwt_decode from "jwt-decode";
 import {isPlatformBrowser} from "@angular/common";
-import {SecurityService} from "../api/services/security.service";
-import {TokenRestType} from "../api/models/token-rest-type";
+import {SecurityService} from "../../api/services/security.service";
+import {TokenRestType} from "../../api/models/token-rest-type";
 import {tap} from "rxjs/operators";
 
 export interface AccessToken {

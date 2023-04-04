@@ -7,8 +7,7 @@ import {
 } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from "rxjs/operators";
-import jwt_decode from "jwt-decode";
-import {UserAuthenticationService} from "./services/user-authentication.service";
+import {UserAuthenticationService} from "./user-authentication.service";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -20,8 +19,7 @@ export class ApiInterceptor implements HttpInterceptor {
     const token = this._authenticationService.getToken()
 
 
-    // Todo: Dynamic Url
-    if (token && (request.url.startsWith('https://api.mylassi.xyz') || request.url.startsWith('https://mylassi.xyz'))) {
+    if (token && (request.url.startsWith('/api') || request.url.startsWith('/images'))) {
       request = request.clone({
         setHeaders: {
           'Authorization': `${token.tokenType} ${token.accessToken}`

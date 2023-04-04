@@ -8,7 +8,7 @@ import {PagesModule} from "./pages/pages.module";
 import {ViewsModule} from "./views/views.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ApiModule} from "./api/api.module";
-import {ApiInterceptor} from "./api-interceptor.service";
+import {ApiInterceptor} from "./services/user-authentication/api-interceptor.service";
 import {GraphQLModule} from './graphql.module';
 import {NavigationEnd, Router} from "@angular/router";
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -34,7 +34,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     ViewsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ApiModule.forRoot({rootUrl: './api'}),
+    ApiModule.forRoot({rootUrl: '/api'}),
     GraphQLModule,
     FontAwesomeModule,
     ServiceWorkerModule.register(isDevMode() ? 'api-worker.js' : 'custom-ngsw-worker.js', {

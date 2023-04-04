@@ -1,6 +1,6 @@
 import {Component, isDevMode, OnDestroy, OnInit} from '@angular/core';
 import {concatWith, interval, of, Subscription, switchMap} from "rxjs";
-import {UserAuthenticationService} from "./services/user-authentication.service";
+import {UserAuthenticationService} from "./services/user-authentication/user-authentication.service";
 import {filter} from "rxjs/operators";
 
 const TOKEN_REFRESH_TIME = 5 * 60 * 1000;

@@ -1,2 +1,6 @@
-export * from './articles/full-article.service'
+// Interfaces
 export * from './interfaces'
+
+//Services
+export * from './articles'
+export * from './user-authentication'
