@@ -1,5 +1,5 @@
 <ng-container *ngIf="!isBusy && article">
-  <button class="btn mb-2" *ngIf="isCached !== undefined" (click)="onCacheChangeArticle($event)">
+  <button class="btn mb-2" *ngIf="isCached !== undefined && canCacheArticle()" (click)="onCacheChangeArticle($event)">
     <span *ngIf="!isCached">Speichern</span>
     <span *ngIf="isCached">Entfernen</span>
   </button>
