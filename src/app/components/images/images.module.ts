@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {ApiImageViewComponent} from './api-image-view/api-image-view.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {ShapesModule} from "../shapes/shapes.module";
 import {FileImageViewComponent} from './file-image-view/file-image-view.component';
 import {ApiFileImageSelectorViewComponent} from './api-file-image-selector-view/api-file-image-selector-view.component';
 import {ApiImagesListViewComponent} from './api-images-list-view/api-images-list-view.component';
@@ -29,7 +28,6 @@ import { ImageContainerComponent } from './image-container/image-container.compo
   imports: [
     CommonModule,
     FontAwesomeModule,
-    ShapesModule,
     NgOptimizedImage
   ]
 })

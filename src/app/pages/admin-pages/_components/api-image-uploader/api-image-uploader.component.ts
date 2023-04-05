@@ -1,11 +1,9 @@
 import {Component, ElementRef, EventEmitter, isDevMode, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {faCloudArrowUp} from "@fortawesome/free-solid-svg-icons";
 import {FileRestType} from "../../../../api/models/file-rest-type";
-import {EMPTY, fromEvent, mergeMap, of, Subscription, take} from "rxjs";
-import {filter, map} from "rxjs/operators";
+import {fromEvent, mergeMap, of, Subscription, take} from "rxjs";
+import {map} from "rxjs/operators";
 import {isNotNullOrUndefined} from "../../../../rx";
 import {FilesService} from "../../../../api/services/files.service";
-import {FileChangeEvent} from "@angular/compiler-cli/src/perform_watch";
 
 
 @Component({
@@ -18,8 +16,6 @@ export class ApiImageUploaderComponent implements OnDestroy, OnInit {
 
   @ViewChild('inputElement', {static: true}) inputElementElementRef!: ElementRef<HTMLInputElement>;
 
-
-  faUpload = faCloudArrowUp;
 
   private subscriptions: Subscription[] = [];
 

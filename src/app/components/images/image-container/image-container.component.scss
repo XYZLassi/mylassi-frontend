@@ -1,12 +1,19 @@
 $maxImageWidth: 15rem;
 $maxImageHeight: 10rem;
 
+:host ::ng-deep img {
+  aspect-ratio: calc($maxImageWidth / $maxImageHeight);
+  max-width: $maxImageWidth;
+  max-height: $maxImageHeight;
+}
+
 .image-container {
   position: relative;
   width: 100%;
   aspect-ratio: calc($maxImageWidth / $maxImageHeight);
   max-width: $maxImageWidth;
   max-height: $maxImageHeight;
+
 
   button {
     width: 2rem;

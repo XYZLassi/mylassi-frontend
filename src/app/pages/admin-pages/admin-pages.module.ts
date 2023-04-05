@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 import {AdminPagesRoutingModule} from './admin-pages-routing.module';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
@@ -13,7 +13,6 @@ import {
   AdminIndexPageComponent
 } from "./_pages";
 import {ApiImageUploaderComponent} from "./_components";
-import {ShapesModule} from "../../components/shapes/shapes.module";
 import {ArticleEditFormComponent} from "./_forms";
 import {ReactiveFormsModule} from "@angular/forms";
 import {
@@ -31,7 +30,6 @@ import {
     AdminCreateArticlePageComponent,
     AdminIndexArticlePageComponent,
     AdminEditArticlePageComponent,
-
     ApiImageUploaderComponent,
     ArticleEditFormComponent,
     AdminEditArticleContentPageComponent,
@@ -44,8 +42,8 @@ import {
     FontAwesomeModule,
     ImagesModule,
     ArticlesModule,
-    ShapesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOptimizedImage
   ],
   exports: [
     ApiImageUploaderComponent,
