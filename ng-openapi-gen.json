@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/ng-openapi-gen/ng-openapi-gen-schema.json",
+  "input": "https://api.mylassi.xyz/api/openapi.json",
+  "output": "src/api",
+  "indexFile": true,
+  "modelPrefix": "IApi",
+  "servicePrefix": "Api"
+}

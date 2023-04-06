@@ -5,7 +5,7 @@ const config: CodegenConfig = {
   schema: "https://api.mylassi.xyz/api/graphql",
   documents: "src/**/*.ts",
   generates: {
-    "src/generated/graphql.ts": {
+    "src/graphQL/graphql.ts": {
       plugins: ['typescript', 'typescript-operations', 'typescript-apollo-angular']
     }
   }
