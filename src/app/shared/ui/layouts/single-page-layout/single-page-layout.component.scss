@@ -1,0 +1,154 @@
+@import "../../../../../styles/preset";
+
+$headerHeight: 15 * 16px;
+$maxMainPadding: 20rem;
+
+$baseZIndex: 100;
+
+
+main {
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  min-height: calc(100vh - #{$headerHeight});
+
+  overflow: hidden;
+
+  padding: 1rem clamp(0.5rem, 5%, #{$maxMainPadding}) 2rem clamp(0.5rem, 5%, #{$maxMainPadding});
+
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+}
+
+header {
+  width: 100%;
+  height: $headerHeight;
+
+  position: relative;
+
+  .image-container {
+    picture {
+      img {
+        width: 100%;
+        opacity: 0.5;
+        max-height: $headerHeight;
+        object-fit: cover;
+      }
+    }
+  }
+
+  nav {
+    background-color: $prime;
+    position: absolute;
+
+    bottom: 1rem;
+    width: 100%;
+
+    height: 3rem;
+    padding: 0 0 0 0.5rem;
+    z-index: $baseZIndex;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    transition: padding 250ms;
+
+
+    &.fixed {
+      padding: 0 clamp(0.5rem, 10%, 10rem) 0 clamp(0.5rem, 10%, 10rem);
+
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      ul {
+        &.main {
+          width: 100%;
+          justify-content: center;
+
+          .logo {
+            width: 0;
+            margin: 0;
+          }
+        }
+
+        &.last {
+          width: 0;
+        }
+      }
+    }
+
+    ul {
+      display: flex;
+      justify-content: flex-start;
+      justify-items: center;
+
+      transition: width 250ms;
+
+      overflow: visible;
+
+      &.main {
+        flex-direction: row;
+        z-index: $baseZIndex + 2;
+
+        .logo {
+          width: 1.5rem;
+          transform: translateY(-1rem) scale(5);
+          z-index: $baseZIndex + 2;
+          margin: 0 1rem 0 0.5rem;
+
+          transition: width 250ms, margin 250ms;
+        }
+      }
+
+      &.last {
+        overflow: hidden;
+        flex-direction: row-reverse;
+        z-index: $baseZIndex + 1;
+      }
+
+      li {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        justify-content: center;
+
+        list-style: none;
+        font-size: 1.6rem;
+
+        margin-right: 1rem;
+
+        padding: 0 0.5rem;
+
+        background-color: transparent;
+
+        transition: background-color 250ms;
+
+        &:hover {
+          background-color: rgba($ciSecond, 0.2);
+        }
+
+        &:first-child {
+          margin-left: 1rem;
+        }
+
+        a {
+          cursor: pointer;
+          text-decoration: none;
+        }
+      }
+    }
+
+  }
+}
+
+
+
+
+
+

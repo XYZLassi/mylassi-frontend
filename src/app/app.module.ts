@@ -1,25 +1,24 @@
-import {forwardRef, NgModule, OnInit, Provider, isDevMode} from '@angular/core';
-import {BrowserModule, BrowserTransferStateModule, Meta, MetaDefinition, Title} from '@angular/platform-browser';
+import {NgModule, isDevMode} from '@angular/core';
+import {BrowserModule, Meta, MetaDefinition, Title} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {LayoutsModule} from "./layouts/layouts.module";
-import {PagesModule} from "./pages/pages.module";
-import {ViewsModule} from "./views/views.module";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ApiModule} from "./api/api.module";
-import {ApiInterceptor} from "./services/user-authentication/api-interceptor.service";
+import {HttpClientModule} from "@angular/common/http";
 import {GraphQLModule} from './graphql.module';
 import {NavigationEnd, Router} from "@angular/router";
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ServiceWorkerModule} from '@angular/service-worker';
+import {ApiModule} from "../api";
+import {NgOptimizedImage} from "@angular/common";
+import {LayoutsModule} from "./shared/ui/layouts/layouts.module";
 
+/*
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   useExisting: forwardRef(() => ApiInterceptor),
   multi: true
 };
+*/
 
 
 @NgModule({
@@ -27,24 +26,20 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     AppComponent,
   ],
   imports: [
+    // App-Modules
+    LayoutsModule,
+
+    //Packages-Modules
     BrowserModule.withServerTransition({appId: 'serverApp'}),
     AppRoutingModule,
-    LayoutsModule,
-    PagesModule,
-    ViewsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ApiModule.forRoot({rootUrl: '/api'}),
     GraphQLModule,
-    FontAwesomeModule,
     ServiceWorkerModule.register(isDevMode() ? 'api-worker.js' : 'custom-ngsw-worker.js', {
       enabled: true,//!isDevMode(),
       registrationStrategy: isDevMode() ? 'registerImmediately' : 'registerWhenStable:30000',
     }),
-  ],
-  providers: [
-    ApiInterceptor,
-    API_INTERCEPTOR_PROVIDER,
   ],
   bootstrap: [AppComponent]
 })
