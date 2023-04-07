@@ -15,10 +15,10 @@
 
   <nav #headerNav>
     <ul class="main">
-      <li><a><img class="logo" alt="Logo" ngSrc="/assets/logoWhite.svg" height="100" width="100"></a>
+      <li><a [routerLink]="['/']"><img class="logo" alt="Logo" ngSrc="/assets/logoWhite.svg" height="100" width="100"></a>
       </li>
-      <li><a>Touren</a></li>
-      <li><a>Hunde</a></li>
+      <li><a [routerLink]="['/tours']">Touren</a></li>
+      <li><a [routerLink]="['/dogs']">Hunde</a></li>
     </ul>
     <ul class="last">
     </ul>

@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {Apollo} from "apollo-angular";
-import {LoadArticlesGQL} from "../../../graphQL/graphql";
+import {LoadArticleGQL, LoadArticlesGQL} from "../../../graphQL/graphql";
 import {map, mergeMap, toArray} from "rxjs/operators";
-import {EMPTY, of} from "rxjs";
-import {IArticleTeaser} from "./interfaces";
+import {EMPTY, of, take} from "rxjs";
+import {IArticle, IArticleTeaser} from "./interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +33,16 @@ export class ArticleService {
           );
         return EMPTY;
       })
-    )
+    );
+  }
+
+  loadArticle(articleId: number) {
+    const query = new LoadArticleGQL(this.apollo);
+    return query.fetch({articleId}).pipe(
+      map(result => result.data),
+      map(data => {
+        return data.article as IArticle;
+      })
+    );
   }
 }

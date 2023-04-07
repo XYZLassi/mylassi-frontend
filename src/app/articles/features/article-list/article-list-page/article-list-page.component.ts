@@ -2,7 +2,7 @@ import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ArticleService, IArticleTeaser} from "../../../data-access";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, switchMap} from "rxjs";
-import {map, toArray} from "rxjs/operators";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-article-list-page',
@@ -10,7 +10,6 @@ import {map, toArray} from "rxjs/operators";
   styleUrls: ['./article-list-page.component.scss']
 })
 export class ArticleListPageComponent implements OnInit, OnDestroy {
-
 
   private articleService = inject(ArticleService);
   private activeRoute = inject(ActivatedRoute);

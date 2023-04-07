@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ArticleDetailRoutingModule } from './article-detail-routing.module';
 import { ArticleShowPageComponent } from './article-show-page/article-show-page.component';
+import {ArticleUiModule} from "../../ui/article-ui/article-ui.module";
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ArticleShowPageComponent } from './article-show-page/article-show-page.
   ],
   imports: [
     CommonModule,
-    ArticleDetailRoutingModule
+    ArticleDetailRoutingModule,
+    ArticleUiModule
   ]
 })
 export class ArticleDetailModule { }
