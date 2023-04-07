@@ -1,8 +1,0 @@
-<ng-container *ngIf="content">
-  <ng-template #headerTemplate>
-    <h1>{{content.header}}</h1>
-  </ng-template>
-
-  <ng-container *ngIf="content.contentType == 'header'"
-                [ngTemplateOutlet]="headerTemplate"></ng-container>
-</ng-container>

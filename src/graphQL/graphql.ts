@@ -122,13 +122,13 @@ export type LoadArticleQueryVariables = Exact<{
 
 export type LoadArticleQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, author: { __typename?: 'AuthorGraphType', username: string }, contents: Array<{ __typename?: 'ArticleContentGraphType', position: number, contentType: string, header: string }>, files: Array<{ __typename?: 'ArticleFileGraphType', fileId: string, url: string }>, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> } | null };
 
-export type GetArticlesQueryVariables = Exact<{
+export type LoadArticlesQueryVariables = Exact<{
   cursor?: InputMaybe<Scalars['String']>;
   category?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, length: number, items: Array<{ __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
+export type LoadArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, length: number, items: Array<{ __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
 
 export const ArticleInfoFragmentFragmentDoc = gql`
     fragment ArticleInfoFragment on ArticleGraphType {
@@ -175,8 +175,8 @@ export const LoadArticleDocument = gql`
       super(apollo);
     }
   }
-export const GetArticlesDocument = gql`
-    query GetArticles($cursor: String, $category: String) {
+export const LoadArticlesDocument = gql`
+    query LoadArticles($cursor: String, $category: String) {
   articles(category: $category, cursor: $cursor) {
     items {
       ...ArticleInfoFragment
@@ -190,8 +190,8 @@ export const GetArticlesDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class GetArticlesGQL extends Apollo.Query<GetArticlesQuery, GetArticlesQueryVariables> {
-    document = GetArticlesDocument;
+  export class LoadArticlesGQL extends Apollo.Query<LoadArticlesQuery, LoadArticlesQueryVariables> {
+    document = LoadArticlesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

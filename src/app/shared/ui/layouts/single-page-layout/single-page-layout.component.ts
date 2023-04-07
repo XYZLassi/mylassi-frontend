@@ -5,6 +5,7 @@ import {ChildrenOutletContexts} from "@angular/router";
   selector: 'app-single-page-layout',
   templateUrl: './single-page-layout.component.html',
   styleUrls: ['./single-page-layout.component.scss'],
+  animations: [],
 })
 export class SinglePageLayoutComponent implements OnInit {
   private contexts = inject(ChildrenOutletContexts);
@@ -38,7 +39,6 @@ export class SinglePageLayoutComponent implements OnInit {
 
 
   getRouteAnimationData() {
-    const base = this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
-    return base
+    return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation']
   }
 }

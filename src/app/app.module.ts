@@ -32,7 +32,6 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     //Packages-Modules
     BrowserModule.withServerTransition({appId: 'serverApp'}),
     AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     ApiModule.forRoot({rootUrl: '/api'}),
     GraphQLModule,
