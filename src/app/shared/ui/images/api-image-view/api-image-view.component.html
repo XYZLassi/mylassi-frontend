@@ -1,0 +1,12 @@
+<picture class="api-image">
+  <img *ngIf="imageInfo"
+       [ngSrc]="imageInfo.fileId"
+       [width]="imageInfo.imageWidth" [height]="imageInfo.imageHeight"
+       [ngSrcset]="getSrcSet()" sizes="100vw"
+       [alt]="imageInfo.altText">
+
+  <!--suppress AngularNgOptimizedImage -->
+  <img *ngIf="!imageInfo || loadError"
+       src="/assets/pictograms/404.svg" height="320" width="480">
+
+</picture>

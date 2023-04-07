@@ -1,6 +1,6 @@
 <div class="list-container">
   <div class="article-teaser-container"
-       *ngFor="let teaser of articles">
-    Hallo Teaser
+       *ngFor="let article of articles">
+    <app-article-teaser-view [article]="article"></app-article-teaser-view>
   </div>
 </div>

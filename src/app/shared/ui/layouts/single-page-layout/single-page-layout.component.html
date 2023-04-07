@@ -15,7 +15,7 @@
 
   <nav #headerNav>
     <ul class="main">
-      <li><a><img class="logo" alt="Logo" ngSrc="/assets/logoWhite.svg" height="3300" width="3300"></a>
+      <li><a><img class="logo" alt="Logo" ngSrc="/assets/logoWhite.svg" height="100" width="100"></a>
       </li>
       <li><a>Touren</a></li>
       <li><a>Hunde</a></li>
@@ -27,7 +27,7 @@
 </header>
 
 <main #main>
-  <div class="main-container w-100" [@routeAnimations]="getRouteAnimationData()">
+  <div class="main-container" [@routeAnimations]="getRouteAnimationData()">
     <router-outlet></router-outlet>
   </div>
 </main>

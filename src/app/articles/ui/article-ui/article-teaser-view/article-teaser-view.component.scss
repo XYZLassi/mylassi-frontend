@@ -1,0 +1,39 @@
+@import "src/styles/preset";
+
+$pictureWidth: 30rem;
+$pictureMaxHeight: 20rem;
+
+.article-teaser {
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  padding-top: 1.5rem;
+
+  .teaser-image {
+    width: $pictureWidth;
+    max-width: 100%;
+    aspect-ratio: 3/2;
+    max-height: $pictureMaxHeight;
+  }
+
+  .teaser-body {
+    margin: 0 1rem 0 1rem;
+
+    .teaser-header {
+      margin: 0 0 1rem 0;
+      color: $accent;
+    }
+
+    .teaser-footer {
+      margin: 1rem 0 0 0;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: $accent;
+  }
+}
