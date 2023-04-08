@@ -1,0 +1,22 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit($event)">
+  <div class="form-group" *ngIf="loginForm.controls.username as usernameControl">
+    <label>Benutzername</label>
+    <input class="form-control" [formControl]="usernameControl" type="text">
+    <ng-container *ngIf="usernameControl.dirty || usernameControl.touched">
+      <p class="error" *ngIf="usernameControl.errors?.required">Es muss ein Benutzername eingeben werden!</p>
+    </ng-container>
+  </div>
+
+  <div class="form-group" *ngIf="loginForm.controls.password as passwordControl">
+    <label>Passwort</label>
+    <input class="form-control" [formControl]="passwordControl" type="password">
+    <ng-container *ngIf="passwordControl.dirty || passwordControl.touched">
+      <p class="error" *ngIf="passwordControl.errors?.required">Es muss ein Passwort angeben werden!</p>
+    </ng-container>
+  </div>
+
+  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+
+  <button class="btn btn-submit" [disabled]="!loginForm.valid || isBusy">Login</button>
+
+</form>

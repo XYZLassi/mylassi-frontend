@@ -1,0 +1,34 @@
+@import "src/styles/preset";
+
+.btn {
+  background-color: $accent;
+  color: $ciSecond;
+
+  padding: 0.3rem;
+  margin: 0.2rem;
+
+  font-size: 1.2rem;
+
+  border: none;
+
+  cursor: pointer;
+
+  display: inline-block;
+
+  text-decoration: none;
+
+  transition: all 250ms;
+
+  &:disabled {
+    background-color: $ciAccent;
+    cursor: default;
+  }
+
+  &:hover {
+    background-color: $ciAccent;
+  }
+
+  &.btn-submit {
+
+  }
+}

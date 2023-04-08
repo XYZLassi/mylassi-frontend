@@ -2,21 +2,21 @@ import {NgModule} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {AppRoutingModule} from "../../../app-routing.module";
 import {SinglePageLayoutComponent} from "./single-page-layout/single-page-layout.component";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FullPageLayoutComponent} from './full-page-layout/full-page-layout.component';
 
 
 @NgModule({
   declarations: [
-    SinglePageLayoutComponent
+    SinglePageLayoutComponent,
+    FullPageLayoutComponent
   ],
   exports: [
     SinglePageLayoutComponent,
+    FullPageLayoutComponent,
   ],
   imports: [
     CommonModule,
-    AppRoutingModule,
     NgOptimizedImage,
-    BrowserAnimationsModule
   ]
 })
 export class LayoutsModule {

@@ -1,0 +1,15 @@
+@import "src/styles/preset";
+
+.card {
+  border-radius: 1rem;
+  padding: 1rem;
+  background-color: $second;
+
+  .card-header {
+    color: $accent;
+    font-size: 1.4rem;
+    font-weight: bolder;
+    margin: 0 0 0.5rem 0;
+  }
+
+}

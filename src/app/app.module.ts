@@ -6,11 +6,10 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {GraphQLModule} from './graphql.module';
 import {NavigationEnd, Router} from "@angular/router";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ApiModule} from "../api";
-import {NgOptimizedImage} from "@angular/common";
 import {LayoutsModule} from "./shared/ui/layouts/layouts.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 /*
 export const API_INTERCEPTOR_PROVIDER: Provider = {
@@ -31,6 +30,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
 
     //Packages-Modules
     BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ApiModule.forRoot({rootUrl: '/api'}),

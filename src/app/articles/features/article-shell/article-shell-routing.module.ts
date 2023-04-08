@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SinglePageLayoutComponent} from "../../../shared/ui/layouts";
+import {ArticleRouterOutletComponent} from "./article-router-outlet/article-router-outlet.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: SinglePageLayoutComponent,
+    component: ArticleRouterOutletComponent,
     loadChildren: () => import('../article-list/article-list.module').then(m => m.ArticleListModule)
   },
   {
     path: 'article',
-    component: SinglePageLayoutComponent,
+    component: ArticleRouterOutletComponent,
     loadChildren: () => import('../article-detail/article-detail.module').then(m => m.ArticleDetailModule)
   }
 ];

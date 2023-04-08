@@ -1,4 +1,4 @@
-<header #header>
+<header id="header">
   <div class="image-container">
     <picture>
       <img alt="MyLassi.xyz - Header"
@@ -13,23 +13,14 @@
     </picture>
   </div>
 
-  <nav #headerNav>
-    <ul class="main">
-      <li><a [routerLink]="['/']"><img class="logo" alt="Logo" ngSrc="/assets/logoWhite.svg" height="100" width="100"></a>
-      </li>
-      <li><a [routerLink]="['/tours']">Touren</a></li>
-      <li><a [routerLink]="['/dogs']">Hunde</a></li>
-    </ul>
-    <ul class="last">
-    </ul>
-  </nav>
-
+  <div class="header-nav-container">
+    <ng-content select="[headerNav]">
+    </ng-content>
+  </div>
 </header>
 
-<main #main>
-  <div class="main-container" [@routeAnimations]="getRouteAnimationData()">
-    <router-outlet></router-outlet>
-  </div>
+<main>
+  <ng-content></ng-content>
 </main>
 
 
