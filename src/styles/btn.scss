@@ -13,7 +13,10 @@
 
   cursor: pointer;
 
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
 
   text-decoration: none;
 
@@ -30,5 +33,16 @@
 
   &.btn-submit {
 
+  }
+}
+
+.btn {
+  .btn-icon {
+    color: white;
+    height: 1em;
+
+    &:first-child{
+      margin-right: 0.2rem;
+    }
   }
 }

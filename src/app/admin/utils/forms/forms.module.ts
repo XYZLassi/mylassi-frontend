@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LoginFormComponent} from './login-form/login-form.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {SpinnersModule} from "../../../shared/ui/spinners";
 
 
 @NgModule({
@@ -11,10 +12,11 @@ import {ReactiveFormsModule} from "@angular/forms";
   exports: [
     LoginFormComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-  ]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        SpinnersModule,
+    ]
 })
 export class FormsModule {
 }

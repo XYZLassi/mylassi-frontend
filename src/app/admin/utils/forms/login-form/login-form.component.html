@@ -17,6 +17,9 @@
 
   <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
 
-  <button class="btn btn-submit" [disabled]="!loginForm.valid || isBusy">Login</button>
+  <button class="btn btn-submit" [disabled]="!loginForm.valid || isBusy">
+    <span class="btn-icon" *ngIf="isBusy"><app-circle-spinner></app-circle-spinner></span>
+    <span class="btn-text">Login</span>
+  </button>
 
 </form>
