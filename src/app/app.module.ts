@@ -1,23 +1,23 @@
-import {NgModule, isDevMode} from '@angular/core';
+import {NgModule, isDevMode, Provider, forwardRef} from '@angular/core';
 import {BrowserModule, Meta, MetaDefinition, Title} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {GraphQLModule} from './graphql.module';
 import {NavigationEnd, Router} from "@angular/router";
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {ApiModule} from "../api";
 import {LayoutsModule} from "./shared/ui/layouts/layouts.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ApiTokenInterceptor} from "./shared/data-access";
 
-/*
+
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
-  useExisting: forwardRef(() => ApiInterceptor),
+  useExisting: forwardRef(() => ApiTokenInterceptor),
   multi: true
 };
-*/
 
 
 @NgModule({
@@ -39,6 +39,10 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
       enabled: true,//!isDevMode(),
       registrationStrategy: isDevMode() ? 'registerImmediately' : 'registerWhenStable:30000',
     }),
+  ],
+  providers: [
+    ApiTokenInterceptor,
+    API_INTERCEPTOR_PROVIDER
   ],
   bootstrap: [AppComponent]
 })

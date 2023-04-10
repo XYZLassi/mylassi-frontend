@@ -3,15 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { AdminArticlesRoutingModule } from './admin-articles-routing.module';
 import { AdminArticlesIndexPageComponent } from './admin-articles-index-page/admin-articles-index-page.component';
+import {AdminLayoutsModule} from "../../ui/admin-layouts";
+import { AdminArticlesCreatePageComponent } from './admin-articles-create-page/admin-articles-create-page.component';
+import {AdminFormsModule} from "../../ui/admin-forms";
 
 
 @NgModule({
   declarations: [
-    AdminArticlesIndexPageComponent
+    AdminArticlesIndexPageComponent,
+    AdminArticlesCreatePageComponent
   ],
   imports: [
     CommonModule,
-    AdminArticlesRoutingModule
+    AdminArticlesRoutingModule,
+    AdminLayoutsModule,
+    AdminFormsModule
   ]
 })
 export class AdminArticlesModule { }

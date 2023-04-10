@@ -1,0 +1,94 @@
+@import "/src/styles/preset";
+
+$maxImageWidth: 15rem;
+$maxImageHeight: 10rem;
+
+
+:host {
+  padding: 1rem;
+}
+
+.control-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  gap: 0.5rem;
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: calc($maxImageWidth / $maxImageHeight);
+    max-width: $maxImageWidth;
+    max-height: $maxImageHeight;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &.click-container {
+      cursor: pointer;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    button {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      position: absolute;
+      visibility: hidden;
+      border: none;
+
+      background: white;
+      color: black;
+
+      transition: background-color 250ms;
+
+      &:hover {
+        background: lightgrey;
+      }
+
+      &.left-bottom {
+        left: -1rem;
+        bottom: -1rem;
+      }
+
+      &.danger {
+        background: red;
+        color: white;
+
+        &:hover {
+          background: darkred;
+        }
+      }
+    }
+
+    &:hover {
+      button {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.previewImage {
+  max-width: min(100%, 20rem);
+  max-height: 20rem;
+}
+
+.uploadBox {
+  color: $success;
+  cursor: pointer;
+
+
+}
+
+input.file-input {
+  visibility: hidden;
+}

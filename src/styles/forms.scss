@@ -23,6 +23,8 @@
 
     padding: 0.2rem;
 
+    width: 100%;
+
     &.ng-touched, &.ng-dirty {
       &.ng-invalid {
         border: red solid 2px;
@@ -36,6 +38,13 @@
     &:focus {
       outline: none;
     }
+  }
+
+  textarea.form-control {
+    min-width: 100%;
+    min-height: 10rem;
+
+    font-size: 1rem;
   }
 }
 

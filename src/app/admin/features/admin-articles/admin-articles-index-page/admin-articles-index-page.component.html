@@ -1,1 +1,12 @@
-<p>admin-articles-index-page works!</p>
+<app-admin-inside-layout header="Artikel">
+  <div class="container">
+    <div class="header">
+      <nav>
+        <ul>
+          <li><a [routerLink]="['create']" class="btn"><span class="btn-icon">+</span> Erstellen</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="body"></div>
+  </div>
+</app-admin-inside-layout>

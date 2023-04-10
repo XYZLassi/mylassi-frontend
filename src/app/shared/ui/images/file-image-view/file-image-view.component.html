@@ -1,0 +1,9 @@
+<picture class="file-image">
+  <!--suppress AngularNgOptimizedImage -->
+  <img [src]="imageSrc">
+
+  <!--suppress AngularNgOptimizedImage -->
+  <img *ngIf="!imageSrc || loadError"
+       src="/assets/pictograms/404.svg" height="320" width="480">
+
+</picture>

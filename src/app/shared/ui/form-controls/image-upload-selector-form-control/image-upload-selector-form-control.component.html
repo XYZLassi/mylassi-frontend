@@ -1,0 +1,10 @@
+<div class="control-container">
+  <div class="image-container click-container" (click)="onUploadImage($event)">
+    <img ngSrc="/assets/pictograms/upload.svg" height="320" width="480">
+    <input #inputElement class="form-control file-input" type="file" accept="image/*" (change)="onChangeImage($event)">
+  </div>
+
+  <div class="image-container" *ngFor="let image of images">
+    <app-file-image-view *ngIf="image.isFile" [imageFile]="image.file"></app-file-image-view>
+  </div>
+</div>
