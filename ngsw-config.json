@@ -18,6 +18,16 @@
       }
     },
     {
+      "name": "icons",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/icons/**",
+          "/assets/pictograms/**"
+        ]
+      }
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",

@@ -1,0 +1,42 @@
+@import "src/styles/preset";
+
+nav {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  ul {
+    width: 100%;
+    height: 100%;
+
+
+    display: flex;
+    flex-direction: column;
+
+    li {
+      margin: 0.2rem 0;
+    }
+  }
+}
+
+.nav-link {
+  display: block;
+  width: 100%;
+  color: white;
+  opacity: 0.5;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.nav-icon {
+  display: block;
+  padding: 0.5rem;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+
+}

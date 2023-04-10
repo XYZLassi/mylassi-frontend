@@ -5,7 +5,7 @@ import {AdminLoginRoutingModule} from './admin-login-routing.module';
 import {AdminLoginPageComponent} from './admin-login-page/admin-login-page.component';
 import {BaseElementsModule} from "../../../shared/ui/base-elements";
 import {LayoutsModule} from "../../../shared/ui/layouts/layouts.module";
-import {FormsModule} from "../../utils/forms";
+import {AdminFormsModule} from "../../ui/admin-forms";
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import {FormsModule} from "../../utils/forms";
         AdminLoginRoutingModule,
         BaseElementsModule,
         LayoutsModule,
-        FormsModule,
+        AdminFormsModule,
     ]
 })
 export class AdminLoginModule {

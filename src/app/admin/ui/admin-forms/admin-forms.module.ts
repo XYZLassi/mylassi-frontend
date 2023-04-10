@@ -18,5 +18,5 @@ import {SpinnersModule} from "../../../shared/ui/spinners";
         SpinnersModule,
     ]
 })
-export class FormsModule {
+export class AdminFormsModule {
 }
