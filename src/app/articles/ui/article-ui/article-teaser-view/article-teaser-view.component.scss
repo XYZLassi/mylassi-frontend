@@ -12,6 +12,7 @@ $pictureMaxHeight: 20rem;
 
   padding-top: 1.5rem;
 
+
   .teaser-image {
     width: $pictureWidth;
     max-width: 100%;
@@ -20,7 +21,10 @@ $pictureMaxHeight: 20rem;
   }
 
   .teaser-body {
-    margin: 0 1rem 0 1rem;
+    padding: 0 1rem 0 1rem;
+
+    max-width: 100%;
+    width: max(calc(100% - 2rem - $pictureWidth), $pictureWidth);
 
     .teaser-header {
       margin: 0 0 1rem 0;
