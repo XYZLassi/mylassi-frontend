@@ -130,6 +130,13 @@ export type LoadArticlesQueryVariables = Exact<{
 
 export type LoadArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleGraphTypePaginationResult', cursor?: string | null, length: number, items: Array<{ __typename?: 'ArticleGraphType', id: number, title: string, teaser?: string | null, thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> }> } };
 
+export type LoadArticleThumbnailInfoQueryVariables = Exact<{
+  articleId: Scalars['Int'];
+}>;
+
+
+export type LoadArticleThumbnailInfoQuery = { __typename?: 'Query', article?: { __typename?: 'ArticleGraphType', thumbnails: Array<{ __typename?: 'ArticleFileGraphType', fileId: string }> } | null };
+
 export const ArticleInfoFragmentFragmentDoc = gql`
     fragment ArticleInfoFragment on ArticleGraphType {
   id
@@ -192,6 +199,26 @@ export const LoadArticlesDocument = gql`
   })
   export class LoadArticlesGQL extends Apollo.Query<LoadArticlesQuery, LoadArticlesQueryVariables> {
     document = LoadArticlesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LoadArticleThumbnailInfoDocument = gql`
+    query LoadArticleThumbnailInfo($articleId: Int!) {
+  article: articleById(article: $articleId) {
+    thumbnails: filesByUsage(usage: "thumbnail") {
+      fileId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoadArticleThumbnailInfoGQL extends Apollo.Query<LoadArticleThumbnailInfoQuery, LoadArticleThumbnailInfoQueryVariables> {
+    document = LoadArticleThumbnailInfoDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

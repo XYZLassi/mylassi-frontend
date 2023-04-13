@@ -7,6 +7,9 @@
         </ul>
       </nav>
     </div>
-    <div class="body"></div>
+    <div class="body">
+      <app-circle-spinner-box *ngIf="isBusy"></app-circle-spinner-box>
+      <app-admin-articles-list-table [articles]="articles"></app-admin-articles-list-table>
+    </div>
   </div>
 </app-admin-inside-layout>

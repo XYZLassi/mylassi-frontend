@@ -1,0 +1,19 @@
+<table class="table split-xs w-100">
+  <thead>
+  <tr>
+    <th></th>
+    <th>Title</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let article of articles">
+    <th>
+      <div class="image-preview">
+        <app-api-article-thumbnail-loader-view [articleId]="article.id"></app-api-article-thumbnail-loader-view>
+      </div>
+
+    </th>
+    <td>{{article.title}}</td>
+  </tr>
+  </tbody>
+</table>
