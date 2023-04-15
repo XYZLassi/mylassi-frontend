@@ -101,9 +101,9 @@ export class ApiArticlesService extends BaseService {
   }
 
   /**
-   * Path part for operation createNewArticle
+   * Path part for operation createArticle
    */
-  static readonly CreateNewArticlePath = '/articles/';
+  static readonly CreateArticlePath = '/articles/';
 
   /**
    * Create New Article.
@@ -111,17 +111,17 @@ export class ApiArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `createNewArticle()` instead.
+   * To access only the response body, use `createArticle()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createNewArticle$Response(params: {
+  createArticle$Response(params: {
     context?: HttpContext
     body: IApiArticleOptionsRestType
   }
 ): Observable<StrictHttpResponse<IApiArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiArticlesService.CreateNewArticlePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiArticlesService.CreateArticlePath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -144,25 +144,25 @@ export class ApiArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `createNewArticle$Response()` instead.
+   * To access the full response (for headers, for example), `createArticle$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createNewArticle(params: {
+  createArticle(params: {
     context?: HttpContext
     body: IApiArticleOptionsRestType
   }
 ): Observable<IApiArticleRestType> {
 
-    return this.createNewArticle$Response(params).pipe(
+    return this.createArticle$Response(params).pipe(
       map((r: StrictHttpResponse<IApiArticleRestType>) => r.body as IApiArticleRestType)
     );
   }
 
   /**
-   * Path part for operation getAllArticles
+   * Path part for operation getArticlesFull
    */
-  static readonly GetAllArticlesPath = '/articles/all';
+  static readonly GetArticlesFullPath = '/articles/full';
 
   /**
    * Get All Articles.
@@ -170,11 +170,11 @@ export class ApiArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAllArticles()` instead.
+   * To access only the response body, use `getArticlesFull()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAllArticles$Response(params?: {
+  getArticlesFull$Response(params?: {
     category?: number;
     cursor?: string;
     size?: number;
@@ -183,7 +183,7 @@ export class ApiArticlesService extends BaseService {
   }
 ): Observable<StrictHttpResponse<IApiPaginationResultRestTypeFullArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiArticlesService.GetAllArticlesPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ApiArticlesService.GetArticlesFullPath, 'get');
     if (params) {
       rb.query('category', params.category, {});
       rb.query('cursor', params.cursor, {});
@@ -209,11 +209,11 @@ export class ApiArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getAllArticles$Response()` instead.
+   * To access the full response (for headers, for example), `getArticlesFull$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAllArticles(params?: {
+  getArticlesFull(params?: {
     category?: number;
     cursor?: string;
     size?: number;
@@ -222,7 +222,79 @@ export class ApiArticlesService extends BaseService {
   }
 ): Observable<IApiPaginationResultRestTypeFullArticleRestType> {
 
-    return this.getAllArticles$Response(params).pipe(
+    return this.getArticlesFull$Response(params).pipe(
+      map((r: StrictHttpResponse<IApiPaginationResultRestTypeFullArticleRestType>) => r.body as IApiPaginationResultRestTypeFullArticleRestType)
+    );
+  }
+
+  /**
+   * Path part for operation getAllArticlesArticlesAllGet
+   */
+  static readonly GetAllArticlesArticlesAllGetPath = '/articles/all';
+
+  /**
+   * Get All Articles.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllArticlesArticlesAllGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   *
+   * @deprecated
+   */
+  getAllArticlesArticlesAllGet$Response(params?: {
+    category?: number;
+    cursor?: string;
+    size?: number;
+    filter_deleted?: IApiFilterDeletedItems;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<IApiPaginationResultRestTypeFullArticleRestType>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiArticlesService.GetAllArticlesArticlesAllGetPath, 'get');
+    if (params) {
+      rb.query('category', params.category, {});
+      rb.query('cursor', params.cursor, {});
+      rb.query('size', params.size, {});
+      rb.query('filter_deleted', params.filter_deleted, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<IApiPaginationResultRestTypeFullArticleRestType>;
+      })
+    );
+  }
+
+  /**
+   * Get All Articles.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getAllArticlesArticlesAllGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   *
+   * @deprecated
+   */
+  getAllArticlesArticlesAllGet(params?: {
+    category?: number;
+    cursor?: string;
+    size?: number;
+    filter_deleted?: IApiFilterDeletedItems;
+    context?: HttpContext
+  }
+): Observable<IApiPaginationResultRestTypeFullArticleRestType> {
+
+    return this.getAllArticlesArticlesAllGet$Response(params).pipe(
       map((r: StrictHttpResponse<IApiPaginationResultRestTypeFullArticleRestType>) => r.body as IApiPaginationResultRestTypeFullArticleRestType)
     );
   }
@@ -408,9 +480,9 @@ export class ApiArticlesService extends BaseService {
   }
 
   /**
-   * Path part for operation getFullArticle
+   * Path part for operation getArticleFull
    */
-  static readonly GetFullArticlePath = '/articles/{article}/full';
+  static readonly GetArticleFullPath = '/articles/{article}/full';
 
   /**
    * Get Full Article.
@@ -418,17 +490,17 @@ export class ApiArticlesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getFullArticle()` instead.
+   * To access only the response body, use `getArticleFull()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getFullArticle$Response(params: {
+  getArticleFull$Response(params: {
     article: number;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<IApiFullArticleRestType>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiArticlesService.GetFullArticlePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ApiArticlesService.GetArticleFullPath, 'get');
     if (params) {
       rb.path('article', params.article, {});
     }
@@ -451,17 +523,17 @@ export class ApiArticlesService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getFullArticle$Response()` instead.
+   * To access the full response (for headers, for example), `getArticleFull$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getFullArticle(params: {
+  getArticleFull(params: {
     article: number;
     context?: HttpContext
   }
 ): Observable<IApiFullArticleRestType> {
 
-    return this.getFullArticle$Response(params).pipe(
+    return this.getArticleFull$Response(params).pipe(
       map((r: StrictHttpResponse<IApiFullArticleRestType>) => r.body as IApiFullArticleRestType)
     );
   }
