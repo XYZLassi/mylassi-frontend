@@ -1,0 +1,6 @@
+<app-admin-inside-layout header="Artikel">
+  <app-circle-spinner-box *ngIf="isBusy"></app-circle-spinner-box>
+  <app-admin-article-edit-form *ngIf="!isBusy && article" [baseArticleData]="article"></app-admin-article-edit-form>
+
+</app-admin-inside-layout>
+

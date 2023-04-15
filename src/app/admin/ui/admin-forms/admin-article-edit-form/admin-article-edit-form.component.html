@@ -1,0 +1,7 @@
+<app-admin-article-base-form
+  [baseArticleData]="baseArticleData"
+  (valuesChanges)="onValuesChanges($event)"
+  [isBusy]="isBusy" [errorMessage]="errorMessage"
+  (submitForm)="onSubmit($event)"
+  btnText="Bearbeiten"
+></app-admin-article-base-form>
