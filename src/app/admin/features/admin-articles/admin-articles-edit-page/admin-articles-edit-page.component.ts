@@ -31,7 +31,7 @@ export class AdminArticlesEditPageComponent implements OnInit, OnDestroy {
       }),
       map(params => parseInt(params['id'])),
       switchMap(articleId => {
-        return this.articlesService.getFullArticle({
+        return this.articlesService.getArticleFull({
           article: articleId
         }).pipe(take(1))
       })

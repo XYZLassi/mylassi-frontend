@@ -6,5 +6,6 @@
 
   <div class="image-container" *ngFor="let image of images">
     <app-file-image-view *ngIf="image.isFile" [imageFile]="image.file"></app-file-image-view>
+    <app-api-image-loader-view *ngIf="!image.isFile" [imageId]="image.apiFileId"></app-api-image-loader-view>
   </div>
 </div>

@@ -27,7 +27,7 @@ export class AdminArticlesIndexPageComponent implements OnInit, OnDestroy {
         }
       }),
       switchMap(queryParams => {
-        return this.articlesService.getAllArticles().pipe(
+        return this.articlesService.getArticlesFull().pipe(
           take(1)
         );
       })

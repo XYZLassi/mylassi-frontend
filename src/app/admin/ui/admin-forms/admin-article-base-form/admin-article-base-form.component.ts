@@ -1,16 +1,11 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
+import {IApiArticleFileUsage, IApiArticleOptionsRestType, IApiFullArticleRestType} from "../../../../../api";
 
-
-export interface IAdminArticleBaseFormInputData {
-  title: string
-  teaser?: string
-  thumbnailImageId?: string[]
-}
 
 export interface IAdminArticleBaseFormOutputData {
-  article: IAdminArticleBaseFormInputData
+  article: IApiArticleOptionsRestType,
   apiImagesIds: string[]
   thumbnailFiles: File[]
 }
@@ -39,7 +34,7 @@ export class AdminArticleBaseFormComponent implements OnInit, OnDestroy {
   public apiThumbnailImages: string[] = [];
   public uploadThumbnailFiles: File[] = [];
 
-  @Input() baseArticleData?: IAdminArticleBaseFormInputData;
+  @Input() baseArticleData?: IApiFullArticleRestType;
 
   @Output() valuesChanges = new EventEmitter<Partial<{
     title: string | null | undefined,
@@ -58,8 +53,10 @@ export class AdminArticleBaseFormComponent implements OnInit, OnDestroy {
         teaser: this.baseArticleData.teaser || null,
       });
 
-      if (this.baseArticleData.thumbnailImageId)
-        this.apiThumbnailImages = this.baseArticleData.thumbnailImageId
+      if (this.baseArticleData.articleFiles)
+        this.apiThumbnailImages = this.baseArticleData.articleFiles
+          .filter(i => i.fileUsage == IApiArticleFileUsage.Thumbnail)
+          .map(i => i.fileId)
 
     }
 
@@ -86,7 +83,7 @@ export class AdminArticleBaseFormComponent implements OnInit, OnDestroy {
   onSubmit($event: any) {
     try {
       this.submitForm.emit({
-        article: this.getArticleValue(),
+        article: this.getArticleOptions(),
         thumbnailFiles: this.uploadThumbnailFiles,
         apiImagesIds: this.apiThumbnailImages,
       });
@@ -95,7 +92,7 @@ export class AdminArticleBaseFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getArticleValue(): IAdminArticleBaseFormInputData {
+  private getArticleOptions(): IApiArticleOptionsRestType {
     const {title, teaser} = this.articleForm.value
 
     if (!title)

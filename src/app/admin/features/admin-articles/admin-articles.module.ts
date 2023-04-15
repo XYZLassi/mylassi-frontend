@@ -8,12 +8,14 @@ import {AdminArticlesCreatePageComponent} from './admin-articles-create-page/adm
 import {AdminFormsModule} from "../../ui/admin-forms";
 import {AdminArticlesUiModule} from "../../ui/admin-articles-ui";
 import {SpinnersModule} from "../../../shared/ui/spinners";
+import { AdminArticlesEditPageComponent } from './admin-articles-edit-page/admin-articles-edit-page.component';
 
 
 @NgModule({
   declarations: [
     AdminArticlesIndexPageComponent,
-    AdminArticlesCreatePageComponent
+    AdminArticlesCreatePageComponent,
+    AdminArticlesEditPageComponent
   ],
     imports: [
         CommonModule,

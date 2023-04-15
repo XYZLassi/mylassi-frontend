@@ -1,5 +1,4 @@
 import {Component, EventEmitter, inject, isDevMode, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {mergeMap, of, Subscription, switchMap, take} from "rxjs";
 import {
   ApiArticlesService,
@@ -7,7 +6,8 @@ import {
   IApiAppendArticleFileOptionsRestType,
   IApiArticleFileUsage, IApiFullArticleRestType
 } from "../../../../../api";
-import {map, toArray} from "rxjs/operators";
+import {toArray} from "rxjs/operators";
+import {IAdminArticleBaseFormOutputData} from "../admin-article-base-form/admin-article-base-form.component";
 
 @Component({
   selector: 'app-admin-article-create-form',
@@ -19,53 +19,33 @@ export class AdminArticleCreateFormComponent implements OnInit, OnDestroy {
   private filesService = inject(ApiFilesService);
   private articlesService = inject(ApiArticlesService)
 
-  @Output() articleCreated = new EventEmitter<IApiFullArticleRestType>();
-
-  public createArticleForm = new FormGroup({
-    title: new FormControl('Title', [
-      Validators.required
-    ]),
-    teaser: new FormControl('', []),
-  });
 
   public errorMessage?: string
   public isBusy = false;
 
-  public thumbnailFiles: File[] = [];
-
   private subscriptions: Subscription[] = [];
+  @Output() articleCreated = new EventEmitter<IApiFullArticleRestType>();
 
   ngOnInit(): void {
-    const updateSub = this.createArticleForm.valueChanges.subscribe(_ => {
-        this.errorMessage = undefined;
-      }
-    );
 
-    this.subscriptions = [...this.subscriptions, updateSub];
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  onUploadFilesChanged(files: File[]) {
-    this.thumbnailFiles = files;
+  onValuesChanges($event: Partial<{ title: string | null | undefined; teaser: string | null | undefined }>) {
+    this.errorMessage = undefined;
   }
 
-  onSubmit($event: any) {
-    const {title, teaser} = this.createArticleForm.value;
 
+  onSubmit($event: IAdminArticleBaseFormOutputData) {
     this.isBusy = false;
     this.errorMessage = undefined;
 
-    if (!title) {
-      this.errorMessage = "Kein Title angeben";
-      return
-    }
-
     this.isBusy = true;
 
-    const createSub = of(...this.thumbnailFiles).pipe(
+    const createSub = of(...$event.thumbnailFiles).pipe(
       mergeMap(file => {
         return this.filesService.uploadFile({
           body: {
@@ -77,11 +57,8 @@ export class AdminArticleCreateFormComponent implements OnInit, OnDestroy {
       }),
       toArray(),
       switchMap(files => {
-        return this.articlesService.createNewArticle({
-          body: {
-            title: title,
-            teaser: teaser || undefined,
-          }
+        return this.articlesService.createArticle({
+          body: $event.article,
         }).pipe(
           take(1),
           switchMap(article => {
@@ -99,7 +76,7 @@ export class AdminArticleCreateFormComponent implements OnInit, OnDestroy {
             }).pipe(
               take(1),
               switchMap(_ => {
-                return this.articlesService.getFullArticle({article: article.id}).pipe(take(1));
+                return this.articlesService.getArticleFull({article: article.id}).pipe(take(1));
               })
             )
           })
@@ -121,11 +98,10 @@ export class AdminArticleCreateFormComponent implements OnInit, OnDestroy {
         if (err.status == 401)
           this.errorMessage = "Du bist nicht eingeloggt?";
         else
-          this.errorMessage = err.error.detail;
+          this.errorMessage = err.error.detail || err.error;
       }
     });
 
     this.subscriptions = [...this.subscriptions, createSub];
   }
-
 }

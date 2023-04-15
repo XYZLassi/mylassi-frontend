@@ -1,14 +1,13 @@
 import {Component, EventEmitter, inject, Input, isDevMode, OnDestroy, OnInit, Output} from '@angular/core';
-import {
-  IAdminArticleBaseFormOutputData
-} from "../admin-article-base-form/admin-article-base-form.component";
+import {IAdminArticleBaseFormOutputData} from "../admin-article-base-form/admin-article-base-form.component";
 import {defaultIfEmpty, mergeMap, of, Subscription, switchMap, take} from "rxjs";
-import {map, tap, toArray} from "rxjs/operators";
+import {map, toArray} from "rxjs/operators";
 import {
   ApiArticlesService,
   ApiFilesService,
   IApiAppendArticleFileOptionsRestType,
-  IApiArticleFileUsage, IApiFullArticleRestType
+  IApiArticleFileUsage,
+  IApiFullArticleRestType
 } from "../../../../../api";
 
 @Component({
@@ -30,7 +29,6 @@ export class AdminArticleEditFormComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   ngOnInit(): void {
-    const load
   }
 
   ngOnDestroy(): void {
@@ -72,6 +70,18 @@ export class AdminArticleEditFormComponent implements OnInit, OnDestroy {
           }),
           toArray(),
           defaultIfEmpty([]),
+          map(files => {
+
+
+            const apiFiles = $event.apiImagesIds.map(imageId => {
+              const result: IApiAppendArticleFileOptionsRestType = {
+                fileId: imageId,
+                fileUsage: IApiArticleFileUsage.Thumbnail
+              }
+              return result;
+            });
+            return [...files, ...apiFiles];
+          }),
           switchMap(files => {
             return this.articlesService.addOrReplaceFilesToArticle({
               article: article.id,
@@ -79,7 +89,7 @@ export class AdminArticleEditFormComponent implements OnInit, OnDestroy {
             }).pipe(
               take(1),
               switchMap(_ => {
-                return this.articlesService.getFullArticle({article: article.id}).pipe(take(1));
+                return this.articlesService.getArticleFull({article: article.id}).pipe(take(1));
               })
             )
           })

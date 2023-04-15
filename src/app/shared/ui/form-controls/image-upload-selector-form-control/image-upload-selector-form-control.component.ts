@@ -1,8 +1,9 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 interface FileInfo {
   isFile: boolean
   file?: File
+  apiFileId?: string
 }
 
 @Component({
@@ -10,15 +11,28 @@ interface FileInfo {
   templateUrl: './image-upload-selector-form-control.component.html',
   styleUrls: ['./image-upload-selector-form-control.component.scss']
 })
-export class ImageUploadSelectorFormControlComponent {
+export class ImageUploadSelectorFormControlComponent implements OnInit {
 
-  @Output() uploadFiles = new EventEmitter<File[]>();
 
+  @Output() uploadImagesChanges = new EventEmitter<File[]>();
+  @Output() apiImagesChanges = new EventEmitter<string[]>();
+
+
+  @Input() baseApiImageFileIds: string[] = [];
   @Input() singleton = false;
 
   public images: FileInfo[] = []
 
   @ViewChild('inputElement') inputElementElementRef?: ElementRef<HTMLInputElement>;
+
+  ngOnInit(): void {
+    this.images = this.baseApiImageFileIds.map(i => {
+      return {
+        isFile: false,
+        apiFileId: i,
+      }
+    })
+  }
 
   onChangeImage($event: any) {
     if (!$event.target?.files)
@@ -50,7 +64,12 @@ export class ImageUploadSelectorFormControlComponent {
     const uploadImages = this.images
       .filter(i => i.isFile)
       .map(i => i.file) as File[];
-    this.uploadFiles.emit(uploadImages);
+    this.uploadImagesChanges.emit(uploadImages);
+
+    const apiImages = this.images
+      .filter(i => !i.isFile)
+      .map(i => i.apiFileId) as string[];
+    this.apiImagesChanges.emit(apiImages);
   }
 
   onUploadImage($event: Event) {
