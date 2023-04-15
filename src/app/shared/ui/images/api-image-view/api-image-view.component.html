@@ -1,4 +1,5 @@
-<picture class="api-image">
+<app-circle-spinner-box class="spinner" *ngIf="isBusy"></app-circle-spinner-box>
+<picture class="api-image" *ngIf="!isBusy">
   <img *ngIf="imageInfo"
        [ngSrc]="imageInfo.fileId"
        [width]="imageInfo.imageWidth" [height]="imageInfo.imageHeight"

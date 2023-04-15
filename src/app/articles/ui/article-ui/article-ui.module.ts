@@ -9,6 +9,7 @@ import {ArticleContentViewComponent} from './article-content-view/article-conten
 import {ArticleContentDirective} from "../../utils/article-template";
 import { ArticleHeaderContentViewComponent } from './article-header-content-view/article-header-content-view.component';
 import { ArticleTextContentViewComponent } from './article-text-content-view/article-text-content-view.component';
+import {SpinnersModule} from "../../../shared/ui/spinners";
 
 
 @NgModule({
@@ -24,12 +25,13 @@ import { ArticleTextContentViewComponent } from './article-text-content-view/art
     ArticleTeaserListComponent,
     ArticleContentsListComponent
   ],
-  imports: [
-    CommonModule,
-    ImagesModule,
-    RouterLink,
-    ArticleContentDirective,
-  ]
+    imports: [
+        CommonModule,
+        ImagesModule,
+        RouterLink,
+        ArticleContentDirective,
+        SpinnersModule,
+    ]
 })
 export class ArticleUiModule {
 }

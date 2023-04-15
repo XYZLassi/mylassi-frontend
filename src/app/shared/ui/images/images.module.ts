@@ -4,6 +4,7 @@ import {ApiImageViewComponent} from './api-image-view/api-image-view.component';
 import {ApiImageLoaderViewComponent} from './api-image-loader-view/api-image-loader-view.component';
 import { FileImageViewComponent } from './file-image-view/file-image-view.component';
 import { ApiArticleThumbnailLoaderViewComponent } from './api-article-thumbnail-loader-view/api-article-thumbnail-loader-view.component';
+import {SpinnersModule} from "../spinners";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ApiArticleThumbnailLoaderViewComponent } from './api-article-thumbnail-
   ],
     imports: [
         CommonModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        SpinnersModule
     ]
 })
 export class ImagesModule {

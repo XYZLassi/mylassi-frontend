@@ -27,6 +27,7 @@ export interface IApiImageViewImage {
 })
 export class ApiImageViewComponent<TData extends IApiImageViewImage> {
   @Input() imageInfo?: IApiImageViewImage
+  @Input() isBusy = false;
 
   public loadError = false;
 

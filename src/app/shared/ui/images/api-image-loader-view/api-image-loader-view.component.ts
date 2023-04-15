@@ -1,4 +1,4 @@
-import {Component, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, inject, Input, isDevMode, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ApiFilesService, IApiFileRestType} from "../../../../../api";
 import {Subscription, take} from "rxjs";
 import {IApiImageViewImage} from "../api-image-view/api-image-view.component";
@@ -17,6 +17,9 @@ export class ApiImageLoaderViewComponent implements OnInit, OnChanges, OnDestroy
 
   private subscriptions: Subscription[] = [];
 
+  @Input() isBusy = false;
+  public isBusyInternal = false;
+
   ngOnInit(): void {
     this.updateImage();
   }
@@ -31,17 +34,20 @@ export class ApiImageLoaderViewComponent implements OnInit, OnChanges, OnDestroy
 
   private updateImage() {
     this.imageInfo = undefined;
+    this.isBusyInternal = false;
 
     if (!this.imageId) {
       return
     }
 
+    this.isBusyInternal = true;
     const loadSub = this.fileService.getFileInfo({
       file: this.imageId
     }).pipe(
       take(1),
     ).subscribe({
       next: info => {
+        this.isBusyInternal = false;
         this.imageInfo = {
           fileId: info.id,
           imageWidth: info.imageWidth,
@@ -50,7 +56,8 @@ export class ApiImageLoaderViewComponent implements OnInit, OnChanges, OnDestroy
         }
       },
       error: err => {
-        //Todo: LoadError
+        if (isDevMode())
+          console.error(err);
       },
       complete: () => {
         loadSub.unsubscribe();

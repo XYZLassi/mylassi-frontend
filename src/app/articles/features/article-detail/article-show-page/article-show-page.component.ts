@@ -1,8 +1,8 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, isDevMode, OnDestroy, OnInit} from '@angular/core';
 import {Subscription, switchMap} from "rxjs";
 import {ArticleService, IArticle} from "../../../data-access";
 import {ActivatedRoute, Router} from "@angular/router";
-import {filter, map} from "rxjs/operators";
+import {filter, map, tap} from "rxjs/operators";
 import {Meta, Title} from "@angular/platform-browser";
 
 @Component({
@@ -18,12 +18,19 @@ export class ArticleShowPageComponent implements OnInit, OnDestroy {
   private meta = inject(Meta);
   private router = inject(Router)
 
+  public isBusy = false;
   public article?: IArticle;
 
   private subscriptions: Subscription[] = [];
 
+
   ngOnInit(): void {
     const updateSub = this.activeRoute.params.pipe(
+      tap({
+        next: () => {
+          this.isBusy = true;
+        }
+      }),
       map(params => parseInt(params['id'])),
       filter(articleId => !isNaN(articleId)),
       switchMap(articleId => {
@@ -31,11 +38,15 @@ export class ArticleShowPageComponent implements OnInit, OnDestroy {
       }),
     ).subscribe({
         next: article => {
+          this.isBusy = false;
           this.article = article;
           this.updateMeta(article);
         },
         error: err => {
+          if (isDevMode())
+            console.error(err);
 
+          this.isBusy = false;
         },
         complete: () => {
 

@@ -1,8 +1,8 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, isDevMode, OnDestroy, OnInit} from '@angular/core';
 import {ArticleService, IArticleTeaser} from "../../../data-access";
 import {ActivatedRoute} from "@angular/router";
 import {Subscription, switchMap} from "rxjs";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-article-list-page',
@@ -14,29 +14,20 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
   private articleService = inject(ArticleService);
   private activeRoute = inject(ActivatedRoute);
 
-  articles: IArticleTeaser[] = [];
-  nextCursor?: string;
+  public articles: IArticleTeaser[] = [];
+  public nextCursor?: string;
+
+  public isBusy = true;
 
   private subscriptions: Subscription[] = [];
 
-
   ngOnInit(): void {
-    const updateSub = this.loadArticlesFromApi().subscribe(
-      articles => {
-        this.nextCursor = articles.cursor || undefined;
-        this.updateArticles(articles.articles);
-      }
-    );
-
-    this.subscriptions = [...this.subscriptions, updateSub]
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
-  }
-
-  private loadArticlesFromApi() {
-    return this.activeRoute.params.pipe(
+    const updateSub = this.activeRoute.params.pipe(
+      tap({
+        next: () => {
+          this.isBusy = true
+        }
+      }),
       map(params => params['category']),
       switchMap(category => {
         return this.activeRoute.queryParams.pipe(
@@ -49,8 +40,25 @@ export class ArticleListPageComponent implements OnInit, OnDestroy {
       switchMap(i => {
         return this.articleService.loadArticleTeasers(i.category, i.cursor);
       }),
-    )
+    ).subscribe({
+      next: articles => {
+        this.isBusy = false;
+        this.nextCursor = articles.cursor || undefined;
+        this.updateArticles(articles.articles);
+      },
+      error: err => {
+        if (isDevMode())
+          console.log(err);
+      }
+    });
+
+    this.subscriptions = [...this.subscriptions, updateSub]
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+  }
+
 
   private updateArticles(articles: IArticleTeaser[]) {
     articles.forEach(article => {
