@@ -23,7 +23,7 @@ export class AdminCreateArticlePageComponent implements OnDestroy {
   }
 
   onSubmit($event: ArticleOptionsRestType) {
-    const createSub = this.articleService.createNewArticle({
+    const createSub = this.articleService.createArticle({
       body: $event
     }).subscribe(value => {
       const uploadSub = this.fileUploadService.uploadFilesToArticle(value, this.thumbnailImages)

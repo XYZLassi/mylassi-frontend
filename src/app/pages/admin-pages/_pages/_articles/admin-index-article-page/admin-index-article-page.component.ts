@@ -32,7 +32,7 @@ export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
   }
 
   updateArticle(articleId: number) {
-    const updateArticle = this.articleService.getFullArticle({
+    const updateArticle = this.articleService.getArticleFull({
       article: articleId
     }).subscribe(article => {
       const indexToUpdate = this.articles.findIndex(i => i.id === article.id);
@@ -46,7 +46,7 @@ export class AdminIndexArticlePageComponent implements OnInit, OnDestroy {
 
 
   loadArticles() {
-    const loadArticlesSub = this.articleService.getAllArticles({
+    const loadArticlesSub = this.articleService.getArticlesFull({
       cursor: this.currentCursor,
       size: 25,
     }).subscribe(articles => {
