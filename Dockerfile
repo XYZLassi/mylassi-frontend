@@ -14,7 +14,7 @@ RUN set -x \
 
 RUN npm install
 
-RUN /app/bin/create_header_images.sh /app/header.jpg
+RUN /app/bin/create_header_images.sh https://media.githubusercontent.com/media/XYZLassi/mylassi-frontend/master/header.jpg
 RUN npm run build:ssr
 
 # Stage 2
