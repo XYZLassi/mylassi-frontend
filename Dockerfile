@@ -10,11 +10,10 @@ RUN set -x \
     && apk update \
     && apk upgrade \
     && apk add --no-cache \
-    imagemagick file
+    imagemagick
 
 RUN npm install
 
-RUN file /app/header.jpg
 RUN /app/bin/create_header_images.sh /app/header.jpg
 RUN npm run build:ssr
 
