@@ -18,12 +18,7 @@ RUN ./bin/create_header_images.sh header.jpg
 RUN npm run build:ssr
 
 # Stage 2
-FROM nginx:alpine as production
-
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-step /app/dist/mylassi-frontend/browser /usr/share/nginx/html
-
-FROM node:16-alpine AS ssr-server
+FROM node:16-alpine AS production
 COPY --from=build-step /app/dist /app/dist/
 COPY ./package.json /app/package.json
 WORKDIR /app
