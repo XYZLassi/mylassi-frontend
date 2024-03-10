@@ -10,7 +10,7 @@ RUN set -x \
     && apk update \
     && apk upgrade \
     && apk add --no-cache \
-    imagemagick
+    imagemagick file
 
 RUN npm install
 
