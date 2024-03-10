@@ -14,7 +14,7 @@ RUN set -x \
 
 RUN npm install
 
-RUN ./bin/create_header_images.sh header.jpg
+#RUN ./bin/create_header_images.sh header.jpg
 RUN npm run build:ssr
 
 # Stage 2
